@@ -1,0 +1,258 @@
+.form-main {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 650px;
+  background: var(--bg-surface);
+  border: 0.5px solid rgb(225, 223, 223);
+  border-radius: var(--radius-xl);
+  margin: 20px;
+  overflow: hidden;
+}
+
+/* =====================================================
+   LEFT / MARKETING PANEL
+   ===================================================== */
+
+.form-head {
+  flex: 1.1;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+}
+
+.head-content {
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  color: var(--text-inverse);
+}
+
+.form-head h1 {
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.04em;
+}
+
+.form-head p {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 420px;
+}
+
+/* =====================================================
+   RIGHT / FORM PANEL
+   ===================================================== */
+
+.form-container {
+  flex: 1;
+  padding: var(--space-xl);
+  background: var(--bg-surface);
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border-soft);
+}
+
+/* =====================================================
+   MOBILE HEADER
+   ===================================================== */
+
+.form-header-mobile {
+  display: none;
+  margin-bottom: var(--space-lg);
+}
+
+.form-header-mobile h2 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.form-header-mobile p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* =====================================================
+   FORM ELEMENTS
+   ===================================================== */
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: start;
+}
+
+.forgot-link {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   INPUTS
+   ===================================================== */
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+input {
+  width: 100%;
+  padding: 15px 16px 15px 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-soft);
+  font-size: var(--text-base);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  border-color: var(--brand-accent);
+  background-color: var(--bg-surface);
+  box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.2);
+}
+
+input:focus + .input-icon {
+  color: var(--brand-primary);
+}
+
+.input-error {
+  border-color: var(--border-error);
+  background-color: var(--bg-error);
+}
+
+.error-text {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-error);
+  margin-top: 4px;
+}
+
+/* =====================================================
+   BUTTON
+   ===================================================== */
+
+.submit-btn {
+  margin-top: var(--space-sm);
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #032c5a;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-button);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   FOOTER TEXT
+   ===================================================== */
+
+.footer-text {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-sm);
+}
+
+.footer-text a {
+  color: var(--brand-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* =====================================================
+   MOBILE RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 968px) {
+  .form-main {
+    flex-direction: column;
+    margin: 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .form-head {
+    display: none;
+  }
+
+  .form-header-mobile {
+    display: block;
+  }
+
+  .form-container {
+    padding: var(--space-lg) 20px;
+    border-left: none;
+  }
+}

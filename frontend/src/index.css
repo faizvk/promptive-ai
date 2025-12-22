@@ -1,0 +1,49 @@
+/* ===========================
+   DESIGN TOKENS
+   =========================== */
+
+:root {
+  /* Brand */
+  --brand-primary: #043873;
+  --brand-accent: #4f9cf9;
+
+  /* Backgrounds */
+  --bg-surface: #ffffff;
+  --bg-soft: #f1f3f9;
+  --bg-error: #fef2f2;
+
+  /* Text */
+  --text-primary: #1f2933;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+  --text-error: #ef4444;
+
+  /* Borders */
+  --border-soft: #e5e7eb;
+  --border-error: #ef4444;
+
+  /* Shadows */
+  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
+  --shadow-button: 0 12px 24px -10px rgba(4, 56, 115, 0.4);
+
+  /* Radius */
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-full: 999px;
+
+  /* Spacing */
+  --space-xl: 64px;
+  --space-lg: 32px;
+  --space-md: 20px;
+  --space-sm: 12px;
+
+  /* Typography */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.95rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.875rem;
+  --text-hero: 3.25rem;
+}
