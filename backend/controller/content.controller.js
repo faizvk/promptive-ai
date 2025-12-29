@@ -5,32 +5,29 @@ export const rewriteContent = async (req, res) => {
   try {
     const { text, tone = "professional" } = req.body;
 
-    if (!text || typeof text !== "string") {
-      return res.status(400).json({
-        success: false,
-        message: "Text to rewrite is required",
-      });
+    if (!text) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Text is required" });
     }
-
-    const prompt = `
-Rewrite the following content in a ${tone} tone.
-Do not change the meaning.
-Keep it concise and high quality.
-
-Content:
-"""${text}"""
-`;
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: prompt,
+      contents: `
+Rewrite the following content in a ${tone} tone.
+
+Rules:
+- Preserve the original meaning
+- Maintain approximately the same length as the original
+- Improve clarity, fluency, and professionalism
+- Do NOT summarize or shorten unless explicitly asked
+
+Content:
+"""${text}"""
+`,
     });
 
     const rewrittenText = response.text?.trim();
-
-    if (!rewrittenText) {
-      throw new Error("Empty AI response");
-    }
 
     const record = await Content.create({
       userId: req.user.id,
@@ -39,21 +36,19 @@ Content:
       tone,
     });
 
-    return res.status(200).json({
-      success: true,
-      content: {
-        id: record._id,
-        originalText: record.originalText,
-        rewrittenText: record.rewrittenText,
-        tone: record.tone,
-      },
-    });
+    return res.status(200).json({ success: true, content: record });
   } catch (error) {
-    console.error("Content rewrite error:", error);
+    if (error.status === 429) {
+      return res.status(429).json({
+        success: false,
+        message:
+          "System is busy (Rate limit reached). Please wait a few seconds and try again.",
+      });
+    }
 
-    return res.status(500).json({
-      success: false,
-      message: "Content rewrite failed",
-    });
+    console.error("Content rewrite error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "An unexpected error occurred." });
   }
 };
