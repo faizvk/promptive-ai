@@ -4,6 +4,7 @@ import { PORT } from "./config/env.js";
 import connectDB from "./config/db.js";
 import authRouter from "./view/auth.router.js";
 import imageRouter from "./view/image.routes.js";
+import contentRouter from "./view/content.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(authRouter);
-app.use(imageRouter);
+app.use("/images", imageRouter);
+app.use("/content", contentRouter);
 
 const startServer = async () => {
   await connectDB();

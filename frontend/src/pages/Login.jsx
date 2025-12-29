@@ -25,6 +25,7 @@ const Login = () => {
 
       // Redirect after successful login
       console.log("success login");
+      navigate("/image-generate");
     } catch (err) {
       const message =
         err.response?.data?.message || "Invalid email or password";
