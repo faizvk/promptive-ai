@@ -5,11 +5,10 @@
 .rewrite-page {
   padding: var(--space-lg);
   min-height: 100vh;
-  background: var(--bg-soft);
 }
 
 .rewrite-layout {
-  min-width: 1400px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
   gap: var(--space-lg);
@@ -18,6 +17,7 @@
 @media (min-width: 1024px) {
   .rewrite-layout {
     grid-template-columns: 1fr 1fr;
+    min-width: 1400px;
   }
 }
 
@@ -28,13 +28,15 @@
 .rewrite-panel,
 .output-panel {
   background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
+
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
 }
-
+.output-panel {
+  border: 1px solid var(--border-soft);
+}
 /* ===========================
    HEADER
    =========================== */
@@ -44,10 +46,9 @@
 }
 
 .rewrite-header h1 {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: var(--text-primary);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  margin: 0.5rem 0;
 }
 
 .rewrite-header p {
@@ -218,6 +219,10 @@
   line-height: 1.7;
   color: var(--text-primary);
   font-size: var(--text-base);
+  text-align: left;
+  background-color: var(--bg-soft);
+  padding: 20px;
+  border-radius: var(--radius-lg);
 }
 
 /* Actions */
