@@ -16,11 +16,7 @@ export const rewriteContent = async (req, res) => {
       contents: `
 Rewrite the following content in a ${tone} tone.
 
-Rules:
-- Preserve the original meaning
-- Maintain approximately the same length as the original
-- Improve clarity, fluency, and professionalism
-- Do NOT summarize or shorten unless explicitly asked
+ NOT summarize or shorten unless explicitly asked
 
 Content:
 """${text}"""

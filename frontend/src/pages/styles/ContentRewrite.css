@@ -9,7 +9,7 @@
 }
 
 .rewrite-layout {
-  max-width: 1400px;
+  min-width: 1400px;
   margin: 0 auto;
   display: grid;
   gap: var(--space-lg);
