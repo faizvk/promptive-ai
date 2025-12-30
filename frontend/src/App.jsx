@@ -7,6 +7,7 @@ import ImageGenerate from "./pages/imageGenerate";
 import ContentRewrite from "./pages/ContentRewrite";
 import History from "./pages/History";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   useFadeInOnScroll();
@@ -21,6 +22,7 @@ function App() {
         <Route path="/content-rewrite" element={<ContentRewrite />} />
         <Route path="/history" element={<History />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
