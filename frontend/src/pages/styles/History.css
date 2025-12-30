@@ -1,0 +1,349 @@
+/* ===========================
+   PAGE LAYOUT
+   =========================== */
+
+.history-page {
+  padding: var(--space-lg);
+  min-height: 100vh;
+  background: var(--bg-soft);
+}
+
+@media (min-width: 1024px) {
+  .history-page {
+    padding: var(--space-xl);
+  }
+}
+
+/* ===========================
+   HEADER
+   =========================== */
+
+.history-header {
+  max-width: 1400px;
+  margin: 0 auto var(--space-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-header h1 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ===========================
+   TABS
+   =========================== */
+
+.history-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.history-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.history-tabs button:hover {
+  background: var(--bg-soft);
+}
+
+.history-tabs button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.25);
+}
+
+.history-tabs .active {
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+  border-color: var(--brand-primary);
+}
+
+/* ===========================
+   STATUS / EMPTY
+   =========================== */
+
+.status-text,
+.empty-text {
+  max-width: 1400px;
+  margin: 2rem auto;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ===========================
+   GRID
+   =========================== */
+
+.history-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-md);
+}
+
+/* ===========================
+   CARD BASE
+   =========================== */
+
+.history-card {
+  position: relative;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.history-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ===========================
+   IMAGE CARD
+   =========================== */
+
+.history-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+/* ===========================
+   TEXT CARD (REWRITE)
+   =========================== */
+
+.history-card.text-card {
+  padding: var(--space-md);
+}
+
+.history-card.text-card .prompt-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===========================
+   PROMPT TEXT
+   =========================== */
+
+.prompt-text {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ===========================
+   DELETE BUTTON
+   =========================== */
+
+.history-card button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.history-card:hover button {
+  opacity: 1;
+}
+
+.history-card button:hover {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 640px) {
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .history-tabs {
+    width: 100%;
+  }
+
+  .history-tabs button {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+.history-section {
+  margin-bottom: var(--space-lg);
+}
+
+.section-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+}
+
+.history-card.text-card {
+  cursor: pointer;
+}
+
+.history-card.text-card.expanded {
+  background: var(--bg-soft);
+}
+
+.history-card.text-card .prompt-text {
+  transition: max-height 0.2s ease;
+}
+
+/* Default: collapsed */
+.history-card.text-card .prompt-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Expanded: show full content */
+.history-card.text-card.expanded .prompt-text {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+/* ===========================
+   MODAL OVERLAY
+   =========================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+/* ===========================
+   MODAL CONTAINER
+   =========================== */
+
+.modal-content {
+  background: var(--bg-surface);
+  width: min(720px, 90%);
+  max-height: 80vh;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-card);
+  animation: modalScale 0.15s ease-out;
+}
+
+@keyframes modalScale {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   MODAL HEADER
+   =========================== */
+
+.modal-header {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ===========================
+   MODAL BODY
+   =========================== */
+
+.modal-body {
+  padding: var(--space-md);
+  overflow-y: auto;
+  line-height: 1.7;
+  color: var(--text-primary);
+  font-size: var(--text-base);
+}
+
+/* ===========================
+   MODAL FOOTER
+   =========================== */
+
+.modal-footer {
+  padding: var(--space-md);
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.modal-footer button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-footer .danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}

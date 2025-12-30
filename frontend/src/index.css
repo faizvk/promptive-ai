@@ -5,7 +5,10 @@
 :root {
   /* Brand */
   --brand-primary: #043873;
-  --brand-accent: #4f9cf9;
+
+  /*button*/
+  --btn-primary: #4f9cf9;
+  --btn-secondary: #ffe492;
 
   /* Backgrounds */
   --bg-surface: #ffffff;
