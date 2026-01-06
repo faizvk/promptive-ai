@@ -28,10 +28,14 @@ const SignUp = () => {
         password: data.password,
       };
 
-      await signup(payload);
+      const response = await signup(payload);
 
-      // Redirect after successful signup
-      navigate("/login");
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        navigate("/dashboard");
+      } else {
+        navigate("/login");
+      }
     } catch (err) {
       const message =
         err.response?.data?.message || "Signup failed. Please try again.";

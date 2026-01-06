@@ -1,5 +1,7 @@
 import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
 import { useFadeInOnScroll } from "./animations/useFadeInOnScroll";
 
 import Navbar from "./components/Navbar";
@@ -35,16 +37,21 @@ function App() {
       {/* ================= PUBLIC ROUTES ================= */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
+
+        <Route element={<PublicRoute />}>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Route>
 
-      {/* ================= DASHBOARD ROUTES ================= */}
-      <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route index element={<Overview />} />
-        <Route path="image" element={<ImageGenerate />} />
-        <Route path="rewrite" element={<ContentRewrite />} />
-        <Route path="history" element={<History />} />
+      {/* ================= PROTECTED DASHBOARD ================= */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="image" element={<ImageGenerate />} />
+          <Route path="rewrite" element={<ContentRewrite />} />
+          <Route path="history" element={<History />} />
+        </Route>
       </Route>
     </Routes>
   );
