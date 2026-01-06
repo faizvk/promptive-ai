@@ -1,0 +1,59 @@
+/* ======================================================
+   DASHBOARD LAYOUT
+   ====================================================== */
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: #f8fafc;
+  overflow-x: hidden;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 0;
+}
+
+/* Desktop: If sidebar is open, push the content */
+@media (min-width: 1024px) {
+  .sidebar-open .dashboard-main {
+    margin-left: 280px; /* Matches sidebar width */
+  }
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 2.5rem;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1.25rem;
+  }
+}
+
+/* CONTENT AREA */
+.dashboard-content {
+  flex: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+}
+
+/* RESPONSIVE (TABLET & BELOW) */
+@media (max-width: 1024px) {
+  .dashboard-main {
+    margin-left: 0;
+  }
+
+  .dashboard-content {
+    padding: 1.5rem;
+  }
+}

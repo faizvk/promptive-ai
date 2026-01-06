@@ -79,12 +79,11 @@ const ImageGenerate = () => {
             duration: 0.9,
           })}
         >
-          <header className="page-header">
-            <h1>Image Generation</h1>
-            <p>High-quality AI images with fine-grained control.</p>
-          </header>
-
           <form className="control-group" onSubmit={handleSubmit(onSubmit)}>
+            <header className="page-header">
+              <h1>Image Generation</h1>
+              <p>High-quality AI images with fine-grained control.</p>
+            </header>
             {/* PROMPT */}
             <div className="input-block">
               <label className="input-label">

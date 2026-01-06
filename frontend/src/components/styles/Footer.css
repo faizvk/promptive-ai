@@ -3,6 +3,7 @@
   background: var(--brand-primary);
   color: white;
   padding: 4rem 2rem 2rem;
+  z-index: 109;
 }
 
 /* ===========================

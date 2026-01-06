@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Image, FileText, Trash2 } from "lucide-react";
+import { Image, FileText, Trash2, X, Copy, Check } from "lucide-react";
 import { fetchHistory, deleteHistoryItem } from "../api/history.api";
 import "./styles/History.css";
 
-/* ===========================
-   HELPERS
-   =========================== */
-
 const groupByDate = (items) => {
   const groups = { Today: [], Yesterday: [], Earlier: [] };
-
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
 
   items.forEach((item) => {
     const created = new Date(item.createdAt);
-
     if (created.toDateString() === today.toDateString()) {
       groups.Today.push(item);
     } else if (created.toDateString() === yesterday.toDateString()) {
@@ -25,19 +19,15 @@ const groupByDate = (items) => {
       groups.Earlier.push(item);
     }
   });
-
   return groups;
 };
-
-/* ===========================
-   COMPONENT
-   =========================== */
 
 const History = () => {
   const [type, setType] = useState("image");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeItem, setActiveItem] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const loadHistory = async () => {
     setLoading(true);
@@ -45,7 +35,7 @@ const History = () => {
       const res = await fetchHistory({ type });
       setItems(res.items || []);
     } catch (err) {
-      console.error("History load failed", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -57,17 +47,22 @@ const History = () => {
   }, [type]);
 
   const handleDelete = async (id) => {
-    if (!confirm("Delete this item?")) return;
+    if (!confirm("Are you sure you want to delete this?")) return;
     await deleteHistoryItem({ type, id });
     setActiveItem(null);
     loadHistory();
+  };
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const grouped = groupByDate(items);
 
   return (
     <div className="history-page">
-      {/* ================= HEADER ================= */}
       <header className="history-header">
         <h1>History</h1>
         <div className="history-tabs">
@@ -75,104 +70,93 @@ const History = () => {
             className={type === "image" ? "active" : ""}
             onClick={() => setType("image")}
           >
-            <Image size={16} /> Images
+            <Image size={18} /> Images
           </button>
           <button
             className={type === "rewrite" ? "active" : ""}
             onClick={() => setType("rewrite")}
           >
-            <FileText size={16} /> Rewrites
+            <FileText size={18} /> Rewrites
           </button>
         </div>
       </header>
 
-      {/* ================= STATES ================= */}
-      {loading && <p className="status-text">Loading history…</p>}
-
-      {!loading && items.length === 0 && (
-        <p className="empty-text">No history found.</p>
-      )}
-
-      {/* ================= HISTORY SECTIONS ================= */}
-      {!loading &&
+      {loading ? (
+        <div className="status-text">Refining your history...</div>
+      ) : items.length === 0 ? (
+        <div className="empty-text">No items found in this category.</div>
+      ) : (
         Object.entries(grouped).map(
           ([section, sectionItems]) =>
             sectionItems.length > 0 && (
               <section key={section} className="history-section">
                 <h2 className="section-title">{section}</h2>
-
                 <div className="history-grid">
-                  {sectionItems.map((item) =>
-                    type === "image" ? (
-                      /* IMAGE CARD */
-                      <div key={item._id} className="history-card">
-                        <img src={item.imageUrl} alt={item.prompt} />
-                        <p className="prompt-text">{item.prompt}</p>
-                        <button onClick={() => handleDelete(item._id)}>
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    ) : (
-                      /* REWRITE CARD */
-                      <div
-                        key={item._id}
-                        className="history-card text-card"
-                        onClick={() => setActiveItem(item)}
-                      >
+                  {sectionItems.map((item) => (
+                    <div
+                      key={item._id}
+                      className={`history-card ${
+                        type === "rewrite" ? "text-card" : ""
+                      }`}
+                      onClick={() => type === "rewrite" && setActiveItem(item)}
+                    >
+                      {type === "image" && <img src={item.imageUrl} alt="" />}
+                      <div className="card-content">
                         <p className="prompt-text">
-                          {(
-                            item.originalText ||
-                            item.rewrittenText ||
-                            ""
-                          ).slice(0, 180)}
-                          …
+                          {type === "image"
+                            ? item.prompt
+                            : item.rewrittenText || item.originalText}
                         </p>
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete(item._id);
-                          }}
-                        >
-                          <Trash2 size={14} />
-                        </button>
                       </div>
-                    )
-                  )}
+                      <button
+                        className="delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(item._id);
+                        }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </section>
             )
-        )}
+        )
+      )}
 
-      {/* ================= MODAL ================= */}
       {activeItem && (
         <div className="modal-overlay" onClick={() => setActiveItem(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <header className="modal-header">
-              <h3>Rewritten Content</h3>
-              <button onClick={() => setActiveItem(null)}>✕</button>
+              <h3>Content Details</h3>
+              <button
+                className="close-modal"
+                onClick={() => setActiveItem(null)}
+              >
+                <X size={20} />
+              </button>
             </header>
-
             <div className="modal-body">
-              <p>{activeItem.rewrittenText || activeItem.originalText || ""}</p>
+              <p>{activeItem.rewrittenText || activeItem.originalText}</p>
             </div>
-
             <footer className="modal-footer">
               <button
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    activeItem.rewrittenText || activeItem.originalText || ""
-                  )
-                }
-              >
-                Copy
-              </button>
-
-              <button
-                className="danger"
+                className="danger-outline"
                 onClick={() => handleDelete(activeItem._id)}
               >
                 Delete
+              </button>
+              <button
+                className="copy-btn"
+                onClick={() =>
+                  handleCopy(
+                    activeItem.rewrittenText || activeItem.originalText
+                  )
+                }
+              >
+                {copied ? <Check size={18} /> : <Copy size={18} />}
+                {copied ? " Copied" : " Copy Text"}
               </button>
             </footer>
           </div>

@@ -1,10 +1,11 @@
-/* ===========================
+/* ======================================================
    PAGE LAYOUT
-   =========================== */
+   ====================================================== */
 
 .rewrite-page {
   padding: var(--space-lg);
   min-height: 100vh;
+  width: 100%;
 }
 
 .rewrite-layout {
@@ -12,34 +13,38 @@
   margin: 0 auto;
   display: grid;
   gap: var(--space-lg);
+  grid-template-columns: 1fr;
 }
 
+/* Two-column only on large screens */
 @media (min-width: 1024px) {
   .rewrite-layout {
     grid-template-columns: 1fr 1fr;
-    min-width: 1400px;
   }
 }
 
-/* ===========================
+/* ======================================================
    PANELS
-   =========================== */
+   ====================================================== */
 
 .rewrite-panel,
 .output-panel {
   background: var(--bg-surface);
-
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
+
 .output-panel {
   border: 1px solid var(--border-soft);
+  justify-content: center;
 }
-/* ===========================
+
+/* ======================================================
    HEADER
-   =========================== */
+   ====================================================== */
 
 .rewrite-header {
   margin-bottom: var(--space-md);
@@ -48,17 +53,18 @@
 .rewrite-header h1 {
   font-size: var(--text-xl);
   font-weight: 800;
-  margin: 0.5rem 0;
+  margin-bottom: 0.4rem;
 }
 
 .rewrite-header p {
   font-size: var(--text-sm);
   color: var(--text-secondary);
+  line-height: 1.5;
 }
 
-/* ===========================
+/* ======================================================
    FORM
-   =========================== */
+   ====================================================== */
 
 .rewrite-form {
   display: flex;
@@ -97,8 +103,14 @@
 }
 
 .rewrite-form textarea {
-  resize: none;
-  min-height: 180px;
+  resize: vertical;
+  min-height: 160px;
+}
+
+@media (min-width: 768px) {
+  .rewrite-form textarea {
+    min-height: 200px;
+  }
 }
 
 .rewrite-form textarea::placeholder {
@@ -120,9 +132,9 @@
   color: var(--text-error);
 }
 
-/* ===========================
+/* ======================================================
    PRIMARY BUTTON
-   =========================== */
+   ====================================================== */
 
 .primary-button {
   width: 100%;
@@ -150,13 +162,9 @@
   cursor: not-allowed;
 }
 
-/* ===========================
-   OUTPUT PANEL
-   =========================== */
-
-.output-panel {
-  justify-content: center;
-}
+/* ======================================================
+   OUTPUT PANEL STATES
+   ====================================================== */
 
 /* Empty state */
 
@@ -204,14 +212,15 @@
   }
 }
 
-/* ===========================
+/* ======================================================
    OUTPUT CONTENT
-   =========================== */
+   ====================================================== */
 
 .output-card {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  width: 100%;
 }
 
 .output-text {
@@ -221,18 +230,21 @@
   font-size: var(--text-base);
   text-align: left;
   background-color: var(--bg-soft);
-  padding: 20px;
+  padding: 1.25rem;
   border-radius: var(--radius-lg);
+  max-height: 420px;
+  overflow-y: auto;
 }
 
-/* Actions */
+/* ======================================================
+   OUTPUT ACTIONS
+   ====================================================== */
 
 .output-actions {
   display: flex;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
-
-/* Secondary buttons */
 
 .output-actions button {
   display: inline-flex;
@@ -241,20 +253,21 @@
   padding: 0.55rem 1rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-soft);
-  background: var(--btn-primary);
+  background: white;
   cursor: pointer;
   font-weight: 500;
   font-size: var(--text-sm);
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .output-actions button:hover {
   background: var(--bg-soft);
+  border-color: var(--brand-accent);
 }
 
-/* ===========================
+/* ======================================================
    ERROR BANNER
-   =========================== */
+   ====================================================== */
 
 .error-banner {
   margin-top: var(--space-sm);

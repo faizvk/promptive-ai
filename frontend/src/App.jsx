@@ -9,6 +9,8 @@ import History from "./pages/History";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
+import DashboardLayout from "./dashboard/DashboardLayout";
+import Overview from "./dashboard/pages/Overview";
 
 function App() {
   useFadeInOnScroll();
@@ -23,6 +25,12 @@ function App() {
         <Route path="/image-generate" element={<ImageGenerate />} />
         <Route path="/content-rewrite" element={<ContentRewrite />} />
         <Route path="/history" element={<History />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="image" element={<ImageGenerate />} />
+          <Route path="rewrite" element={<ContentRewrite />} />
+          <Route path="history" element={<History />} />
+        </Route>
       </Routes>
       <Footer />
     </div>
