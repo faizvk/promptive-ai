@@ -8,6 +8,7 @@ import ContentRewrite from "./pages/ContentRewrite";
 import History from "./pages/History";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Landing from "./pages/Landing";
 
 function App() {
   useFadeInOnScroll();
@@ -16,6 +17,7 @@ function App() {
     <div className="app-main">
       <Navbar />
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/image-generate" element={<ImageGenerate />} />
