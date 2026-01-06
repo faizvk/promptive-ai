@@ -4,7 +4,7 @@
   left: 0;
   width: 280px;
   height: 100vh;
-  background: #03122b;
+  background: var(--brand-primary);
   color: white;
   padding: 1.5rem;
   display: flex;
@@ -100,9 +100,7 @@
 }
 
 .sidebar-nav a.active {
-  background: var(--brand-primary, #0336ff);
   color: white;
-  box-shadow: 0 4px 15px rgba(3, 54, 255, 0.25);
 }
 
 .sidebar-nav a svg {

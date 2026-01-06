@@ -235,7 +235,11 @@
   max-width: 1100px;
   margin: 0 auto;
 }
-
+.how-it-works h2 {
+  font-size: 3rem;
+  color: var(--text-secondary);
+  margin-bottom: 70px;
+}
 .steps {
   display: grid;
   gap: 2.5rem;
@@ -302,6 +306,11 @@
 .use-cases .section-inner {
   max-width: 1100px;
   margin: 0 auto;
+}
+.use-cases h2 {
+  font-size: 3rem;
+  color: var(--text-secondary);
+  margin-bottom: 70px;
 }
 
 .use-case-grid {

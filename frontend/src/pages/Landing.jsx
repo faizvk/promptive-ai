@@ -134,7 +134,15 @@ const Landing = () => {
           duration: 0.9,
         })}
       >
-        <h2>Designed for simple, powerful workflows</h2>
+        <h2
+          {...fadeIn({
+            direction: "up",
+            distance: 80,
+            duration: 0.9,
+          })}
+        >
+          Designed for simple, powerful workflows
+        </h2>
 
         <div className="steps">
           <div className="step">
@@ -166,7 +174,15 @@ const Landing = () => {
           duration: 0.9,
         })}
       >
-        <h2>Built for professionals and teams</h2>
+        <h2
+          {...fadeIn({
+            direction: "up",
+            distance: 80,
+            duration: 0.9,
+          })}
+        >
+          Built for professionals and teams
+        </h2>
 
         <div className="use-case-grid">
           <div>
@@ -186,10 +202,27 @@ const Landing = () => {
 
       {/* ================= CTA ================= */}
       <section className="cta">
-        <h2>Build faster with AI-powered tools</h2>
-        <p>Start for free. No credit card required.</p>
+        <div
+          {...fadeIn({
+            direction: "left",
+            distance: 80,
+            duration: 0.9,
+          })}
+        >
+          {" "}
+          <h2>Build faster with AI-powered tools</h2>
+          <p>Start for free. No credit card required.</p>
+        </div>
 
-        <Link to="/signup" className="cta-btn">
+        <Link
+          to="/signup"
+          className="cta-btn"
+          {...fadeIn({
+            direction: "up",
+            distance: 80,
+            duration: 0.9,
+          })}
+        >
           Get Started <ArrowRight size={16} />
         </Link>
       </section>

@@ -1,14 +1,18 @@
+/* ======================================================
+   TOPBAR BASE
+   ====================================================== */
 .topbar {
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px); /* Modern glass effect */
   border-bottom: 1px solid #e2e8f0;
   position: sticky;
   top: 0;
-  z-index: 30;
+  z-index: 40;
 }
 
 .topbar-left {
@@ -17,63 +21,149 @@
   gap: 1.25rem;
 }
 
-.topbar-left h3 {
+.topbar-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #0f172a;
   margin: 0;
 }
 
-/* The button that triggers the Sidebar */
-.menu-toggle-btn {
-  background: #f1f5f9;
+/* ======================================================
+   BUTTONS & ICONS
+   ====================================================== */
+.menu-toggle-btn,
+.icon-btn {
+  background: #f8fafc;
   border: 1px solid #e2e8f0;
   color: #64748b;
-  padding: 0.5rem;
-  border-radius: 8px;
+  padding: 0.6rem;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu-toggle-btn:hover {
-  background: #e2e8f0;
+.menu-toggle-btn:hover,
+.icon-btn:hover {
+  background: #f1f5f9;
   color: #0f172a;
+  border-color: #cbd5e1;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.user-profile {
+/* ======================================================
+   USER MENU & DROPDOWN
+   ====================================================== */
+.user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  padding-left: 0.4rem;
+  padding-right: 0.8rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 99px; /* Pill shape */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #64748b;
+}
+
+.user-menu:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--brand-primary, #0336ff);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The actual dropdown box */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 200px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  animation: dropdownIn 0.2s ease-out;
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-dropdown button {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  color: #64748b;
+  padding: 0.7rem 0.8rem;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.user-profile:hover {
-  background: #f8fafc;
+.user-dropdown button:hover {
+  background: #f1f5f9;
   color: #0f172a;
 }
 
-/* Responsiveness */
+.user-dropdown button.logout {
+  color: #ef4444;
+  margin-top: 0.25rem;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 0.75rem;
+  border-radius: 0 0 8px 8px;
+}
+
+.user-dropdown button.logout:hover {
+  background: #fef2f2;
+}
+
+/* ======================================================
+   RESPONSIVENESS
+   ====================================================== */
 @media (max-width: 768px) {
   .topbar {
     padding: 0 1rem;
   }
 
-  .user-profile span {
-    display: none; /* Hide 'Account' text on small mobile */
+  .topbar-title {
+    font-size: 1rem;
   }
 }

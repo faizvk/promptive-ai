@@ -3,10 +3,13 @@
   top: 0;
   z-index: 100;
   width: 100%;
-  padding: 0.6rem 2rem;
+
+  padding: 0.75rem 3rem;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   background: var(--brand-primary);
 }
 
@@ -15,12 +18,11 @@
    =========================== */
 
 .navbar-logo {
-  font-size: 1.4rem;
-  font-weight: 730;
+  font-size: 1.35rem;
+  font-weight: 800;
   color: white;
   text-decoration: none;
-  margin-left: 50px;
-  margin-bottom: 0;
+  letter-spacing: -0.02em;
 }
 
 .navbar-logo span {
@@ -30,11 +32,10 @@
 /* ===========================
    LINKS
    =========================== */
-
 .navbar-links {
   display: none;
   list-style: none;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
 .navbar-links a {
@@ -99,20 +100,18 @@
   position: relative;
 }
 
-/* The clickable text (Products, etc.) */
 .nav-link {
   font-size: var(--text-sm);
   color: white;
   cursor: pointer;
-  padding: 0.5rem 0.25rem;
+  padding: 0.5rem 0.4rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.35rem;
   align-items: center;
-  justify-content: center;
 }
 
 .nav-item:hover .nav-link {
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* ===========================
@@ -204,14 +203,15 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 12px;
 
-  width: 640px;
-  padding: 1.5rem;
+  margin-top: 14px;
+  width: 680px;
+
+  padding: 1.75rem;
 
   background: var(--bg-surface);
-  border-radius: 16px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -221,7 +221,7 @@
   visibility: hidden;
   pointer-events: none;
 
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 40;
 }
 
@@ -229,7 +229,15 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(6px);
+  transform: translateX(-50%) translateY(8px);
+}
+.nav-item.mega::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -50%;
+  width: 200%;
+  height: 20px;
 }
 
 /* ===========================
@@ -237,11 +245,12 @@
    =========================== */
 
 .mega-column h4 {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: #6b7280;
   margin-bottom: 0.75rem;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 /* ===========================
@@ -252,24 +261,52 @@
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  padding: 0.6rem;
-  border-radius: 12px;
+
+  padding: 0.75rem;
+  border-radius: 14px;
+
   text-decoration: none;
-  color: var(--text-primary);
-  transition: background-color 0.15s ease;
+
+  color: #111827; /* near-black, better than pure black */
+  background: transparent;
+
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
+/* Title text */
 .mega-link span {
   font-weight: 600;
   font-size: 0.95rem;
+  color: #111827;
 }
 
+/* Description text */
 .mega-link p {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: #6b7280;
   margin-top: 2px;
 }
 
+/* Icons */
+.mega-link svg {
+  color: #111827;
+  flex-shrink: 0;
+}
+
+/* Hover */
 .mega-link:hover {
   background: var(--bg-soft);
+  transform: translateX(2px);
+}
+
+/* Visited safety */
+.mega-link:visited {
+  color: #111827;
+}
+
+@media (max-width: 1023px) {
+  .mega-menu,
+  .nav-dropdown {
+    display: none !important;
+  }
 }
