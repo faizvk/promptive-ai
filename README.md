@@ -102,20 +102,33 @@ The application follows real-world SaaS architecture patterns, including authent
 
 ## 📂 Repository Structure
 
-promptive-ai/
-├── frontend/ # React (Vite) Application
-│ ├── src/
-│ │ ├── api/ # Axios instances & API calls
-│ │ ├── components/ # Reusable UI components
-│ │ ├── dashboard/ # Dashboard-specific views
-│ │ ├── routes/ # Auth guards & Route config
-│ │ └── styles/ # Global & Modular CSS
-├── backend/ # Node/Express API
-│ ├── controllers/ # Business logic
-│ ├── models/ # MongoDB Schemas
-│ ├── routes/ # API Endpoints
-│ ├── middleware/ # Auth & File upload logic
-│ └── index.js # Entry point
+promptive-ai
+├── frontend
+│ ├── src
+│ │ ├── api
+│ │ ├── components
+│ │ ├── dashboard
+│ │ ├── pages
+│ │ ├── routes
+│ │ ├── styles
+│ │ ├── utils
+│ │ └── App.jsx
+│ ├── index.html
+│ ├── vite.config.js
+│ ├── package.json
+│ └── package-lock.json
+│
+├── backend
+│ ├── controllers
+│ ├── middleware
+│ ├── models
+│ ├── routes
+│ ├── utils
+│ ├── index.js
+│ ├── package.json
+│ └── package-lock.json
+│
+└── README.md
 
 ---
 
@@ -239,5 +252,9 @@ MIT License
 
 ## 👨‍💻 Author
 
-**Faiz VK**  
+**Faiz VK**
 Building production-grade SaaS applications with React, Node.js, and AI.
+
+```
+
+```
