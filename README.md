@@ -127,9 +127,6 @@ promptive-ai/
 │
 └── README.md
 
-yaml
-Copy code
-
 ---
 
 ## 🎨 Frontend Setup
@@ -140,24 +137,15 @@ Create a `.env` file inside the `frontend` directory:
 
 VITE_API_BASE_URL=http://localhost:5000/api
 
-shell
-Copy code
-
 ### Install & Run Frontend
 
 cd frontend
 npm install
 npm run dev
 
-arduino
-Copy code
-
 Frontend will run at:
 
 http://localhost:5173
-
-yaml
-Copy code
 
 ---
 
@@ -176,24 +164,15 @@ CLOUDINARY_API_SECRET=your_cloudinary_secret
 GOOGLE_API_KEY=your_google_genai_key
 HUGGINGFACE_API_KEY=your_huggingface_key
 
-shell
-Copy code
-
 ### Install & Run Backend
 
 cd backend
 npm install
 npm run dev
 
-arduino
-Copy code
-
 Backend will run at:
 
 http://localhost:5000
-
-yaml
-Copy code
 
 ---
 
