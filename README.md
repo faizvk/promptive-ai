@@ -102,6 +102,7 @@ The application follows real-world SaaS architecture patterns, including authent
 
 ## 📂 Repository Structure
 
+```text
 promptive-ai
 ├── frontend
 │ ├── src
@@ -129,6 +130,7 @@ promptive-ai
 │ └── package-lock.json
 │
 └── README.md
+```
 
 ---
 
