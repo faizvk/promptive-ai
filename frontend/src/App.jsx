@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import Landing from "./pages/Landing";
+import PublicImageGenerate from "./pages/PublicImageGenerate";
+import PublicContentRewrite from "./pages/PublicContentRewrite";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 
@@ -37,6 +39,8 @@ function App() {
       {/* ================= PUBLIC ROUTES ================= */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Landing />} />
+        <Route path="/image-generate" element={<PublicImageGenerate />} />
+        <Route path="/content-rewrite" element={<PublicContentRewrite />} />
 
         <Route element={<PublicRoute />}>
           <Route path="/signup" element={<SignUp />} />

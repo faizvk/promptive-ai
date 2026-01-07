@@ -48,18 +48,6 @@ const Navbar = () => {
                 </div>
               </Link>
             </div>
-
-            <div className="mega-column">
-              <h4>Workspace</h4>
-
-              <Link to="/history" className="mega-link">
-                <LayoutGrid size={18} />
-                <div>
-                  <span>History</span>
-                  <p>Manage generated content</p>
-                </div>
-              </Link>
-            </div>
           </div>
         </li>
 
