@@ -58,6 +58,28 @@ const History = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  const handleDownloadImage = async (
+    imageUrl,
+    filename = "promptive-image"
+  ) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${filename}.png`;
+
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Image download failed", err);
+    }
+  };
 
   const grouped = groupByDate(items);
 
@@ -100,7 +122,28 @@ const History = () => {
                       }`}
                       onClick={() => type === "rewrite" && setActiveItem(item)}
                     >
-                      {type === "image" && <img src={item.imageUrl} alt="" />}
+                      {type === "image" && (
+                        <div className="image-wrapper">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.prompt || "Generated image"}
+                          />
+
+                          <button
+                            className="download-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownloadImage(
+                                item.imageUrl,
+                                item.prompt || "promptive-image"
+                              );
+                            }}
+                          >
+                            Download
+                          </button>
+                        </div>
+                      )}
+
                       <div className="card-content">
                         <p className="prompt-text">
                           {type === "image"
