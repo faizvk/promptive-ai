@@ -144,9 +144,16 @@ VITE_API_BASE_URL=http://localhost:5000/api
 
 ### Install & Run Frontend
 
+```bash
+# Navigate into the frontend directory
 cd frontend
+
+# Install dependencies
 npm install
+
+# Start the development server
 npm run dev
+```
 
 Frontend will run at:
 
@@ -160,6 +167,7 @@ http://localhost:5173
 
 Create a `.env` file inside the `backend` directory:
 
+```text
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
@@ -168,12 +176,20 @@ CLOUDINARY_API_KEY=your_cloudinary_key
 CLOUDINARY_API_SECRET=your_cloudinary_secret
 GOOGLE_API_KEY=your_google_genai_key
 HUGGINGFACE_API_KEY=your_huggingface_key
+```
 
 ### Install & Run Backend
 
+```bash
+# Navigate into the frontend directory
 cd backend
+
+# Install dependencies
 npm install
+
+# Start the development server
 npm run dev
+```
 
 Backend will run at:
 
