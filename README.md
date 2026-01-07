@@ -103,29 +103,19 @@ The application follows real-world SaaS architecture patterns, including authent
 ## 📂 Repository Structure
 
 promptive-ai/
-├── frontend/
+├── frontend/ # React (Vite) Application
 │ ├── src/
-│ │ ├── api/
-│ │ ├── components/
-│ │ ├── dashboard/
-│ │ ├── pages/
-│ │ ├── routes/
-│ │ ├── styles/
-│ │ ├── utils/
-│ │ └── App.jsx
-│ ├── vite.config.js
-│ └── package.json
-│
-├── backend/
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── middleware/
-│ ├── utils/
-│ ├── index.js
-│ └── package.json
-│
-└── README.md
+│ │ ├── api/ # Axios instances & API calls
+│ │ ├── components/ # Reusable UI components
+│ │ ├── dashboard/ # Dashboard-specific views
+│ │ ├── routes/ # Auth guards & Route config
+│ │ └── styles/ # Global & Modular CSS
+├── backend/ # Node/Express API
+│ ├── controllers/ # Business logic
+│ ├── models/ # MongoDB Schemas
+│ ├── routes/ # API Endpoints
+│ ├── middleware/ # Auth & File upload logic
+│ └── index.js # Entry point
 
 ---
 
