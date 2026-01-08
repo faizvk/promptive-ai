@@ -14,7 +14,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import OAuthSuccess from "./pages/OAuthSuccess";
 
-import ImageGenerate from "./pages/imageGenerate";
+import ImageGenerate from "./pages/ImageGenerate";
 import ContentRewrite from "./pages/ContentRewrite";
 import History from "./pages/History";
 
