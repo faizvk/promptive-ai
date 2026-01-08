@@ -36,6 +36,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "Promptive AI backend is running",
+  });
+});
+
 app.use(authRouter);
 app.use("/images", imageRouter);
 app.use("/content", contentRouter);
