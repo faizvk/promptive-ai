@@ -8,7 +8,7 @@ const router = express.Router();
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  "http://localhost:3000/auth/google/callback"
+  "https://promptive-ai.onrender.com/auth/google/callback"
 );
 
 /* STEP 1: Redirect to Google */
