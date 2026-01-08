@@ -49,20 +49,13 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* ======================
-   HASH PASSWORD (LOCAL)
-   ====================== */
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  if (!this.password) return next();
+UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  if (!this.password) return;
 
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
-/* ======================
-   COMPARE PASSWORD
-   ====================== */
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   if (!this.password) return false;
   return bcrypt.compare(enteredPassword, this.password);

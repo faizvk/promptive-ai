@@ -10,7 +10,10 @@ const OAuthSuccess = () => {
 
     if (token) {
       localStorage.setItem("token", token);
-      navigate("/dashboard", { replace: true });
+
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true });
+      }, 0);
     } else {
       navigate("/login", { replace: true });
     }

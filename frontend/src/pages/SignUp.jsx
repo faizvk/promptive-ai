@@ -41,7 +41,7 @@ const SignUp = () => {
      GOOGLE SIGN UP
      ====================== */
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href = "https://promptive-ai.onrender.com/auth/google";
   };
 
   return (
