@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../utils/signUpSchema";
-import { User, Mail, Lock, ArrowRight } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Chrome } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../api/auth.api";
 import { fadeIn } from "../animations/FadeIn";
@@ -28,20 +28,20 @@ const SignUp = () => {
         password: data.password,
       };
 
-      const response = await signup(payload);
-
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-        navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
+      await signup(payload);
+      navigate("/login");
     } catch (err) {
       const message =
         err.response?.data?.message || "Signup failed. Please try again.";
-
       setError("root", { message });
     }
+  };
+
+  /* ======================
+     GOOGLE SIGN UP
+     ====================== */
+  const handleGoogleSignup = () => {
+    window.location.href = "http://localhost:3000/auth/google";
   };
 
   return (
@@ -57,10 +57,7 @@ const SignUp = () => {
         >
           <span className="badge">Platform Access</span>
           <h1>Start your journey with us.</h1>
-          <p>
-            Experience the most advanced workspace management tool. Join 10,000+
-            teams worldwide.
-          </p>
+          <p>Experience the most advanced workspace management tool.</p>
         </div>
       </div>
 
@@ -78,10 +75,23 @@ const SignUp = () => {
             <p>Enter your details to get started</p>
           </div>
 
-          {/* Global form error */}
           {errors.root?.message && (
             <div className="error-banner">{errors.root.message}</div>
           )}
+
+          {/* GOOGLE SIGN UP */}
+          <button
+            type="button"
+            className="google-btn"
+            onClick={handleGoogleSignup}
+          >
+            <Chrome size={18} />
+            Continue with Google
+          </button>
+
+          <div className="divider">
+            <span>or</span>
+          </div>
 
           {/* Full Name */}
           <div className="input-group">
@@ -90,7 +100,6 @@ const SignUp = () => {
               <User size={18} className="input-icon" />
               <input
                 type="text"
-                autoComplete="name"
                 placeholder="John Doe"
                 className={errors.fullName ? "input-error" : ""}
                 {...register("fullName")}
@@ -109,7 +118,6 @@ const SignUp = () => {
               <input
                 type="email"
                 placeholder="name@company.com"
-                autoComplete="email"
                 className={errors.email ? "input-error" : ""}
                 {...register("email")}
               />
@@ -126,7 +134,6 @@ const SignUp = () => {
               <Lock size={18} className="input-icon" />
               <input
                 type="password"
-                autoComplete="new-password"
                 placeholder="••••••••"
                 className={errors.password ? "input-error" : ""}
                 {...register("password")}

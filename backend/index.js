@@ -7,6 +7,8 @@ import imageRouter from "./view/image.routes.js";
 import contentRouter from "./view/content.routes.js";
 import historyRouter from "./view/history.routes.js";
 import dashboardRoutes from "./view/dashboard.router.js";
+// backend/server.js
+import googleAuthRoutes from "./view/googleAuth.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -25,6 +27,7 @@ app.use("/images", imageRouter);
 app.use("/content", contentRouter);
 app.use("/history", historyRouter);
 app.use("/dashboard", dashboardRoutes);
+app.use("/auth", googleAuthRoutes);
 
 const startServer = async () => {
   await connectDB();

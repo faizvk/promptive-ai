@@ -256,3 +256,65 @@ input:focus + .input-icon {
     border-left: none;
   }
 }
+
+/* =====================================================
+   GOOGLE AUTH
+   ===================================================== */
+
+.google-btn {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background-color: #ffffff;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.google-btn:hover {
+  background-color: var(--bg-soft);
+  border-color: var(--brand-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.google-btn:active {
+  transform: translateY(1px);
+}
+
+.google-btn svg {
+  color: #4285f4; /* Google blue */
+}
+
+/* =====================================================
+   OR DIVIDER
+   ===================================================== */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--space-sm) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-soft);
+}
+
+.divider span {
+  padding: 0 12px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}

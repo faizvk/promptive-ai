@@ -12,6 +12,7 @@ import PublicImageGenerate from "./pages/PublicImageGenerate";
 import PublicContentRewrite from "./pages/PublicContentRewrite";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
 import ImageGenerate from "./pages/imageGenerate";
 import ContentRewrite from "./pages/ContentRewrite";
@@ -45,6 +46,7 @@ function App() {
         <Route element={<PublicRoute />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/oauth-success" element={<OAuthSuccess />} />
         </Route>
       </Route>
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Mail, Lock, LogIn } from "lucide-react";
+import { Mail, Lock, LogIn, Chrome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { login } from "../api/auth.api";
 import { fadeIn } from "../animations/FadeIn";
@@ -20,6 +20,9 @@ const Login = () => {
     setError,
   } = useForm();
 
+  /* ======================
+     EMAIL / PASSWORD LOGIN
+     ====================== */
   const onSubmit = async (data) => {
     try {
       await login({
@@ -31,9 +34,15 @@ const Login = () => {
     } catch (err) {
       const message =
         err.response?.data?.message || "Invalid email or password";
-
       setError("root", { message });
     }
+  };
+
+  /* ======================
+     GOOGLE LOGIN
+     ====================== */
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3000/auth/google";
   };
 
   return (
@@ -66,22 +75,32 @@ const Login = () => {
           duration: 0.9,
         })}
       >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          aria-busy={isSubmitting}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="form-header-mobile">
             <h2>Sign In</h2>
             <p>Enter your credentials to access your account</p>
           </div>
 
-          {/* Global error */}
+          {/* GLOBAL ERROR */}
           {errors.root?.message && (
             <div className="error-banner">{errors.root.message}</div>
           )}
 
-          {/* Email */}
+          {/* GOOGLE LOGIN */}
+          <button
+            type="button"
+            className="google-btn"
+            onClick={handleGoogleLogin}
+          >
+            <Chrome size={18} />
+            Continue with Google
+          </button>
+
+          <div className="divider">
+            <span>or</span>
+          </div>
+
+          {/* EMAIL */}
           <div className="input-group">
             <label>Email Address</label>
             <div className="input-wrapper">
@@ -101,7 +120,7 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password */}
+          {/* PASSWORD */}
           <div className="input-group">
             <div className="label-row">
               <label>Password</label>
@@ -126,7 +145,7 @@ const Login = () => {
             )}
           </div>
 
-          {/* Submit */}
+          {/* SUBMIT */}
           <button type="submit" className="submit-btn" disabled={isSubmitting}>
             {isSubmitting ? "Signing in..." : "Sign In"}
             {!isSubmitting && <LogIn size={18} />}
