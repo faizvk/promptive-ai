@@ -1,54 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ChevronDown,
-  LayoutGrid,
   FileText,
   Image,
   BookOpen,
+  Menu,
+  X,
 } from "lucide-react";
 import "./styles/Navbar.css";
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setActiveDropdown(null);
+  };
+
+  const handleDropdownClick = (index) => {
+    if (window.innerWidth < 1024) {
+      setActiveDropdown(activeDropdown === index ? null : index);
+    }
+  };
+
+  const closeAll = () => {
+    setIsMobileMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
   return (
     <nav className="navbar">
-      {/* LEFT: LOGO */}
       <div className="navbar-left">
-        <Link to="/" className="navbar-logo">
+        <Link to="/" className="navbar-logo" onClick={closeAll}>
           Promptive<span>AI</span>
         </Link>
       </div>
-      <button class="mobile-toggle" aria-label="Toggle navigation">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
+
+      <button
+        className="mobile-toggle"
+        onClick={toggleMobileMenu}
+        aria-label="Toggle navigation"
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* CENTER: LINKS */}
-      <ul className="navbar-links">
-        {/* PRODUCTS MEGA MENU */}
-        <li className="nav-item mega">
-          <span className="nav-link">
-            Products <ChevronDown size={16} />
-          </span>
+      <ul className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
+        <li className={`nav-item mega ${activeDropdown === 0 ? "open" : ""}`}>
+          <div className="nav-link" onClick={() => handleDropdownClick(0)}>
+            Products <ChevronDown size={16} className="chevron" />
+          </div>
 
           <div className="mega-menu">
             <div className="mega-column">
               <h4>AI Tools</h4>
 
-              <Link to="/image-generate" className="mega-link">
+              <Link
+                to="/image-generate"
+                className="mega-link"
+                onClick={closeAll}
+              >
                 <Image size={18} />
                 <div>
                   <span>Image Generation</span>
@@ -56,7 +69,11 @@ const Navbar = () => {
                 </div>
               </Link>
 
-              <Link to="/content-rewrite" className="mega-link">
+              <Link
+                to="/content-rewrite"
+                className="mega-link"
+                onClick={closeAll}
+              >
                 <FileText size={18} />
                 <div>
                   <span>Content Rewrite</span>
@@ -67,22 +84,21 @@ const Navbar = () => {
           </div>
         </li>
 
-        {/* SOLUTIONS */}
-        <li className="nav-item mega">
-          <span className="nav-link">
-            Solutions <ChevronDown size={16} />
-          </span>
+        <li className={`nav-item mega ${activeDropdown === 1 ? "open" : ""}`}>
+          <div className="nav-link" onClick={() => handleDropdownClick(1)}>
+            Solutions <ChevronDown size={16} className="chevron" />
+          </div>
 
           <div className="mega-menu">
             <div className="mega-column">
               <h4>Use Cases</h4>
-              <a className="mega-link" href="#">
+              <a className="mega-link" href="#" onClick={closeAll}>
                 <div>
                   <span>Marketing Teams</span>
                   <p>Campaigns, ads, visuals</p>
                 </div>
               </a>
-              <a className="mega-link" href="#">
+              <a className="mega-link" href="#" onClick={closeAll}>
                 <div>
                   <span>Creators</span>
                   <p>Content & social media</p>
@@ -92,16 +108,15 @@ const Navbar = () => {
           </div>
         </li>
 
-        {/* RESOURCES */}
-        <li className="nav-item mega">
-          <span className="nav-link">
-            Resources <ChevronDown size={16} />
-          </span>
+        <li className={`nav-item mega ${activeDropdown === 2 ? "open" : ""}`}>
+          <div className="nav-link" onClick={() => handleDropdownClick(2)}>
+            Resources <ChevronDown size={16} className="chevron" />
+          </div>
 
           <div className="mega-menu">
             <div className="mega-column">
               <h4>Learn</h4>
-              <a className="mega-link" href="#">
+              <a className="mega-link" href="#" onClick={closeAll}>
                 <BookOpen size={18} />
                 <div>
                   <span>Documentation</span>
@@ -112,25 +127,30 @@ const Navbar = () => {
           </div>
         </li>
 
-        <li className="nav-item">
-          <span className="nav-link">
-            Pricing <ChevronDown size={16} />
-          </span>
+        <li className={`nav-item ${activeDropdown === 3 ? "open" : ""}`}>
+          <div className="nav-link" onClick={() => handleDropdownClick(3)}>
+            Pricing <ChevronDown size={16} className="chevron" />
+          </div>
 
           <div className="nav-dropdown">
-            <a href="#">Free Plan </a>
-            <a href="#">Pro Plan</a>
-            <a href="#">Enterprise</a>
+            <a href="#" onClick={closeAll}>
+              Free Plan{" "}
+            </a>
+            <a href="#" onClick={closeAll}>
+              Pro Plan
+            </a>
+            <a href="#" onClick={closeAll}>
+              Enterprise
+            </a>
           </div>
         </li>
       </ul>
 
-      {/* RIGHT: ACTIONS */}
       <div className="navbar-actions">
-        <Link to="/login" className="nav-login">
+        <Link to="/login" className="nav-login" onClick={closeAll}>
           Login
         </Link>
-        <Link to="/signup" className="nav-cta">
+        <Link to="/signup" className="nav-cta" onClick={closeAll}>
           Get Started
           <ArrowRight size={15} />
         </Link>

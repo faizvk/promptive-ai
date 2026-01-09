@@ -3,19 +3,12 @@
   top: 0;
   z-index: 100;
   width: 100%;
-
   padding: 0.75rem 3rem;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   background: var(--brand-primary);
 }
-
-/* ===========================
-   LOGO
-   =========================== */
 
 .navbar-logo {
   font-size: 1.35rem;
@@ -29,9 +22,6 @@
   color: var(--brand-accent);
 }
 
-/* ===========================
-   LINKS
-   =========================== */
 .navbar-links {
   display: none;
   list-style: none;
@@ -43,10 +33,6 @@
   color: white;
   text-decoration: none;
 }
-
-/* ===========================
-   ACTIONS
-   =========================== */
 
 .navbar-actions {
   display: flex;
@@ -66,7 +52,7 @@
 
 .nav-cta {
   display: flex;
-  padding: 0.5rem 1.25rem;
+  padding: 10px 25px;
   border-radius: 8px;
   background: var(--btn-primary);
   color: white;
@@ -75,26 +61,12 @@
   gap: 0.5rem;
   align-items: center;
   text-decoration: none;
-  padding: 10px 25px;
 }
 
 .nav-login:hover,
 .nav-cta:hover {
   opacity: 0.9;
 }
-
-/* ===========================
-   RESPONSIVE
-   =========================== */
-
-@media (min-width: 1024px) {
-  .navbar-links {
-    display: flex;
-  }
-}
-/* ===========================
-   NAV ITEM (WRAPPER)
-   =========================== */
 
 .nav-item {
   position: relative;
@@ -114,47 +86,33 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* ===========================
-   DROPDOWN PANEL
-   =========================== */
-
 .nav-dropdown {
   position: absolute;
   top: 100%;
   margin-top: 8px;
   left: 50%;
   transform: translateX(-50%);
-
   min-width: 220px;
   padding: 0.75rem;
-
   background: #ffe492e2;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
   transition: opacity 0.15s ease, transform 0.15s ease;
   z-index: 30;
 }
 
-/* Show dropdown on hover */
 .nav-item:hover .nav-dropdown {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translateX(-50%) translateY(6px);
 }
-
-/* ===========================
-   DROPDOWN LINKS
-   =========================== */
 
 .nav-dropdown a {
   font-size: var(--text-sm);
@@ -170,7 +128,6 @@
   color: var(--brand-primary);
 }
 
-/* Invisible hover bridge to prevent flicker */
 .nav-item::after {
   content: "";
   position: absolute;
@@ -180,15 +137,10 @@
   height: 12px;
 }
 
-/* ===========================
-   MEGA MENU
-   =========================== */
-
 .nav-item.mega {
   position: relative;
 }
 
-/* Hover bridge */
 .nav-item.mega::after {
   content: "";
   position: absolute;
@@ -203,24 +155,18 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-
   margin-top: 14px;
   width: 680px;
-
   padding: 1.75rem;
-
   background: #ffe492e1;
   border-radius: 18px;
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
-
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 40;
 }
@@ -231,18 +177,6 @@
   pointer-events: auto;
   transform: translateX(-50%) translateY(8px);
 }
-.nav-item.mega::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: -50%;
-  width: 200%;
-  height: 20px;
-}
-
-/* ===========================
-   MEGA COLUMNS
-   =========================== */
 
 .mega-column h4 {
   font-size: 0.75rem;
@@ -253,55 +187,53 @@
   letter-spacing: 0.08em;
 }
 
-/* ===========================
-   MEGA LINKS
-   =========================== */
-
 .mega-link {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-
   padding: 0.75rem;
   border-radius: 14px;
-
   text-decoration: none;
-
-  color: #111827; /* near-black, better than pure black */
+  color: #111827;
   background: transparent;
-
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
-/* Title text */
 .mega-link span {
   font-weight: 600;
   font-size: 0.95rem;
   color: #111827;
 }
 
-/* Description text */
 .mega-link p {
   font-size: 0.8rem;
   color: #6b7280;
   margin-top: 2px;
 }
 
-/* Icons */
 .mega-link svg {
   color: #111827;
   flex-shrink: 0;
 }
 
-/* Hover */
 .mega-link:hover {
   opacity: 0.7;
   transform: translateX(2px);
 }
 
-/* Visited safety */
-.mega-link:visited {
-  color: #111827;
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .navbar-links {
+    display: flex;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -309,15 +241,13 @@
     padding: 0.75rem 1.5rem;
   }
 
-  .navbar-actions {
-    margin-right: 0;
-    gap: 0.75rem;
+  .mobile-toggle {
+    display: block;
+    order: 3;
   }
 
-  .nav-login,
-  .nav-cta {
-    padding: 8px 16px;
-    font-size: 0.85rem;
+  .navbar-actions {
+    margin-right: 0;
   }
 
   .navbar-links {
@@ -329,10 +259,8 @@
     background: var(--brand-primary);
     flex-direction: column;
     padding: 1rem 0;
-    gap: 0;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-links.active {
@@ -345,40 +273,53 @@
 
   .nav-link {
     padding: 1rem 1.5rem;
-    width: 100%;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .nav-item.open .chevron {
+    transform: rotate(180deg);
   }
 
   .nav-dropdown,
   .mega-menu {
     position: static;
-    transform: none !important;
-    width: 100%;
+    display: none;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    display: none;
-    margin-top: 0;
+    transform: none !important;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+    margin: 0;
     padding: 1rem 1.5rem;
     border-radius: 0;
-    box-shadow: none;
   }
 
-  .nav-item:hover .nav-dropdown,
-  .nav-item.mega:hover .mega-menu {
+  .nav-item.open .nav-dropdown,
+  .nav-item.open .mega-menu {
     display: block;
-    transform: none;
   }
 
   .mega-menu {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    width: 100%;
   }
 
-  .mega-link {
-    padding: 0.5rem 0;
+  .mega-link span,
+  .mega-link p,
+  .mega-link svg {
+    color: white;
+  }
+
+  .nav-dropdown a {
+    color: white;
+    padding: 0.75rem 0;
   }
 
   .nav-item::after,
@@ -388,45 +329,7 @@
 }
 
 @media (max-width: 480px) {
-  .navbar {
-    padding: 0.75rem 1rem;
-  }
-
   .nav-login {
     display: none;
-  }
-
-  .navbar-logo {
-    font-size: 1.15rem;
-  }
-}
-.mobile-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0.5rem;
-  order: 3;
-}
-
-@media (max-width: 1023px) {
-  .mobile-toggle {
-    display: block;
-  }
-
-  .navbar-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--brand-primary);
-    flex-direction: column;
-    padding: 1rem 0;
-  }
-
-  .navbar-links.active {
-    display: flex;
   }
 }
