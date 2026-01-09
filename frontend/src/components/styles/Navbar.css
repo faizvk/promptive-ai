@@ -400,3 +400,33 @@
     font-size: 1.15rem;
   }
 }
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  order: 3;
+}
+
+@media (max-width: 1023px) {
+  .mobile-toggle {
+    display: block;
+  }
+
+  .navbar-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--brand-primary);
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+}
