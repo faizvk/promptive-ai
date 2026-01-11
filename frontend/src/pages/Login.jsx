@@ -20,9 +20,6 @@ const Login = () => {
     setError,
   } = useForm();
 
-  /* ======================
-     EMAIL / PASSWORD LOGIN
-     ====================== */
   const onSubmit = async (data) => {
     try {
       await login({
@@ -38,9 +35,6 @@ const Login = () => {
     }
   };
 
-  /* ======================
-     GOOGLE LOGIN
-     ====================== */
   const handleGoogleLogin = () => {
     window.location.href = "https://promptive-ai.onrender.com/auth/google";
   };
@@ -107,7 +101,7 @@ const Login = () => {
               <Mail size={18} className="input-icon" />
               <input
                 type="email"
-                placeholder="name@company.com"
+                placeholder="email"
                 autoComplete="email"
                 className={errors.email ? "input-error" : ""}
                 {...register("email", {

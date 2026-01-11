@@ -37,9 +37,6 @@ const SignUp = () => {
     }
   };
 
-  /* ======================
-     GOOGLE SIGN UP
-     ====================== */
   const handleGoogleSignup = () => {
     window.location.href = "https://promptive-ai.onrender.com/auth/google";
   };
@@ -100,7 +97,7 @@ const SignUp = () => {
               <User size={18} className="input-icon" />
               <input
                 type="text"
-                placeholder="John Doe"
+                placeholder="Name"
                 className={errors.fullName ? "input-error" : ""}
                 {...register("fullName")}
               />
@@ -117,7 +114,7 @@ const SignUp = () => {
               <Mail size={18} className="input-icon" />
               <input
                 type="email"
-                placeholder="name@company.com"
+                placeholder="email"
                 className={errors.email ? "input-error" : ""}
                 {...register("email")}
               />
