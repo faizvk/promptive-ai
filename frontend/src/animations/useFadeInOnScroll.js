@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useFadeInScroll() {
+export function useFadeInOnScroll() {
   const location = useLocation();
 
   useEffect(() => {
