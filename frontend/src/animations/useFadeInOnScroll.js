@@ -1,31 +1,65 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useFadeInOnScroll(ready = true) {
+export function useFadeInScroll() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!ready) return;
+    document.querySelectorAll("[data-fade='true']").forEach((el) => {
+      el.removeAttribute("data-fade-bound");
+    });
 
-    const elements = document.querySelectorAll("[data-fade='true']");
+    let observer = null;
 
-    if (!elements.length) return;
+    const observe = () => {
+      const elements = document.querySelectorAll(
+        "[data-fade='true']:not([data-fade-bound])",
+      );
 
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translate(0, 0)";
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 },
-    );
+      if (!elements.length) return;
 
-    elements.forEach((el) => observer.observe(el));
+      if (!observer) {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const el = entry.target;
+              const direction = el.getAttribute("data-direction") || "up";
+              const distance = el.getAttribute("data-distance") || "40px";
 
-    return () => observer.disconnect();
-  }, [location.pathname, ready]); // 👈 add ready
+              if (entry.isIntersecting) {
+                el.style.opacity = "1";
+                el.style.transform = "translate(0, 0)";
+              } else {
+                const axis =
+                  direction === "left" || direction === "right" ? "X" : "Y";
+                const sign =
+                  direction === "up" || direction === "left" ? 1 : -1;
+                el.style.opacity = "0";
+                el.style.transform = `translate${axis}(${sign * distance})`;
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+      }
+
+      elements.forEach((el) => {
+        el.setAttribute("data-fade-bound", "true");
+        observer.observe(el);
+      });
+    };
+
+    observe();
+
+    const mutationObserver = new MutationObserver(observe);
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      mutationObserver.disconnect();
+      observer?.disconnect();
+    };
+  }, [location.pathname]);
 }
