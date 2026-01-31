@@ -1,11 +1,13 @@
 import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { useFadeInOnScroll } from "./animations/useFadeInOnScroll";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ServerLoadingScreen from "./components/ServerLoadingScreen";
 
 import Landing from "./pages/Landing";
 import PublicImageGenerate from "./pages/PublicImageGenerate";
@@ -34,6 +36,36 @@ const PublicLayout = () => (
 
 function App() {
   useFadeInOnScroll();
+
+  const [backendReady, setBackendReady] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const checkBackend = async () => {
+      if (!mounted) return;
+
+      try {
+        const res = await fetch("https://promptive-ai.onrender.com/");
+
+        if (res.ok && mounted) {
+          setBackendReady(true);
+        } else {
+          setTimeout(checkBackend, 3000);
+        }
+      } catch {
+        setTimeout(checkBackend, 3000);
+      }
+    };
+
+    checkBackend();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (!backendReady) return <ServerLoadingScreen />;
 
   return (
     <Routes>
