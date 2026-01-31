@@ -35,7 +35,7 @@ const PublicLayout = () => (
 );
 
 function App() {
-  useFadeInOnScroll();
+  useFadeInOnScroll(backendReady);
 
   const [backendReady, setBackendReady] = useState(false);
 
