@@ -1,58 +1,101 @@
-import express from "express";
-import cors from "cors";
-import { PORT } from "./config/env.js";
-import connectDB from "./config/db.js";
-import authRouter from "./view/auth.router.js";
-import imageRouter from "./view/image.routes.js";
-import contentRouter from "./view/content.routes.js";
-import historyRouter from "./view/history.routes.js";
-import dashboardRoutes from "./view/dashboard.router.js";
-import googleAuthRoutes from "./view/googleAuth.routes.js";
+import "./App.css";
+import { Routes, Route, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
+import { useFadeInOnScroll } from "./animations/useFadeInOnScroll";
 
-const app = express();
-app.use(express.json());
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ServerLoadingScreen from "./components/ServerLoadingScreen";
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173",
-  process.env.FRONTEND_URL,
-];
+import Landing from "./pages/Landing";
+import PublicImageGenerate from "./pages/PublicImageGenerate";
+import PublicContentRewrite from "./pages/PublicContentRewrite";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow server-to-server or tools like Postman
-    if (!origin) return callback(null, true);
+import ImageGenerate from "./pages/ImageGenerate";
+import ContentRewrite from "./pages/ContentRewrite";
+import History from "./pages/History";
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+import DashboardLayout from "./dashboard/DashboardLayout";
+import Overview from "./dashboard/pages/Overview";
 
-    return callback(new Error("Not allowed by CORS"));
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
+/* ---------- Public Layout ---------- */
+const PublicLayout = () => (
+  <>
+    <Navbar />
+    <div className="app-main">
+      <Outlet />
+    </div>
+    <Footer />
+  </>
+);
 
-app.use(cors(corsOptions));
+function App() {
+  useFadeInOnScroll();
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "ok",
-    message: "Promptive AI backend is running",
-  });
-});
+  const [backendReady, setBackendReady] = useState(false);
 
-app.use(authRouter);
-app.use("/images", imageRouter);
-app.use("/content", contentRouter);
-app.use("/history", historyRouter);
-app.use("/dashboard", dashboardRoutes);
-app.use("/auth", googleAuthRoutes);
+  useEffect(() => {
+    let mounted = true;
 
-const startServer = async () => {
-  await connectDB();
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-};
+    const checkBackend = async () => {
+      if (!mounted) return;
 
-startServer();
+      try {
+        const res = await fetch("https://promptive-ai.onrender.com/");
+
+        if (res.ok && mounted) {
+          setBackendReady(true);
+        } else {
+          setTimeout(checkBackend, 3000);
+        }
+      } catch {
+        setTimeout(checkBackend, 3000);
+      }
+    };
+
+    checkBackend();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (!backendReady) return <ServerLoadingScreen />;
+
+  return (
+    <Routes>
+      {/* ================= PUBLIC LAYOUT ================= */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/image-generate" element={<PublicImageGenerate />} />
+        <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+
+        {/* UNGUARDED OAUTH CALLBACK */}
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+
+        {/* PUBLIC AUTH PAGES ONLY */}
+        <Route element={<PublicRoute />}>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+      </Route>
+
+      {/* ================= PROTECTED DASHBOARD ================= */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="image" element={<ImageGenerate />} />
+          <Route path="rewrite" element={<ContentRewrite />} />
+          <Route path="history" element={<History />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;
