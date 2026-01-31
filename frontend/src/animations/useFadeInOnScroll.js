@@ -9,21 +9,34 @@ export function useFadeInOnScroll() {
 
     if (!elements.length) return;
 
+    const reveal = (el) => {
+      el.style.opacity = "1";
+      el.style.transform = "translate(0, 0)";
+    };
+
     const observer = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translate(0, 0)";
+            reveal(entry.target);
             obs.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     elements.forEach((el) => observer.observe(el));
 
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        reveal(el);
+        observer.unobserve(el);
+      }
+    });
+
     return () => observer.disconnect();
-  }, [location.pathname]); // ✅ critical
+  }, [location.pathname]);
 }

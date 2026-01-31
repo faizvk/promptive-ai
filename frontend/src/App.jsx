@@ -68,35 +68,33 @@ function App() {
   if (!backendReady) return <ServerLoadingScreen />;
 
   return (
-    <div key={backendReady}>
-      <Routes>
-        {/* ================= PUBLIC LAYOUT ================= */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="/image-generate" element={<PublicImageGenerate />} />
-          <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+    <Routes>
+      {/* ================= PUBLIC LAYOUT ================= */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/image-generate" element={<PublicImageGenerate />} />
+        <Route path="/content-rewrite" element={<PublicContentRewrite />} />
 
-          {/* UNGUARDED OAUTH CALLBACK */}
-          <Route path="/oauth-success" element={<OAuthSuccess />} />
+        {/* UNGUARDED OAUTH CALLBACK */}
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
 
-          {/* PUBLIC AUTH PAGES ONLY */}
-          <Route element={<PublicRoute />}>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
+        {/* PUBLIC AUTH PAGES ONLY */}
+        <Route element={<PublicRoute />}>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
         </Route>
+      </Route>
 
-        {/* ================= PROTECTED DASHBOARD ================= */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Overview />} />
-            <Route path="image" element={<ImageGenerate />} />
-            <Route path="rewrite" element={<ContentRewrite />} />
-            <Route path="history" element={<History />} />
-          </Route>
+      {/* ================= PROTECTED DASHBOARD ================= */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Overview />} />
+          <Route path="image" element={<ImageGenerate />} />
+          <Route path="rewrite" element={<ContentRewrite />} />
+          <Route path="history" element={<History />} />
         </Route>
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 
