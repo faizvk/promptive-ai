@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { useFadeInOnScroll } from "./animations/useFadeInOnScroll";
@@ -9,19 +9,20 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ServerLoadingScreen from "./components/ServerLoadingScreen";
 
-import Landing from "./pages/Landing";
-import PublicImageGenerate from "./pages/PublicImageGenerate";
-import PublicContentRewrite from "./pages/PublicContentRewrite";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
-import OAuthSuccess from "./pages/OAuthSuccess";
+// Lazy pages
+const Landing = lazy(() => import("./pages/Landing"));
+const PublicImageGenerate = lazy(() => import("./pages/PublicImageGenerate"));
+const PublicContentRewrite = lazy(() => import("./pages/PublicContentRewrite"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const Login = lazy(() => import("./pages/Login"));
+const OAuthSuccess = lazy(() => import("./pages/OAuthSuccess"));
 
-import ImageGenerate from "./pages/ImageGenerate";
-import ContentRewrite from "./pages/ContentRewrite";
-import History from "./pages/History";
+const ImageGenerate = lazy(() => import("./pages/ImageGenerate"));
+const ContentRewrite = lazy(() => import("./pages/ContentRewrite"));
+const History = lazy(() => import("./pages/History"));
 
-import DashboardLayout from "./dashboard/DashboardLayout";
-import Overview from "./dashboard/pages/Overview";
+const DashboardLayout = lazy(() => import("./dashboard/DashboardLayout"));
+const Overview = lazy(() => import("./dashboard/pages/Overview"));
 
 /* ---------- Public Layout ---------- */
 const PublicLayout = () => (
@@ -68,33 +69,35 @@ function App() {
   if (!backendReady) return <ServerLoadingScreen />;
 
   return (
-    <Routes>
-      {/* ================= PUBLIC LAYOUT ================= */}
-      <Route element={<PublicLayout />}>
-        <Route path="/" element={<Landing />} />
-        <Route path="/image-generate" element={<PublicImageGenerate />} />
-        <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+    <Suspense fallback={<ServerLoadingScreen />}>
+      <Routes>
+        {/* ================= PUBLIC LAYOUT ================= */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/image-generate" element={<PublicImageGenerate />} />
+          <Route path="/content-rewrite" element={<PublicContentRewrite />} />
 
-        {/* UNGUARDED OAUTH CALLBACK */}
-        <Route path="/oauth-success" element={<OAuthSuccess />} />
+          {/* UNGUARDED OAUTH CALLBACK */}
+          <Route path="/oauth-success" element={<OAuthSuccess />} />
 
-        {/* PUBLIC AUTH PAGES ONLY */}
-        <Route element={<PublicRoute />}>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          {/* PUBLIC AUTH PAGES ONLY */}
+          <Route element={<PublicRoute />}>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
         </Route>
-      </Route>
 
-      {/* ================= PROTECTED DASHBOARD ================= */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Overview />} />
-          <Route path="image" element={<ImageGenerate />} />
-          <Route path="rewrite" element={<ContentRewrite />} />
-          <Route path="history" element={<History />} />
+        {/* ================= PROTECTED DASHBOARD ================= */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Overview />} />
+            <Route path="image" element={<ImageGenerate />} />
+            <Route path="rewrite" element={<ContentRewrite />} />
+            <Route path="history" element={<History />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 }
 
