@@ -14,6 +14,10 @@ const ServerLoadingScreen = () => {
     >
       <h2>Starting backend…</h2>
       <p>Render free tier sleeps after inactivity. Please wait.</p>
+      <p>
+        Meanwhile ui screenshots available in my github repo
+        https://github.com/faizvk.
+      </p>
     </div>
   );
 };
