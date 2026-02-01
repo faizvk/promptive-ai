@@ -16,7 +16,9 @@ const ServerLoadingScreen = () => {
       <p>Render free tier sleeps after inactivity. Please wait.</p>
       <p>
         Meanwhile ui screenshots available in my github repo
-        https://github.com/faizvk/promptive-ai.
+        <a href="https://github.com/faizvk/promptive-ai" target="_blank">
+          https://github.com/faizvk/promptive-ai
+        </a>
       </p>
     </div>
   );
