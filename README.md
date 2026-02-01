@@ -257,29 +257,29 @@ http://localhost:5000
 
 ### landing page
 
-![landing page](frontend/public/screenshots/one.png)
+![landing page](frontend/public/one.png)
 
-![landing page](frontend/public/screenshots/two.png)
+![landing page](frontend/public/two.png)
 
 ### login
 
-![login page](frontend/public/screenshots/three.png)
+![login page](frontend/public/three.png)
 
 ### dashboard
 
-![dashboard](frontend/public/screenshots/four.png)
+![dashboard](frontend/public/four.png)
 
-![dashboard](frontend/public/screenshots/five.png)
+![dashboard](frontend/public/five.png)
 
-![dashboard](frontend/public/screenshots/six.png)
+![dashboard](frontend/public/six.png)
 
-![dashboard](frontend/public/screenshots/seven.png)
+![dashboard](frontend/public/seven.png)
 
 ### history
 
-![history](frontend/public/screenshots/eight.png)
+![history](frontend/public/eight.png)
 
-![history](frontend/public/screenshots/nine.png)
+![history](frontend/public/nine.png)
 
 ---
 
