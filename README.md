@@ -253,6 +253,36 @@ http://localhost:5000
 
 ---
 
+## 📸 UI Screenshots
+
+### landing page
+
+![landing page](frontend/public/screenshots/one.png)
+
+![landing page](frontend/public/screenshots/two.png)
+
+### login
+
+![login page](frontend/public/screenshots/three.png)
+
+### dashboard
+
+![dashboard](frontend/public/screenshots/four.png)
+
+![dashboard](frontend/public/screenshots/five.png)
+
+![dashboard](frontend/public/screenshots/six.png)
+
+![dashboard](frontend/public/screenshots/seven.png)
+
+### history
+
+![history](frontend/public/screenshots/eight.png)
+
+![history](frontend/public/screenshots/nine.png)
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository
