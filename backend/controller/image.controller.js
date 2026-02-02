@@ -54,7 +54,7 @@ export const generateImage = async (req, res) => {
     // Hugging Face inference
     const imageBlob = await hf.textToImage({
       provider: "hf-inference",
-      model: "black-forest-labs/FLUX.1-dev",
+      model: "black-forest-labs/FLUX.1-schnell",
       inputs: prompt,
       parameters: {
         width,
@@ -81,7 +81,7 @@ export const generateImage = async (req, res) => {
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
-        }
+        },
       );
 
       stream.end(buffer);
