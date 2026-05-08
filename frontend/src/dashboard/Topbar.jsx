@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Menu, Bell, ChevronDown, LogOut, User } from "lucide-react";
 
 const iconBtn =
-  "bg-bg-soft border border-border-soft text-text-secondary p-2.5 rounded-xl cursor-pointer flex items-center justify-center transition-all duration-200 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] hover:bg-white hover:text-text-primary hover:border-text-muted/40 hover:shadow-[0_2px_8px_rgba(4,56,115,0.06)]";
+  "bg-bg-soft border border-border-soft text-text-secondary p-2.5 rounded-xl cursor-pointer flex items-center justify-center transition-colors duration-200 hover:bg-white hover:text-text-primary hover:border-text-muted/40";
 
 const dropdownBtn =
   "w-full flex items-center gap-2.5 px-3 py-2.5 border-0 bg-transparent rounded-lg text-[0.9rem] font-medium text-text-secondary cursor-pointer transition-colors duration-150 hover:bg-bg-soft hover:text-text-primary";
@@ -49,10 +49,10 @@ const Topbar = ({ onMenuClick, title = "Dashboard" }) => {
 
         <div
           ref={menuRef}
-          className="relative flex items-center gap-2 p-1 pr-3 bg-bg-soft border border-border-soft rounded-full cursor-pointer transition-all duration-200 text-text-secondary hover:bg-white hover:border-text-muted/40 hover:shadow-[0_2px_8px_rgba(4,56,115,0.06)]"
+          className="relative flex items-center gap-2 p-1 pr-3 bg-bg-soft border border-border-soft rounded-full cursor-pointer transition-colors duration-200 text-text-secondary hover:bg-white hover:border-text-muted/40"
           onClick={() => setOpen((prev) => !prev)}
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-brand-primary to-[#062c5a] text-white rounded-full flex items-center justify-center shadow-[0_2px_6px_rgba(4,56,115,0.25)]">
+          <div className="w-8 h-8 bg-brand-primary text-white rounded-full flex items-center justify-center">
             <User size={15} />
           </div>
           <ChevronDown
@@ -61,7 +61,7 @@ const Topbar = ({ onMenuClick, title = "Dashboard" }) => {
           />
 
           {open && (
-            <div className="absolute top-[calc(100%+10px)] right-0 w-[210px] bg-white border border-border-soft rounded-xl shadow-[0_16px_40px_-8px_rgba(4,56,115,0.18)] p-1.5 flex flex-col gap-0.5 animate-dropdown-in z-50">
+            <div className="absolute top-[calc(100%+10px)] right-0 w-[210px] bg-white border border-border-soft rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 animate-dropdown-in z-50">
               <button className={dropdownBtn}>
                 <User size={15} /> Profile
               </button>
