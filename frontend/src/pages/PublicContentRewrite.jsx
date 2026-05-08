@@ -16,16 +16,16 @@ const secondaryBtn =
   "border border-white/40 text-white px-7 py-3.5 rounded-[10px] no-underline hover:opacity-90";
 
 const stepCard =
-  "p-8 rounded-2xl bg-bg-surface shadow-card";
+  "p-6 md:p-8 rounded-2xl bg-bg-surface shadow-card";
 
 const exampleCard =
-  "p-8 rounded-[14px] bg-white border border-border-soft text-left";
+  "p-6 md:p-8 rounded-[14px] bg-white border border-border-soft text-left";
 
 const PublicContentRewrite = () => {
   return (
     <main className="w-full overflow-x-hidden">
       {/* ================= HERO ================= */}
-      <section className="bg-gradient-to-b from-brand-primary to-[#071a33] text-white px-8 py-24 text-center">
+      <section className="bg-gradient-to-b from-brand-primary to-[#071a33] text-white px-5 py-16 md:px-8 md:py-24 text-center">
         <div className="max-w-[900px] mx-auto">
           <span className="inline-block px-3 py-1.5 rounded-full bg-white/10 text-xs mb-4">
             AI Content Rewrite
@@ -37,17 +37,17 @@ const PublicContentRewrite = () => {
               duration: 0.9,
             })}
           >
-            <h1 className="text-[3rem] font-extrabold">
+            <h1 className="text-3xl sm:text-4xl md:text-[3rem] font-extrabold leading-tight">
               Rewrite content with <span>clarity & precision</span>
             </h1>
-            <p>
+            <p className="mt-3 text-sm md:text-base">
               Improve tone, clarity, and structure of your content using
               advanced AI — without losing meaning.
             </p>
           </div>
 
           <div
-            className="mt-8 flex gap-4 justify-center"
+            className="mt-6 md:mt-8 flex gap-3 md:gap-4 justify-center flex-wrap"
             {...fadeIn({
               direction: "left",
               distance: 80,
@@ -66,17 +66,19 @@ const PublicContentRewrite = () => {
 
       {/* ================= HOW IT WORKS ================= */}
       <section
-        className="px-8 py-20 text-center"
+        className="px-5 py-12 md:px-8 md:py-20 text-center"
         {...fadeIn({
           direction: "up",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2>How content rewrite works</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+          How content rewrite works
+        </h2>
 
         <div
-          className="mt-12 grid gap-8 md:grid-cols-3"
+          className="mt-8 md:mt-12 grid gap-5 md:gap-8 md:grid-cols-3"
           {...fadeIn({
             direction: "right",
             distance: 80,
@@ -105,16 +107,18 @@ const PublicContentRewrite = () => {
 
       {/* ================= EXAMPLES ================= */}
       <section
-        className="bg-bg-soft px-8 py-20"
+        className="bg-bg-soft px-5 py-12 md:px-8 md:py-20"
         {...fadeIn({
           direction: "left",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2 className="text-center">Before & after examples</h2>
+        <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold">
+          Before &amp; after examples
+        </h2>
 
-        <div className="max-w-[900px] mx-auto mt-8 grid gap-8 md:grid-cols-2">
+        <div className="max-w-[900px] mx-auto mt-6 md:mt-8 grid gap-5 md:gap-8 md:grid-cols-2">
           <div className={exampleCard}>
             <span className="text-xs font-bold text-text-muted uppercase">
               Before
@@ -139,17 +143,19 @@ const PublicContentRewrite = () => {
       {/* ================= DEMO ================= */}
       <section
         id="demo"
-        className="px-8 py-20 text-center"
+        className="px-5 py-12 md:px-8 md:py-20 text-center"
         {...fadeIn({
           direction: "up",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2>Try a demo</h2>
-        <p>See how rewriting works. Sign up to unlock full functionality.</p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Try a demo</h2>
+        <p className="text-sm md:text-base mt-2">
+          See how rewriting works. Sign up to unlock full functionality.
+        </p>
 
-        <div className="max-w-[600px] mx-auto my-8 relative flex flex-col gap-4">
+        <div className="max-w-[600px] mx-auto my-6 md:my-8 relative flex flex-col gap-4">
           <textarea
             placeholder="Paste your content here…"
             disabled
@@ -182,16 +188,18 @@ const PublicContentRewrite = () => {
 
       {/* ================= USE CASES ================= */}
       <section
-        className="px-8 py-20 text-center"
+        className="px-5 py-12 md:px-8 md:py-20 text-center"
         {...fadeIn({
           direction: "right",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2>Who is this for?</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+          Who is this for?
+        </h2>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-8 md:mt-12 grid gap-5 md:gap-8 md:grid-cols-3">
           <div>
             <h4>Content creators</h4>
             <p>Refine captions, blogs, and scripts effortlessly.</p>
@@ -208,7 +216,7 @@ const PublicContentRewrite = () => {
       </section>
 
       {/* ================= CTA ================= */}
-      <section className="bg-brand-primary text-white px-8 py-20 text-center">
+      <section className="bg-brand-primary text-white px-5 py-12 md:px-8 md:py-20 text-center">
         <div
           {...fadeIn({
             direction: "up",
@@ -216,8 +224,12 @@ const PublicContentRewrite = () => {
             duration: 0.9,
           })}
         >
-          <h2>Rewrite smarter with Promptive AI</h2>
-          <p>No credit card required. Upgrade anytime.</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+            Rewrite smarter with Promptive AI
+          </h2>
+          <p className="text-sm md:text-base mt-2 mb-6">
+            No credit card required. Upgrade anytime.
+          </p>
         </div>
 
         <Link to="/signup" className={primaryBtn}>
