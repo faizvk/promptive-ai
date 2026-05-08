@@ -1,4 +1,3 @@
-import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect, useState, Suspense, lazy } from "react";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -28,7 +27,7 @@ const Overview = lazy(() => import("./dashboard/pages/Overview"));
 const PublicLayout = () => (
   <>
     <Navbar />
-    <div className="app-main">
+    <div className="w-full min-h-screen flex flex-col justify-center items-center text-center">
       <Outlet />
     </div>
     <Footer />
