@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { fetchDashboardOverview } from "../../api/dashboard.api";
 
 const statCard =
-  "group bg-white rounded-2xl p-5 md:p-6 flex items-center gap-4 border border-border-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-primary/20 hover:shadow-[0_18px_36px_-16px_rgba(4,56,115,0.15)]";
+  "group bg-white rounded-2xl p-5 md:p-6 flex items-center gap-4 border border-border-soft transition-colors duration-200 hover:border-brand-primary/30";
 
 const statIcon =
-  "w-11 h-11 rounded-xl bg-gradient-to-br from-brand-primary/10 to-brand-primary/5 text-brand-primary flex items-center justify-center transition-colors duration-300 group-hover:from-brand-primary group-hover:to-[#062c5a] group-hover:text-white";
+  "w-11 h-11 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-brand-primary group-hover:text-white";
 
 const actionCard =
-  "group bg-white border border-border-soft rounded-2xl p-5 md:p-6 no-underline text-text-primary flex items-center gap-4 transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-[0_18px_36px_-14px_rgba(4,56,115,0.18)]";
+  "group bg-white border border-border-soft rounded-2xl p-5 md:p-6 no-underline text-text-primary flex items-center gap-4 transition-colors duration-200 hover:border-brand-primary/30";
 
 const actionIcon =
-  "w-11 h-11 rounded-xl bg-bg-soft text-brand-primary flex items-center justify-center transition-all duration-300 group-hover:bg-brand-primary group-hover:text-white";
+  "w-11 h-11 rounded-xl bg-bg-soft text-brand-primary flex items-center justify-center transition-colors duration-200 group-hover:bg-brand-primary group-hover:text-white";
 
 const Overview = () => {
   const [stats, setStats] = useState(null);

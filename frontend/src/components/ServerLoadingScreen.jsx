@@ -9,12 +9,6 @@ const ServerLoadingScreen = () => {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
       />
-      {/* Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-[120%] h-[400px] bg-btn-primary/20 rounded-full blur-[120px]"
-      />
-
       <div className="relative max-w-[560px] w-full text-center">
         {/* Logo */}
         <div className="text-2xl md:text-[1.5rem] font-extrabold tracking-[-0.02em] mb-10 md:mb-14">
@@ -26,7 +20,7 @@ const ServerLoadingScreen = () => {
 
         {/* Loading dot */}
         <div className="flex justify-center mb-6">
-          <div className="w-3 h-3 rounded-full bg-btn-secondary animate-pulse-loader shadow-[0_0_24px_rgba(255,228,146,0.6)]" />
+          <div className="w-3 h-3 rounded-full bg-btn-secondary animate-pulse-loader" />
         </div>
 
         {/* Eyebrow */}

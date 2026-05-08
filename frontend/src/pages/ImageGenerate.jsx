@@ -22,7 +22,7 @@ const fieldBase =
   "w-full px-4 py-3.5 rounded-xl border border-border-soft bg-bg-soft text-[0.95rem] font-[inherit] outline-none transition-all duration-200 hover:border-text-muted/40 placeholder:text-text-muted focus-visible:border-btn-primary focus-visible:bg-white focus-visible:shadow-[0_0_0_3px_rgba(79,156,249,0.15)]";
 
 const submitBtn =
-  "group w-full p-3.5 rounded-xl border-0 bg-gradient-to-b from-brand-primary to-[#032c5a] text-text-inverse font-semibold inline-flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_14px_rgba(4,56,115,0.3)] transition-all duration-200 enabled:hover:shadow-[0_8px_24px_rgba(4,56,115,0.4)] enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50 focus-visible:ring-offset-2";
+  "group w-full p-3.5 rounded-xl border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-text-inverse font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50 focus-visible:ring-offset-2";
 
 const labelEl =
   "flex items-center gap-1.5 text-[0.8rem] font-bold tracking-[0.06em] uppercase text-text-secondary";
@@ -196,7 +196,7 @@ const ImageGenerate = () => {
                 src={imageUrl}
                 alt="Generated"
                 onClick={() => setIsZoomed(true)}
-                className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-xl shadow-[0_24px_48px_-16px_rgba(4,56,115,0.25)] cursor-zoom-in"
+                className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-xl cursor-zoom-in"
               />
 
               <div className="absolute bottom-3 right-3 flex gap-2">

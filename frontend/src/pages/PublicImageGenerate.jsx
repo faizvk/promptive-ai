@@ -4,7 +4,7 @@ import { Image, Sparkles, Layers, Shield, ArrowRight } from "lucide-react";
 import { fadeIn } from "../animations/FadeIn";
 
 const primaryBtn =
-  "group bg-gradient-to-b from-btn-primary to-[#3b8de8] text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl no-underline text-sm sm:text-base font-semibold inline-flex items-center gap-2 shadow-[0_4px_14px_rgba(79,156,249,0.35)] hover:shadow-[0_8px_24px_rgba(79,156,249,0.45)] hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-btn-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-primary";
+  "group bg-btn-primary hover:bg-[#3b8de8] text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl no-underline text-sm sm:text-base font-semibold inline-flex items-center gap-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-btn-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-primary";
 
 const secondaryBtn =
   "border border-white/25 bg-white/5 backdrop-blur-sm text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl no-underline text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40";
@@ -19,13 +19,13 @@ const sectionLead =
   "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-2xl mx-auto";
 
 const stepCard =
-  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-black/[0.06] transition-all duration-300 text-left hover:border-btn-primary/30 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(4,56,115,0.18)]";
+  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-colors duration-200 text-left hover:border-btn-primary/40";
 
 const stepIcon =
   "w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white";
 
 const ExampleCard = ({ src, alt, prompt }) => (
-  <div className="group relative rounded-2xl overflow-hidden bg-white border border-border-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(4,56,115,0.2)]">
+  <div className="group relative rounded-2xl overflow-hidden bg-white border border-border-soft transition-colors duration-200 hover:border-btn-primary/40">
     <div className="aspect-[4/5] overflow-hidden bg-bg-soft">
       <img
         src={src}
@@ -47,10 +47,6 @@ const PublicImageGenerate = () => {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[640px] max-w-[120%] h-[480px] bg-btn-primary/20 rounded-full blur-[120px]"
         />
 
         <div className="relative max-w-[900px] mx-auto">
@@ -222,7 +218,7 @@ const PublicImageGenerate = () => {
             </p>
           </div>
 
-          <div className="relative rounded-2xl border border-border-soft bg-bg-surface p-5 md:p-6 shadow-[0_24px_48px_-20px_rgba(4,56,115,0.15)]">
+          <div className="relative rounded-2xl border border-border-soft bg-bg-surface p-5 md:p-6">
             <div className="flex flex-col gap-3 md:gap-4 [&>*]:opacity-50 [&>*]:pointer-events-none">
               <textarea
                 placeholder="A cyberpunk street at night, neon lights, rain..."
@@ -265,7 +261,7 @@ const PublicImageGenerate = () => {
           </div>
 
           <div className="grid gap-5 md:gap-6 md:grid-cols-3">
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/20 hover:shadow-[0_18px_36px_-14px_rgba(4,56,115,0.12)]">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Creators
               </h4>
@@ -273,7 +269,7 @@ const PublicImageGenerate = () => {
                 Generate visuals for social media &amp; content.
               </p>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/20 hover:shadow-[0_18px_36px_-14px_rgba(4,56,115,0.12)]">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Marketing teams
               </h4>
@@ -281,7 +277,7 @@ const PublicImageGenerate = () => {
                 Create ads, banners, and campaigns faster.
               </p>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/20 hover:shadow-[0_18px_36px_-14px_rgba(4,56,115,0.12)]">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Developers &amp; designers
               </h4>
@@ -298,10 +294,6 @@ const PublicImageGenerate = () => {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-[120%] h-[400px] bg-btn-primary/15 rounded-full blur-[100px]"
         />
 
         <div

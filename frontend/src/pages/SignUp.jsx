@@ -77,10 +77,6 @@ const SignUp = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px] bg-btn-primary/15 rounded-full blur-[100px]"
-        />
 
         <div
           className={headContent}
