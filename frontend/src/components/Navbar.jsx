@@ -68,7 +68,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-[100] w-full bg-brand-primary py-3 px-6 lg:px-12 flex items-center justify-between">
+    <nav className="sticky top-0 z-[100] w-full bg-brand-primary py-3 px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-2">
       <div>
         <Link
           to="/"
@@ -198,17 +198,17 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="flex items-center gap-4 mr-0 lg:mr-[70px]">
+      <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mr-0 lg:mr-[70px]">
         <Link
           to="/login"
-          className="text-sm text-black no-underline bg-btn-secondary px-6 py-2.5 rounded-lg hover:opacity-90 max-[480px]:hidden"
+          className="text-sm text-black no-underline bg-btn-secondary px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:opacity-90 max-[480px]:hidden"
           onClick={closeAll}
         >
           Login
         </Link>
         <Link
           to="/signup"
-          className="flex px-6 py-2.5 rounded-lg bg-btn-primary text-white text-sm justify-center gap-2 items-center no-underline hover:opacity-90"
+          className="flex px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg bg-btn-primary text-white text-xs sm:text-sm justify-center gap-1.5 sm:gap-2 items-center no-underline hover:opacity-90 whitespace-nowrap"
           onClick={closeAll}
         >
           Get Started
