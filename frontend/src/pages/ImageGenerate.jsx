@@ -69,8 +69,8 @@ const ImageGenerate = () => {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto p-8 min-h-full w-full lg:p-16">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[560px_1fr] lg:items-start">
+    <div className="max-w-[1400px] mx-auto p-4 md:p-8 min-h-full w-full lg:p-16">
+      <div className="grid grid-cols-1 gap-5 md:gap-8 lg:grid-cols-[560px_1fr] lg:items-start">
         {/* LEFT PANEL */}
         <aside
           className="flex flex-col gap-8"
@@ -81,10 +81,10 @@ const ImageGenerate = () => {
           })}
         >
           <form
-            className="bg-bg-surface p-8 rounded-3xl border border-border-soft flex flex-col gap-5"
+            className="bg-bg-surface p-5 md:p-8 rounded-2xl md:rounded-3xl border border-border-soft flex flex-col gap-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <header className="mb-8 border-b border-border-soft pb-5">
+            <header className="mb-4 md:mb-8 border-b border-border-soft pb-4 md:pb-5">
               <h1 className="text-xl font-extrabold m-0">Image Generation</h1>
               <p>High-quality AI images with fine-grained control.</p>
             </header>
@@ -165,7 +165,7 @@ const ImageGenerate = () => {
         </aside>
 
         {/* RIGHT PANEL */}
-        <section className="bg-bg-surface rounded-3xl border border-dashed border-border-soft p-5 flex items-center justify-center w-full min-h-[320px] relative">
+        <section className="bg-bg-surface rounded-2xl md:rounded-3xl border border-dashed border-border-soft p-4 md:p-5 flex items-center justify-center w-full min-h-[260px] md:min-h-[320px] relative">
           {!imageUrl && isSubmitting && (
             <div
               className="w-full max-w-[720px] rounded-[14px] bg-[length:400%_100%] bg-gradient-to-r from-bg-soft from-[25%] via-[#e5e7eb] via-[37%] to-bg-soft to-[63%] animate-shimmer"
