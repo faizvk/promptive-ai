@@ -15,13 +15,13 @@ const legalLink = "text-[0.85rem] text-[#cbd5e1] no-underline hover:text-white";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-brand-primary text-white px-8 pt-16 pb-8 z-[109]">
-      <div className="max-w-[1400px] mx-auto grid gap-12 md:grid-cols-[2fr_repeat(3,1fr)]">
-        <div className="flex flex-col justify-center items-center">
-          <h2 className="text-[1.75rem] font-black">
+    <footer className="w-full bg-brand-primary text-white px-5 pt-12 pb-8 md:px-8 md:pt-16 z-[109]">
+      <div className="max-w-[1400px] mx-auto grid gap-8 md:gap-12 md:grid-cols-[2fr_repeat(3,1fr)]">
+        <div className="flex flex-col justify-center items-center text-center md:text-left md:items-start">
+          <h2 className="text-2xl md:text-[1.75rem] font-black">
             Promptive<span>AI</span>
           </h2>
-          <p className="mt-3 text-[0.95rem] text-[#cbd5e1] max-w-[360px]">
+          <p className="mt-3 text-sm md:text-[0.95rem] text-[#cbd5e1] max-w-[360px]">
             Build faster with AI-powered tools for image generation and content
             creation.
           </p>
@@ -67,7 +67,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto mt-12 pt-6 border-t border-white/10 flex flex-col gap-4 items-center text-center md:flex-row md:justify-between">
+      <div className="max-w-[1400px] mx-auto mt-8 md:mt-12 pt-6 border-t border-white/10 flex flex-col gap-4 items-center text-center md:flex-row md:justify-between">
         <div className="flex gap-3 mt-5 md:mt-0">
           <a href="#" aria-label="Twitter" className={socialLink}>
             <Twitter size={18} />
