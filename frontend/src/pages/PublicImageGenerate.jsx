@@ -9,13 +9,13 @@ const primaryBtn =
 const secondaryBtn =
   "border border-white/40 text-white px-7 py-3.5 rounded-[10px] no-underline hover:opacity-90";
 
-const stepCard = "p-8 rounded-2xl bg-bg-surface shadow-card";
+const stepCard = "p-6 md:p-8 rounded-2xl bg-bg-surface shadow-card";
 
 const PublicImageGenerate = () => {
   return (
     <main className="w-full overflow-x-hidden">
       {/* ================= HERO ================= */}
-      <section className="bg-gradient-to-b from-brand-primary to-[#071a33] text-white px-8 py-24 text-center">
+      <section className="bg-gradient-to-b from-brand-primary to-[#071a33] text-white px-5 py-16 md:px-8 md:py-24 text-center">
         <div className="max-w-[900px] mx-auto">
           <span className="inline-block px-3 py-1.5 rounded-full bg-white/10 text-xs mb-4">
             AI Image Generation
@@ -27,17 +27,17 @@ const PublicImageGenerate = () => {
               duration: 0.9,
             })}
           >
-            <h1 className="text-[3rem] font-extrabold">
+            <h1 className="text-3xl sm:text-4xl md:text-[3rem] font-extrabold leading-tight">
               Turn text into <span>stunning images</span>
             </h1>
-            <p>
+            <p className="mt-3 text-sm md:text-base">
               Generate high-quality visuals from natural language prompts using
               state-of-the-art AI models.
             </p>
           </div>
 
           <div
-            className="mt-8 flex gap-4 justify-center"
+            className="mt-6 md:mt-8 flex gap-3 md:gap-4 justify-center flex-wrap"
             {...fadeIn({
               direction: "left",
               distance: 80,
@@ -56,17 +56,19 @@ const PublicImageGenerate = () => {
 
       {/* ================= HOW IT WORKS ================= */}
       <section
-        className="px-8 py-20 text-center"
+        className="px-5 py-12 md:px-8 md:py-20 text-center"
         {...fadeIn({
           direction: "up",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2>How image generation works</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+          How image generation works
+        </h2>
 
         <div
-          className="mt-12 grid gap-8 md:grid-cols-3"
+          className="mt-8 md:mt-12 grid gap-5 md:gap-8 md:grid-cols-3"
           {...fadeIn({
             direction: "right",
             distance: 80,
@@ -94,11 +96,13 @@ const PublicImageGenerate = () => {
       </section>
 
       {/* ================= EXAMPLES ================= */}
-      <section className="bg-bg-soft px-8 py-20">
-        <h2 className="text-center">Example outputs</h2>
+      <section className="bg-bg-soft px-5 py-12 md:px-8 md:py-20">
+        <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-6 md:mb-8">
+          Example outputs
+        </h2>
 
         <div
-          className="grid gap-8 md:grid-cols-3"
+          className="grid gap-5 md:gap-8 md:grid-cols-3"
           {...fadeIn({
             direction: "left",
             distance: 80,
@@ -137,17 +141,19 @@ const PublicImageGenerate = () => {
       {/* ================= DEMO ================= */}
       <section
         id="demo"
-        className="px-8 py-20 text-center"
+        className="px-5 py-12 md:px-8 md:py-20 text-center"
         {...fadeIn({
           direction: "right",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2>Try a demo</h2>
-        <p>Experience how prompts work. Sign up to generate real images.</p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Try a demo</h2>
+        <p className="text-sm md:text-base mt-2">
+          Experience how prompts work. Sign up to generate real images.
+        </p>
 
-        <div className="max-w-[600px] mx-auto my-8 relative">
+        <div className="max-w-[600px] mx-auto my-6 md:my-8 relative">
           <textarea
             placeholder="A cyberpunk street at night, neon lights, rain..."
             disabled
@@ -168,10 +174,12 @@ const PublicImageGenerate = () => {
       </section>
 
       {/* ================= USE CASES ================= */}
-      <section className="px-8 py-20 text-center">
-        <h2>Who is this for?</h2>
+      <section className="px-5 py-12 md:px-8 md:py-20 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+          Who is this for?
+        </h2>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-8 md:mt-12 grid gap-5 md:gap-8 md:grid-cols-3">
           <div>
             <h4>Creators</h4>
             <p>Generate visuals for social media & content.</p>
@@ -188,7 +196,7 @@ const PublicImageGenerate = () => {
       </section>
 
       {/* ================= CTA ================= */}
-      <section className="bg-brand-primary text-white px-8 py-20 text-center">
+      <section className="bg-brand-primary text-white px-5 py-12 md:px-8 md:py-20 text-center">
         <div
           {...fadeIn({
             direction: "up",
@@ -197,8 +205,12 @@ const PublicImageGenerate = () => {
           })}
         >
           {" "}
-          <h2>Start generating images with AI</h2>
-          <p>No credit card required. Upgrade anytime.</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+            Start generating images with AI
+          </h2>
+          <p className="text-sm md:text-base mt-2 mb-6">
+            No credit card required. Upgrade anytime.
+          </p>
         </div>
 
         <Link to="/signup" className={primaryBtn}>
