@@ -9,7 +9,13 @@ import {
 } from "lucide-react";
 
 const navLinkBase =
-  "flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-[#94a3b8] no-underline text-[0.95rem] font-medium transition-all duration-200 hover:bg-white/5 hover:text-white [&_svg]:opacity-70";
+  "relative flex items-center gap-3 px-4 py-3 rounded-xl text-white/65 no-underline text-[0.95rem] font-medium transition-all duration-200 hover:bg-white/[0.06] hover:text-white [&_svg]:opacity-70 [&_svg]:transition-opacity";
+
+const navLinkActive =
+  "!text-white !bg-white/[0.08] [&_svg]:!opacity-100 before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:rounded-full before:bg-btn-secondary";
+
+const navSectionLabel =
+  "text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40 px-4 mb-3";
 
 const Sidebar = ({ isOpen, onClose }) => {
   return (
@@ -22,34 +28,45 @@ const Sidebar = ({ isOpen, onClose }) => {
       />
 
       <aside
-        className={`fixed top-0 left-0 w-[280px] h-screen bg-brand-primary text-white p-6 flex flex-col z-[100] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] border-r border-white/10 ${
+        className={`fixed top-0 left-0 w-[280px] h-screen bg-gradient-to-b from-brand-primary via-[#062c5a] to-[#051a33] text-white p-6 flex flex-col z-[100] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] border-r border-white/[0.08] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between mb-12 px-2">
+        {/* Subtle grid texture */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:linear-gradient(to_bottom,black_30%,transparent_90%)]"
+        />
+
+        <div className="relative flex items-center justify-between mb-10 px-1">
           <div className="text-[1.25rem] font-extrabold tracking-[-0.02em]">
-            Promptive<span>AI</span>
+            Promptive
+            <span className="bg-gradient-to-r from-btn-secondary to-[#fff5cf] bg-clip-text text-transparent">
+              AI
+            </span>
           </div>
 
           <button
-            className="bg-white/5 border border-white/10 text-[#94a3b8] p-2 rounded-lg cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/10 hover:text-white hover:scale-105"
+            className="bg-white/5 border border-white/10 text-white/70 p-2 rounded-lg cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/10 hover:text-white hover:border-white/20"
             onClick={onClose}
             aria-label="Close sidebar"
           >
-            <PanelLeftClose size={20} />
+            <PanelLeftClose size={18} />
           </button>
         </div>
 
-        <nav className="flex flex-col gap-2">
+        <p className={`relative ${navSectionLabel}`}>Workspace</p>
+
+        <nav className="relative flex flex-col gap-1.5">
           <NavLink
             to="/dashboard"
             end
             onClick={onClose}
             className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? "!text-white [&_svg]:!opacity-100" : ""}`
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
             }
           >
-            <LayoutDashboard size={19} />
+            <LayoutDashboard size={18} />
             <span>Overview</span>
           </NavLink>
 
@@ -57,10 +74,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             to="/dashboard/image"
             onClick={onClose}
             className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? "!text-white [&_svg]:!opacity-100" : ""}`
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
             }
           >
-            <Image size={19} />
+            <Image size={18} />
             <span>Image Generation</span>
           </NavLink>
 
@@ -68,10 +85,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             to="/dashboard/rewrite"
             onClick={onClose}
             className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? "!text-white [&_svg]:!opacity-100" : ""}`
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
             }
           >
-            <FileText size={19} />
+            <FileText size={18} />
             <span>Content Rewrite</span>
           </NavLink>
 
@@ -79,10 +96,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             to="/dashboard/history"
             onClick={onClose}
             className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? "!text-white [&_svg]:!opacity-100" : ""}`
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
             }
           >
-            <Clock size={19} />
+            <Clock size={18} />
             <span>History</span>
           </NavLink>
         </nav>
