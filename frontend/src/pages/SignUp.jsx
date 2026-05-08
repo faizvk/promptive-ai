@@ -11,10 +11,12 @@ import {
   formHead,
   headContent,
   badge,
+  badgeDot,
   headH1,
   headP,
   formContainer,
   formHeaderMobile,
+  formHeaderMobileEyebrow,
   formHeaderMobileH2,
   formHeaderMobileP,
   formEl,
@@ -70,6 +72,16 @@ const SignUp = () => {
   return (
     <div className={formMain}>
       <div className={formHead}>
+        {/* Background decoration */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px] bg-btn-primary/15 rounded-full blur-[100px]"
+        />
+
         <div
           className={headContent}
           {...fadeIn({
@@ -78,7 +90,10 @@ const SignUp = () => {
             duration: 0.9,
           })}
         >
-          <span className={badge}>Platform Access</span>
+          <span className={badge}>
+            <span className={badgeDot} />
+            Platform Access
+          </span>
           <h1 className={headH1}>Start your journey with us.</h1>
           <p className={headP}>
             Experience the most advanced workspace management tool.
@@ -96,6 +111,7 @@ const SignUp = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
           <div className={formHeaderMobile}>
+            <span className={formHeaderMobileEyebrow}>Get Started</span>
             <h2 className={formHeaderMobileH2}>Create Account</h2>
             <p className={formHeaderMobileP}>
               Enter your details to get started
