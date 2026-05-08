@@ -5,11 +5,10 @@ import { fetchHistory, deleteHistoryItem } from "../api/history.api";
 const tabBtnBase =
   "px-5 py-2.5 rounded-lg border-0 bg-transparent text-sm font-semibold text-text-muted cursor-pointer flex items-center gap-2 transition-all duration-200 max-md:flex-1 max-md:justify-center max-md:whitespace-nowrap hover:text-text-secondary";
 
-const tabBtnActive =
-  "!bg-white !text-brand-primary shadow-[0_2px_6px_rgba(4,56,115,0.08)]";
+const tabBtnActive = "!bg-white !text-brand-primary";
 
 const historyCard =
-  "group relative bg-white border border-border-soft rounded-2xl overflow-hidden transition-all duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] flex flex-col cursor-pointer hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(4,56,115,0.18)] hover:border-brand-primary/20";
+  "group relative bg-white border border-border-soft rounded-2xl overflow-hidden transition-colors duration-200 flex flex-col cursor-pointer hover:border-brand-primary/30";
 
 const deleteBtn =
   "absolute top-3 right-3 w-8 h-8 rounded-lg border-0 bg-white/95 backdrop-blur-[4px] text-text-error flex items-center justify-center cursor-pointer transition-all duration-200 shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-md:opacity-100 md:opacity-0 md:-translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 hover:!bg-text-error hover:!text-white";
@@ -18,7 +17,7 @@ const downloadBtn =
   "absolute bottom-2.5 right-2.5 px-2.5 py-1.5 text-xs font-semibold bg-black/70 backdrop-blur-sm text-white border border-white/10 rounded-lg cursor-pointer transition-all duration-200 max-md:opacity-100 md:opacity-0 md:[.image-wrapper:hover_&]:opacity-100 md:[.image-wrapper:hover_&]:-translate-y-0.5 hover:bg-black/85";
 
 const copyBtn =
-  "group bg-gradient-to-b from-brand-primary to-[#032c5a] text-white border-0 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer flex items-center gap-2 shadow-[0_4px_14px_rgba(4,56,115,0.25)] transition-all duration-200 hover:shadow-[0_8px_20px_rgba(4,56,115,0.35)] hover:-translate-y-0.5 max-md:w-full max-md:justify-center";
+  "group bg-brand-primary hover:bg-[#032c5a] text-white border-0 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer flex items-center gap-2 transition-colors duration-200 max-md:w-full max-md:justify-center";
 
 const dangerOutline =
   "bg-white text-text-error border border-bg-error px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer transition-colors hover:bg-bg-error max-md:w-full";
@@ -213,7 +212,7 @@ const History = () => {
           onClick={() => setActiveItem(null)}
         >
           <div
-            className="bg-white w-full max-w-[640px] rounded-2xl md:rounded-3xl shadow-[0_32px_64px_-16px_rgba(4,56,115,0.35)] flex flex-col overflow-hidden animate-modal-slide-up max-md:max-h-[90vh] border border-border-soft"
+            className="bg-white w-full max-w-[640px] rounded-2xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-modal-slide-up max-md:max-h-[90vh] border border-border-soft"
             onClick={(e) => e.stopPropagation()}
           >
             <header className="px-6 py-5 md:px-7 border-b border-border-soft flex justify-between items-center">
