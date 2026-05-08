@@ -6,7 +6,33 @@ import { User, Mail, Lock, ArrowRight, Chrome } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../api/auth.api";
 import { fadeIn } from "../animations/FadeIn";
-import "./styles/Form.css";
+import {
+  formMain,
+  formHead,
+  headContent,
+  badge,
+  headH1,
+  headP,
+  formContainer,
+  formHeaderMobile,
+  formHeaderMobileH2,
+  formHeaderMobileP,
+  formEl,
+  inputGroup,
+  labelEl,
+  inputWrapper,
+  inputIcon,
+  inputBase,
+  inputErrorClass,
+  errorText,
+  errorBanner,
+  submitBtn,
+  footerText,
+  footerLink,
+  googleBtn,
+  divider,
+  dividerText,
+} from "./formClasses";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -42,112 +68,115 @@ const SignUp = () => {
   };
 
   return (
-    <div className="form-main">
-      <div className="form-head">
+    <div className={formMain}>
+      <div className={formHead}>
         <div
-          className="head-content"
+          className={headContent}
           {...fadeIn({
             direction: "left",
             distance: 80,
             duration: 0.9,
           })}
         >
-          <span className="badge">Platform Access</span>
-          <h1>Start your journey with us.</h1>
-          <p>Experience the most advanced workspace management tool.</p>
+          <span className={badge}>Platform Access</span>
+          <h1 className={headH1}>Start your journey with us.</h1>
+          <p className={headP}>
+            Experience the most advanced workspace management tool.
+          </p>
         </div>
       </div>
 
       <div
-        className="form-container"
+        className={formContainer}
         {...fadeIn({
           direction: "up",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="form-header-mobile">
-            <h2>Create Account</h2>
-            <p>Enter your details to get started</p>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
+          <div className={formHeaderMobile}>
+            <h2 className={formHeaderMobileH2}>Create Account</h2>
+            <p className={formHeaderMobileP}>
+              Enter your details to get started
+            </p>
           </div>
 
           {errors.root?.message && (
-            <div className="error-banner">{errors.root.message}</div>
+            <div className={errorBanner}>{errors.root.message}</div>
           )}
 
-          {/* GOOGLE SIGN UP */}
           <button
             type="button"
-            className="google-btn"
+            className={googleBtn}
             onClick={handleGoogleSignup}
           >
             <Chrome size={18} />
             Continue with Google
           </button>
 
-          <div className="divider">
-            <span>or</span>
+          <div className={divider}>
+            <span className={dividerText}>or</span>
           </div>
 
-          {/* Full Name */}
-          <div className="input-group">
-            <label>Full Name</label>
-            <div className="input-wrapper">
-              <User size={18} className="input-icon" />
+          <div className={inputGroup}>
+            <label className={labelEl}>Full Name</label>
+            <div className={inputWrapper}>
               <input
                 type="text"
                 placeholder="Name"
-                className={errors.fullName ? "input-error" : ""}
+                className={`${inputBase} ${errors.fullName ? inputErrorClass : ""}`}
                 {...register("fullName")}
               />
+              <User size={18} className={inputIcon} />
             </div>
             {errors.fullName?.message && (
-              <span className="error-text">{errors.fullName.message}</span>
+              <span className={errorText}>{errors.fullName.message}</span>
             )}
           </div>
 
-          {/* Email */}
-          <div className="input-group">
-            <label>Email Address</label>
-            <div className="input-wrapper">
-              <Mail size={18} className="input-icon" />
+          <div className={inputGroup}>
+            <label className={labelEl}>Email Address</label>
+            <div className={inputWrapper}>
               <input
                 type="email"
                 placeholder="email"
-                className={errors.email ? "input-error" : ""}
+                className={`${inputBase} ${errors.email ? inputErrorClass : ""}`}
                 {...register("email")}
               />
+              <Mail size={18} className={inputIcon} />
             </div>
             {errors.email?.message && (
-              <span className="error-text">{errors.email.message}</span>
+              <span className={errorText}>{errors.email.message}</span>
             )}
           </div>
 
-          {/* Password */}
-          <div className="input-group">
-            <label>Password</label>
-            <div className="input-wrapper">
-              <Lock size={18} className="input-icon" />
+          <div className={inputGroup}>
+            <label className={labelEl}>Password</label>
+            <div className={inputWrapper}>
               <input
                 type="password"
                 placeholder="••••••••"
-                className={errors.password ? "input-error" : ""}
+                className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
                 {...register("password")}
               />
+              <Lock size={18} className={inputIcon} />
             </div>
             {errors.password?.message && (
-              <span className="error-text">{errors.password.message}</span>
+              <span className={errorText}>{errors.password.message}</span>
             )}
           </div>
 
-          <button type="submit" className="submit-btn" disabled={isSubmitting}>
+          <button type="submit" className={submitBtn} disabled={isSubmitting}>
             {isSubmitting ? "Creating..." : "Get Started"}
             {!isSubmitting && <ArrowRight size={18} />}
           </button>
 
-          <p className="footer-text">
-            Already have an account? <Link to="/login">Log in</Link>
+          <p className={footerText}>
+            Already have an account?{" "}
+            <Link to="/login" className={footerLink}>
+              Log in
+            </Link>
           </p>
         </form>
       </div>
