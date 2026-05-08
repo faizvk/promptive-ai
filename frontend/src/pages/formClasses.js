@@ -1,5 +1,5 @@
 export const formMain =
-  "flex flex-col w-full max-w-[1100px] bg-bg-surface border border-black/5 rounded-2xl mx-4 my-6 overflow-hidden shadow-[0_24px_48px_-20px_rgba(4,56,115,0.18)] md:flex-row md:min-h-[640px] md:rounded-[28px] md:m-5";
+  "flex flex-col w-full max-w-[1100px] bg-bg-surface border border-border-soft rounded-2xl mx-4 my-6 overflow-hidden md:flex-row md:min-h-[640px] md:rounded-[28px] md:m-5";
 
 export const formHead =
   "hidden md:flex flex-[1.1] p-12 lg:p-16 flex-col justify-center relative overflow-hidden bg-gradient-to-br from-brand-primary via-[#062c5a] to-[#051a33] text-white";
@@ -58,7 +58,7 @@ export const errorBanner =
   "px-4 py-3 rounded-xl bg-bg-error border border-border-error text-text-error text-sm";
 
 export const submitBtn =
-  "group mt-2 bg-gradient-to-b from-brand-primary to-[#032c5a] text-text-inverse p-3.5 border-0 rounded-xl text-[0.95rem] font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(4,56,115,0.3)] transition-all duration-200 enabled:hover:shadow-[0_8px_24px_rgba(4,56,115,0.4)] enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50 focus-visible:ring-offset-2";
+  "group mt-2 bg-brand-primary enabled:hover:bg-[#032c5a] text-text-inverse p-3.5 border-0 rounded-xl text-[0.95rem] font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50 focus-visible:ring-offset-2";
 
 export const footerText = "text-center text-sm text-text-secondary mt-3";
 
