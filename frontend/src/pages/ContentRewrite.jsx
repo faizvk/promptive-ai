@@ -46,10 +46,10 @@ const ContentRewrite = () => {
   };
 
   return (
-    <div className="p-8 min-h-screen w-full">
-      <div className="max-w-[1400px] mx-auto grid gap-8 grid-cols-1 lg:grid-cols-2">
+    <div className="p-4 md:p-8 min-h-screen w-full">
+      <div className="max-w-[1400px] mx-auto grid gap-5 md:gap-8 grid-cols-1 lg:grid-cols-2">
         {/* LEFT: INPUT */}
-        <section className="bg-bg-surface rounded-3xl p-8 flex flex-col min-h-full">
+        <section className="bg-bg-surface rounded-2xl md:rounded-3xl p-5 md:p-8 flex flex-col min-h-full">
           <header className="mb-5">
             <h1 className="text-xl font-extrabold mb-1.5">Content Rewrite</h1>
             <p className="text-sm text-text-secondary leading-[1.5]">
@@ -108,7 +108,7 @@ const ContentRewrite = () => {
         </section>
 
         {/* RIGHT: OUTPUT */}
-        <section className="bg-bg-surface rounded-3xl p-8 flex flex-col min-h-full border border-border-soft justify-center">
+        <section className="bg-bg-surface rounded-2xl md:rounded-3xl p-5 md:p-8 flex flex-col min-h-full border border-border-soft justify-center">
           {!output && !isSubmitting && (
             <div className="text-center text-text-muted flex flex-col items-center gap-3">
               <FileText size={40} />
