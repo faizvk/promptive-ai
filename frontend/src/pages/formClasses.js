@@ -1,5 +1,5 @@
 export const formMain =
-  "flex flex-col w-full max-w-[1100px] min-h-[650px] bg-bg-surface border border-[rgb(225,223,223)] rounded-[24px] m-4 overflow-hidden md:flex-row md:rounded-[32px] md:m-5";
+  "flex flex-col w-full max-w-[1100px] bg-bg-surface border border-[rgb(225,223,223)] rounded-[24px] mx-4 my-6 overflow-hidden md:flex-row md:min-h-[650px] md:rounded-[32px] md:m-5";
 
 export const formHead =
   "hidden md:flex flex-[1.1] p-16 flex-col justify-center bg-brand-primary text-white";
@@ -16,7 +16,7 @@ export const headP =
   "text-lg leading-[1.6] text-white/85 max-w-[420px]";
 
 export const formContainer =
-  "flex-1 p-8 px-5 bg-bg-surface flex items-center md:p-16 md:border-l md:border-border-soft";
+  "flex-1 px-5 py-8 bg-bg-surface flex items-center md:p-16 md:border-l md:border-border-soft";
 
 export const formHeaderMobile = "block mb-8 md:hidden";
 
