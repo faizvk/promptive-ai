@@ -211,7 +211,7 @@ const Navbar = () => {
         </Link>
         <Link
           to="/signup"
-          className="group flex px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-btn-primary to-[#3b8de8] text-white text-xs sm:text-sm font-semibold justify-center gap-1.5 sm:gap-2 items-center no-underline shadow-[0_4px_14px_rgba(79,156,249,0.35)] hover:shadow-[0_6px_18px_rgba(79,156,249,0.45)] hover:-translate-y-0.5 transition-all whitespace-nowrap"
+          className="group flex px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl bg-btn-primary hover:bg-[#3b8de8] text-white text-xs sm:text-sm font-semibold justify-center gap-1.5 sm:gap-2 items-center no-underline transition-colors whitespace-nowrap"
           onClick={closeAll}
         >
           Get Started
