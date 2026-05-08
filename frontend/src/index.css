@@ -52,6 +52,7 @@
     sans-serif;
 
   --animate-pulse-loader: pulseLoader 1.5s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.4s ease infinite;
 }
 
 @keyframes pulseLoader {
@@ -63,6 +64,15 @@
   50% {
     transform: scale(1.1);
     opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
   }
 }
 
