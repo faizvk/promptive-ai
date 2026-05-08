@@ -50,6 +50,20 @@
 
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+
+  --animate-pulse-loader: pulseLoader 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseLoader {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 }
 
 @layer base {
