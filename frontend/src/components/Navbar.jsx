@@ -68,14 +68,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-[100] w-full bg-brand-primary py-3 px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-2">
+    <nav className="sticky top-0 z-[100] w-full bg-brand-primary/95 backdrop-blur-md border-b border-white/[0.08] py-3 px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-2">
       <div>
         <Link
           to="/"
           className="text-[1.35rem] font-extrabold text-white no-underline tracking-[-0.02em]"
           onClick={closeAll}
         >
-          Promptive<span>AI</span>
+          Promptive
+          <span className="bg-gradient-to-r from-btn-secondary to-[#fff5cf] bg-clip-text text-transparent">
+            AI
+          </span>
         </Link>
       </div>
 
@@ -201,18 +204,21 @@ const Navbar = () => {
       <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mr-0 lg:mr-[70px]">
         <Link
           to="/login"
-          className="text-sm text-black no-underline bg-btn-secondary px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:opacity-90 max-[480px]:hidden"
+          className="text-sm font-medium text-white/85 no-underline px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors max-[480px]:hidden"
           onClick={closeAll}
         >
           Login
         </Link>
         <Link
           to="/signup"
-          className="flex px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg bg-btn-primary text-white text-xs sm:text-sm justify-center gap-1.5 sm:gap-2 items-center no-underline hover:opacity-90 whitespace-nowrap"
+          className="group flex px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-btn-primary to-[#3b8de8] text-white text-xs sm:text-sm font-semibold justify-center gap-1.5 sm:gap-2 items-center no-underline shadow-[0_4px_14px_rgba(79,156,249,0.35)] hover:shadow-[0_6px_18px_rgba(79,156,249,0.45)] hover:-translate-y-0.5 transition-all whitespace-nowrap"
           onClick={closeAll}
         >
           Get Started
-          <ArrowRight size={15} />
+          <ArrowRight
+            size={15}
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
         </Link>
       </div>
     </nav>

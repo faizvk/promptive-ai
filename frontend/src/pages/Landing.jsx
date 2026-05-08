@@ -4,29 +4,52 @@ import { Image, FileText, Zap, Shield, ArrowRight } from "lucide-react";
 import { fadeIn } from "../animations/FadeIn";
 
 const primaryBtn =
-  "bg-btn-primary text-white px-7 py-3.5 rounded-[10px] no-underline font-semibold inline-flex items-center gap-2 hover:opacity-90";
+  "group bg-gradient-to-b from-btn-primary to-[#3b8de8] text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl no-underline text-sm sm:text-base font-semibold inline-flex items-center gap-2 shadow-[0_4px_14px_rgba(79,156,249,0.35)] hover:shadow-[0_8px_24px_rgba(79,156,249,0.45)] hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-btn-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-primary";
 
 const secondaryBtn =
-  "border border-white/40 text-white px-7 py-3.5 rounded-[10px] no-underline hover:opacity-90";
+  "border border-white/25 bg-white/5 backdrop-blur-sm text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl no-underline text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40";
+
+const eyebrow =
+  "inline-block text-[0.7rem] sm:text-xs font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-3";
+
+const sectionH2 =
+  "text-2xl sm:text-3xl md:text-[2.5rem] font-extrabold tracking-[-0.02em] text-text-primary leading-tight";
+
+const sectionLead =
+  "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-2xl mx-auto";
 
 const featureCard =
-  "p-6 sm:p-8 md:p-12 md:px-9 rounded-3xl bg-bg-surface border border-black/5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02),0_2px_4px_-1px_rgba(0,0,0,0.01)] transition-[transform,box-shadow] duration-[250ms] ease-in-out text-left hover:-translate-y-2 hover:shadow-[0_24px_48px_-14px_rgba(0,0,0,0.12)]";
+  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-black/[0.06] transition-all duration-300 text-left overflow-hidden hover:border-btn-primary/30 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(4,56,115,0.18)]";
+
+const featureIcon =
+  "w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white";
 
 const stepCard =
-  "bg-white p-6 sm:p-8 md:p-11 md:px-9 rounded-[20px] border border-border-soft text-center transition-[transform,box-shadow] duration-[250ms] hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.12)]";
+  "relative bg-white p-6 sm:p-8 rounded-2xl border border-border-soft text-left transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/20 hover:shadow-[0_24px_48px_-16px_rgba(4,56,115,0.15)]";
 
 const stepNumber =
-  "w-12 h-12 bg-brand-primary text-white rounded-full flex items-center justify-center font-bold mx-auto mb-5 md:mb-7 text-[0.95rem] shadow-[0_0_0_10px_rgba(4,56,115,0.12)]";
+  "inline-flex items-center justify-center w-11 h-11 bg-gradient-to-br from-brand-primary to-[#062c5a] text-white rounded-xl font-bold mb-5 text-sm shadow-[0_8px_16px_-6px_rgba(4,56,115,0.4)]";
 
 const useCaseItem =
-  "p-6 sm:p-8 md:p-10 md:px-9 rounded-[18px] border border-border-soft bg-bg-surface transition-[transform,box-shadow] duration-[250ms] text-left hover:-translate-y-1 hover:shadow-[0_18px_36px_-14px_rgba(0,0,0,0.1)]";
+  "p-6 sm:p-8 rounded-2xl border border-border-soft bg-bg-surface transition-all duration-300 text-left hover:-translate-y-1 hover:border-brand-primary/20 hover:shadow-[0_18px_36px_-14px_rgba(4,56,115,0.12)]";
 
 const Landing = () => {
   return (
     <main className="w-full overflow-x-hidden">
       {/* ================= HERO ================= */}
-      <section className="px-5 py-16 sm:py-20 md:px-6 md:py-28 bg-gradient-to-b from-brand-primary to-[#071a33] text-white text-center">
-        <div className="max-w-[900px] mx-auto">
+      <section className="relative px-5 py-20 sm:py-24 md:px-6 md:py-32 bg-gradient-to-b from-brand-primary via-[#062c5a] to-[#051a33] text-white text-center overflow-hidden">
+        {/* Grid overlay with radial mask */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+        />
+        {/* Soft glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[640px] max-w-[120%] h-[480px] bg-btn-primary/20 rounded-full blur-[120px]"
+        />
+
+        <div className="relative max-w-[900px] mx-auto">
           <div
             {...fadeIn({
               direction: "up",
@@ -34,21 +57,25 @@ const Landing = () => {
               duration: 0.9,
             })}
           >
-            <span className="inline-block px-3.5 py-1.5 bg-white/10 rounded-full text-xs font-semibold tracking-[0.08em] mb-6 uppercase">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 border border-white/15 rounded-full text-[0.7rem] sm:text-xs font-semibold tracking-[0.12em] mb-6 sm:mb-8 uppercase backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-btn-secondary" />
               AI-powered productivity
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-[3.25rem] font-extrabold mb-4 md:mb-5 leading-tight">
-              Create images and rewrite content <br className="hidden sm:block" />
-              <span>faster with AI</span>
+            <h1 className="text-3xl sm:text-5xl md:text-[3.5rem] font-extrabold tracking-[-0.025em] mb-5 md:mb-6 leading-[1.1]">
+              Create images and rewrite content
+              <br className="hidden sm:block" />{" "}
+              <span className="bg-gradient-to-r from-btn-secondary to-[#fff5cf] bg-clip-text text-transparent">
+                faster with AI
+              </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-[1.15rem] text-[#cbd5e1] mb-8 md:mb-10">
+            <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
               Promptive AI helps creators, teams, and developers generate
               visuals and refine content using powerful AI models.
             </p>
           </div>
 
           <div
-            className="flex justify-center gap-4 flex-wrap"
+            className="flex gap-3 md:gap-4 justify-center flex-wrap"
             {...fadeIn({
               direction: "left",
               distance: 80,
@@ -56,170 +83,184 @@ const Landing = () => {
             })}
           >
             <Link to="/signup" className={primaryBtn}>
-              Get Started <ArrowRight size={16} />
+              Get Started
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+              />
             </Link>
             <Link to="/image-generate" className={secondaryBtn}>
               Try Image Generator
             </Link>
           </div>
         </div>
+
+        {/* Bottom fade into next section */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-bg-soft/40"
+        />
       </section>
 
       {/* ================= SOCIAL PROOF ================= */}
-      <section className="bg-bg-soft px-5 py-12 md:px-6 md:py-[4.5rem] border-t border-b border-black/5">
-        <p className="text-xs font-bold text-brand-primary uppercase tracking-[0.15em] mb-8 md:mb-12 text-center opacity-85">
+      <section className="bg-bg-soft px-5 py-12 md:px-6 md:py-20 border-y border-black/5">
+        <p className="text-[0.7rem] sm:text-xs font-bold text-brand-primary uppercase tracking-[0.18em] mb-8 md:mb-14 text-center">
           Trusted by professionals building with AI
         </p>
 
         <div
-          className="max-w-[1000px] mx-auto grid gap-8 md:gap-12 text-center grid-cols-2 md:grid-cols-4"
+          className="max-w-[1000px] mx-auto grid gap-y-10 gap-x-6 md:gap-12 text-center grid-cols-2 md:grid-cols-4"
           {...fadeIn({
             direction: "up",
             distance: 80,
             duration: 0.9,
           })}
         >
-          <div>
-            <strong className="text-3xl md:text-[2.5rem] font-extrabold text-text-primary block mb-2">
-              10k+
-            </strong>
-            <span className="text-[0.9rem] font-medium text-text-muted">
-              AI generations
-            </span>
-          </div>
-          <div>
-            <strong className="text-3xl md:text-[2.5rem] font-extrabold text-text-primary block mb-2">
-              1k+
-            </strong>
-            <span className="text-[0.9rem] font-medium text-text-muted">
-              Active users
-            </span>
-          </div>
-          <div>
-            <strong className="text-3xl md:text-[2.5rem] font-extrabold text-text-primary block mb-2">
-              99.9%
-            </strong>
-            <span className="text-[0.9rem] font-medium text-text-muted">
-              Uptime
-            </span>
-          </div>
-          <div>
-            <strong className="text-3xl md:text-[2.5rem] font-extrabold text-text-primary block mb-2">
-              Fast
-            </strong>
-            <span className="text-[0.9rem] font-medium text-text-muted">
-              Inference
-            </span>
-          </div>
+          {[
+            { value: "10k+", label: "AI generations" },
+            { value: "1k+", label: "Active users" },
+            { value: "99.9%", label: "Uptime" },
+            { value: "Fast", label: "Inference" },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <strong className="text-3xl md:text-[2.5rem] font-extrabold text-brand-primary block mb-1.5 tracking-tight">
+                {stat.value}
+              </strong>
+              <span className="text-[0.85rem] font-medium text-text-muted">
+                {stat.label}
+              </span>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ================= FEATURES ================= */}
       <section
-        className="bg-white px-5 py-12 md:p-5"
+        className="bg-white px-5 py-16 md:px-6 md:py-24"
         {...fadeIn({
           direction: "left",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <h2 className="text-center text-2xl sm:text-3xl md:text-[2.5rem] font-extrabold tracking-[-0.02em] mb-6 md:mb-8 text-text-primary">
-          Everything you need to create with AI
-        </h2>
-
-        <div className="grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-3">
-          <div className={featureCard}>
-            <Image size={28} />
-            <h3 className="text-[1.3rem] font-bold mb-3 mt-3">
-              AI Image Generation
-            </h3>
-            <p className="text-base leading-[1.6] text-text-secondary">
-              Generate high-quality images from text prompts using modern
-              diffusion models.
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-10 md:mb-16">
+            <span className={eyebrow}>Capabilities</span>
+            <h2 className={sectionH2}>
+              Everything you need to create with AI
+            </h2>
+            <p className={sectionLead}>
+              A modern toolkit for visual generation and content refinement,
+              built for speed and reliability.
             </p>
           </div>
 
-          <div className={featureCard}>
-            <FileText size={28} />
-            <h3 className="text-[1.3rem] font-bold mb-3 mt-3">
-              Content Rewrite
-            </h3>
-            <p className="text-base leading-[1.6] text-text-secondary">
-              Rewrite content in different tones while preserving clarity and
-              intent.
-            </p>
-          </div>
+          <div className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            <div className={featureCard}>
+              <div className={featureIcon}>
+                <Image size={22} />
+              </div>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-text-primary">
+                AI Image Generation
+              </h3>
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
+                Generate high-quality images from text prompts using modern
+                diffusion models.
+              </p>
+            </div>
 
-          <div className={featureCard}>
-            <Zap size={28} />
-            <h3 className="text-[1.3rem] font-bold mb-3 mt-3">
-              Fast & Reliable
-            </h3>
-            <p className="text-base leading-[1.6] text-text-secondary">
-              Optimized inference pipelines ensure fast responses at scale.
-            </p>
-          </div>
+            <div className={featureCard}>
+              <div className={featureIcon}>
+                <FileText size={22} />
+              </div>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-text-primary">
+                Content Rewrite
+              </h3>
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
+                Rewrite content in different tones while preserving clarity and
+                intent.
+              </p>
+            </div>
 
-          <div className={featureCard}>
-            <Shield size={28} />
-            <h3 className="text-[1.3rem] font-bold mb-3 mt-3">
-              Secure & Private
-            </h3>
-            <p className="text-base leading-[1.6] text-text-secondary">
-              Your data stays isolated, authenticated, and fully owned by you.
-            </p>
+            <div className={featureCard}>
+              <div className={featureIcon}>
+                <Zap size={22} />
+              </div>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-text-primary">
+                Fast & Reliable
+              </h3>
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
+                Optimized inference pipelines ensure fast responses at scale.
+              </p>
+            </div>
+
+            <div className={featureCard}>
+              <div className={featureIcon}>
+                <Shield size={22} />
+              </div>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-text-primary">
+                Secure & Private
+              </h3>
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
+                Your data stays isolated, authenticated, and fully owned by you.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ================= HOW IT WORKS ================= */}
       <section
-        className="bg-[#f8fafc] px-5 py-16 md:px-6 md:py-24"
+        className="bg-[#f8fafc] px-5 py-16 md:px-6 md:py-24 border-y border-black/5"
         {...fadeIn({
           direction: "right",
           distance: 80,
           duration: 0.9,
         })}
       >
-        <div className="max-w-[1100px] mx-auto text-center">
-          <h2
-            className="text-2xl sm:text-3xl md:text-[3rem] text-text-secondary mb-10 md:mb-[70px]"
+        <div className="max-w-[1100px] mx-auto">
+          <div
+            className="text-center mb-10 md:mb-16"
             {...fadeIn({
               direction: "up",
               distance: 80,
               duration: 0.9,
             })}
           >
-            Designed for simple, powerful workflows
-          </h2>
+            <span className={eyebrow}>How it works</span>
+            <h2 className={sectionH2}>Simple, powerful workflows</h2>
+            <p className={sectionLead}>
+              Three steps from intent to output. No setup, no complexity.
+            </p>
+          </div>
 
-          <div className="grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-3">
+          <div className="grid gap-5 md:gap-6 grid-cols-1 md:grid-cols-3">
             <div className={stepCard}>
               <span className={stepNumber}>01</span>
-              <h4 className="text-[1.2rem] font-bold mb-3 text-text-primary">
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Create an account
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Sign up in seconds and access your AI workspace instantly.
               </p>
             </div>
 
             <div className={stepCard}>
               <span className={stepNumber}>02</span>
-              <h4 className="text-[1.2rem] font-bold mb-3 text-text-primary">
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Describe your intent
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Provide a prompt or text and choose the desired output.
               </p>
             </div>
 
             <div className={stepCard}>
               <span className={stepNumber}>03</span>
-              <h4 className="text-[1.2rem] font-bold mb-3 text-text-primary">
-                Generate & manage
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
+                Generate &amp; manage
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Generate results, download assets, and manage history.
               </p>
             </div>
@@ -236,40 +277,45 @@ const Landing = () => {
           duration: 0.9,
         })}
       >
-        <div className="max-w-[1100px] mx-auto text-center">
-          <h2
-            className="text-2xl sm:text-3xl md:text-[3rem] text-text-secondary mb-10 md:mb-[70px]"
+        <div className="max-w-[1100px] mx-auto">
+          <div
+            className="text-center mb-10 md:mb-16"
             {...fadeIn({
               direction: "up",
               distance: 80,
               duration: 0.9,
             })}
           >
-            Built for professionals and teams
-          </h2>
+            <span className={eyebrow}>Who it's for</span>
+            <h2 className={sectionH2}>Built for professionals and teams</h2>
+            <p className={sectionLead}>
+              From solo creators to scaling teams, Promptive adapts to the way
+              you work.
+            </p>
+          </div>
 
-          <div className="grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-3">
+          <div className="grid gap-5 md:gap-6 grid-cols-1 md:grid-cols-3">
             <div className={useCaseItem}>
-              <h4 className="text-[1.15rem] font-bold mb-3 text-text-primary">
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Content Creators
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Generate visuals, rewrite captions, and publish faster.
               </p>
             </div>
             <div className={useCaseItem}>
-              <h4 className="text-[1.15rem] font-bold mb-3 text-text-primary">
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Marketing Teams
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Create campaign assets and iterate without bottlenecks.
               </p>
             </div>
             <div className={useCaseItem}>
-              <h4 className="text-[1.15rem] font-bold mb-3 text-text-primary">
+              <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Developers
               </h4>
-              <p className="text-[0.95rem] leading-[1.6] text-text-secondary">
+              <p className="text-[0.95rem] leading-relaxed text-text-secondary">
                 Prototype ideas, generate assets, and test workflows quickly.
               </p>
             </div>
@@ -278,34 +324,39 @@ const Landing = () => {
       </section>
 
       {/* ================= CTA ================= */}
-      <section className="bg-brand-primary px-5 py-16 md:px-6 md:py-28 text-center text-white">
+      <section className="relative bg-gradient-to-br from-brand-primary via-[#062c5a] to-[#051a33] px-5 py-20 md:px-6 md:py-28 text-center text-white overflow-hidden">
         <div
-          {...fadeIn({
-            direction: "left",
-            distance: 80,
-            duration: 0.9,
-          })}
-        >
-          {" "}
-          <h2 className="text-2xl sm:text-3xl md:text-[2.75rem] font-extrabold mb-3 md:mb-4">
-            Build faster with AI-powered tools
-          </h2>
-          <p className="text-base md:text-[1.2rem] text-white/85 mb-8 md:mb-11">
-            Start for free. No credit card required.
-          </p>
-        </div>
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-[120%] h-[400px] bg-btn-primary/15 rounded-full blur-[100px]"
+        />
 
-        <Link
-          to="/signup"
-          className={primaryBtn}
+        <div
+          className="relative max-w-[800px] mx-auto"
           {...fadeIn({
             direction: "up",
             distance: 80,
             duration: 0.9,
           })}
         >
-          Get Started <ArrowRight size={16} />
-        </Link>
+          <h2 className="text-3xl sm:text-4xl md:text-[2.75rem] font-extrabold mb-3 md:mb-4 tracking-[-0.02em] leading-tight">
+            Build faster with AI-powered tools
+          </h2>
+          <p className="text-base md:text-lg text-white/70 mb-8 md:mb-10">
+            Start for free. No credit card required.
+          </p>
+
+          <Link to="/signup" className={primaryBtn}>
+            Get Started
+            <ArrowRight
+              size={16}
+              className="transition-transform duration-200 group-hover:translate-x-0.5"
+            />
+          </Link>
+        </div>
       </section>
     </main>
   );

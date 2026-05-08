@@ -9,10 +9,12 @@ import {
   formHead,
   headContent,
   badge,
+  badgeDot,
   headH1,
   headP,
   formContainer,
   formHeaderMobile,
+  formHeaderMobileEyebrow,
   formHeaderMobileH2,
   formHeaderMobileP,
   formEl,
@@ -69,6 +71,16 @@ const Login = () => {
   return (
     <div className={formMain}>
       <div className={formHead}>
+        {/* Background decoration */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px] bg-btn-primary/15 rounded-full blur-[100px]"
+        />
+
         <div
           className={headContent}
           {...fadeIn({
@@ -77,7 +89,10 @@ const Login = () => {
             duration: 0.9,
           })}
         >
-          <span className={badge}>Welcome Back</span>
+          <span className={badge}>
+            <span className={badgeDot} />
+            Welcome Back
+          </span>
           <h1 className={headH1}>Nice to see you again.</h1>
           <p className={headP}>
             Log in to access your dashboard, manage your AI tools, and continue
@@ -96,6 +111,7 @@ const Login = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
           <div className={formHeaderMobile}>
+            <span className={formHeaderMobileEyebrow}>Welcome Back</span>
             <h2 className={formHeaderMobileH2}>Sign In</h2>
             <p className={formHeaderMobileP}>
               Enter your credentials to access your account

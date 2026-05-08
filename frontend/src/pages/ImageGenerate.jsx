@@ -4,6 +4,7 @@ import {
   Sparkles,
   Download,
   Maximize2,
+  X,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +19,16 @@ const ASPECT_RATIOS = {
 };
 
 const fieldBase =
-  "w-full px-4 py-3.5 rounded-[14px] border border-border-soft bg-bg-soft text-[0.95rem] font-[inherit] outline-none transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-text-muted focus-visible:border-btn-primary focus-visible:bg-bg-surface focus-visible:shadow-[0_0_0_2px_rgba(79,156,249,0.2)]";
+  "w-full px-4 py-3.5 rounded-xl border border-border-soft bg-bg-soft text-[0.95rem] font-[inherit] outline-none transition-all duration-200 hover:border-text-muted/40 placeholder:text-text-muted focus-visible:border-btn-primary focus-visible:bg-white focus-visible:shadow-[0_0_0_3px_rgba(79,156,249,0.15)]";
+
+const submitBtn =
+  "group w-full p-3.5 rounded-xl border-0 bg-gradient-to-b from-brand-primary to-[#032c5a] text-text-inverse font-semibold inline-flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_14px_rgba(4,56,115,0.3)] transition-all duration-200 enabled:hover:shadow-[0_8px_24px_rgba(4,56,115,0.4)] enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50 focus-visible:ring-offset-2";
+
+const labelEl =
+  "flex items-center gap-1.5 text-[0.8rem] font-bold tracking-[0.06em] uppercase text-text-secondary";
+
+const aspectOption =
+  "inline-flex items-center gap-1.5 text-sm cursor-pointer px-3 py-1.5 rounded-lg border border-border-soft bg-bg-soft transition-colors hover:bg-white has-[input:checked]:!bg-brand-primary has-[input:checked]:!text-white has-[input:checked]:!border-brand-primary";
 
 const ImageGenerate = () => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -69,8 +79,8 @@ const ImageGenerate = () => {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 md:p-8 min-h-full w-full lg:p-16">
-      <div className="grid grid-cols-1 gap-5 md:gap-8 lg:grid-cols-[560px_1fr] lg:items-start">
+    <div className="max-w-[1400px] mx-auto p-4 md:p-8 min-h-full w-full lg:p-12">
+      <div className="grid grid-cols-1 gap-5 md:gap-8 lg:grid-cols-[520px_1fr] lg:items-start">
         {/* LEFT PANEL */}
         <aside
           className="flex flex-col gap-8"
@@ -81,27 +91,32 @@ const ImageGenerate = () => {
           })}
         >
           <form
-            className="bg-bg-surface p-5 md:p-8 rounded-2xl md:rounded-3xl border border-border-soft flex flex-col gap-5"
+            className="bg-bg-surface p-5 md:p-7 rounded-2xl md:rounded-3xl border border-border-soft flex flex-col gap-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <header className="mb-4 md:mb-8 border-b border-border-soft pb-4 md:pb-5">
-              <h1 className="text-xl font-extrabold m-0">Image Generation</h1>
-              <p>High-quality AI images with fine-grained control.</p>
+            <header className="mb-1">
+              <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-1.5">
+                Workspace
+              </span>
+              <h1 className="text-xl md:text-2xl font-extrabold tracking-[-0.01em] mb-1.5 text-text-primary">
+                Image Generation
+              </h1>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                High-quality AI images with fine-grained control.
+              </p>
             </header>
 
             {/* PROMPT */}
             <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-text-secondary">
-                <ImageIcon size={14} /> Prompt
+              <label className={labelEl}>
+                <ImageIcon size={13} /> Prompt
               </label>
-              <div>
-                <textarea
-                  rows={5}
-                  placeholder="Describe the image in detail…"
-                  className={`${fieldBase} resize-y min-h-[120px]`}
-                  {...register("prompt")}
-                />
-              </div>
+              <textarea
+                rows={5}
+                placeholder="Describe the image in detail…"
+                className={`${fieldBase} resize-y min-h-[120px]`}
+                {...register("prompt")}
+              />
               {errors.prompt && (
                 <span className="text-xs font-medium text-text-error">
                   {errors.prompt.message}
@@ -111,9 +126,7 @@ const ImageGenerate = () => {
 
             {/* RESOLUTION */}
             <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-text-secondary">
-                Resolution
-              </label>
+              <label className={labelEl}>Resolution</label>
               <select className={fieldBase} {...register("resolution")}>
                 <option value="512x512">512 × 512</option>
                 <option value="768x768">768 × 768</option>
@@ -123,18 +136,14 @@ const ImageGenerate = () => {
 
             {/* ASPECT RATIO */}
             <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-text-secondary">
-                Aspect Ratio
-              </label>
-              <div className="flex gap-3 flex-wrap">
+              <label className={labelEl}>Aspect Ratio</label>
+              <div className="flex gap-2 flex-wrap">
                 {Object.keys(ASPECT_RATIOS).map((ratio) => (
-                  <label
-                    key={ratio}
-                    className="inline-flex items-center gap-1.5 text-sm cursor-pointer"
-                  >
+                  <label key={ratio} className={aspectOption}>
                     <input
                       type="radio"
                       value={ratio}
+                      className="sr-only"
                       {...register("aspectRatio")}
                     />
                     {ratio}
@@ -143,21 +152,18 @@ const ImageGenerate = () => {
               </div>
             </div>
 
-            <button
-              className="w-full p-4 rounded-[14px] border-0 bg-brand-primary text-text-inverse font-semibold inline-flex items-center justify-center gap-3 cursor-pointer transition-[transform,box-shadow] duration-150 enabled:hover:-translate-y-px enabled:hover:shadow-button disabled:opacity-60 disabled:cursor-not-allowed"
-              disabled={isSubmitting}
-              {...fadeIn({
-                direction: "up",
-                distance: 80,
-                duration: 0.9,
-              })}
-            >
+            <button className={submitBtn} disabled={isSubmitting}>
               {isSubmitting ? "Generating…" : "Generate Image"}
-              {!isSubmitting && <Sparkles size={18} />}
+              {!isSubmitting && (
+                <Sparkles
+                  size={17}
+                  className="transition-transform duration-200 group-hover:scale-110"
+                />
+              )}
             </button>
 
             {errors.root?.message && (
-              <div className="bg-bg-error text-text-error p-5 rounded-[14px] border border-border-error flex items-center gap-3 text-sm">
+              <div className="bg-bg-error text-text-error p-4 rounded-xl border border-border-error text-sm">
                 {errors.root.message}
               </div>
             )}
@@ -165,10 +171,10 @@ const ImageGenerate = () => {
         </aside>
 
         {/* RIGHT PANEL */}
-        <section className="bg-bg-surface rounded-2xl md:rounded-3xl border border-dashed border-border-soft p-4 md:p-5 flex items-center justify-center w-full min-h-[260px] md:min-h-[320px] relative">
+        <section className="bg-bg-surface rounded-2xl md:rounded-3xl border border-dashed border-border-soft p-4 md:p-6 flex items-center justify-center w-full min-h-[280px] md:min-h-[420px] relative">
           {!imageUrl && isSubmitting && (
             <div
-              className="w-full max-w-[720px] rounded-[14px] bg-[length:400%_100%] bg-gradient-to-r from-bg-soft from-[25%] via-[#e5e7eb] via-[37%] to-bg-soft to-[63%] animate-shimmer"
+              className="w-full max-w-[720px] rounded-xl bg-[length:400%_100%] bg-gradient-to-r from-bg-soft from-[25%] via-[#e5e7eb] via-[37%] to-bg-soft to-[63%] animate-shimmer"
               style={{
                 aspectRatio: ASPECT_RATIOS[aspectRatio],
               }}
@@ -177,32 +183,36 @@ const ImageGenerate = () => {
 
           {!imageUrl && !isSubmitting && (
             <div className="w-full max-w-[720px] aspect-[16/9] flex flex-col items-center justify-center gap-3 text-text-muted text-center">
-              <ImageIcon size={42} />
-              <p>Your image will appear here</p>
+              <div className="w-14 h-14 rounded-2xl bg-bg-soft text-text-muted flex items-center justify-center">
+                <ImageIcon size={26} />
+              </div>
+              <p className="text-sm">Your image will appear here</p>
             </div>
           )}
 
           {imageUrl && (
-            <div className="relative inline-flex max-w-full transition-all duration-300">
+            <div className="relative inline-flex max-w-full">
               <img
                 src={imageUrl}
                 alt="Generated"
                 onClick={() => setIsZoomed(true)}
-                className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-[14px] shadow-card cursor-zoom-in"
+                className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-xl shadow-[0_24px_48px_-16px_rgba(4,56,115,0.25)] cursor-zoom-in"
               />
 
               <div className="absolute bottom-3 right-3 flex gap-2">
                 <button
                   onClick={handleDownload}
-                  className="bg-black/65 text-white border-0 p-1.5 rounded-full cursor-pointer"
+                  className="bg-black/65 backdrop-blur-sm text-white border border-white/10 p-2 rounded-lg cursor-pointer transition-colors hover:bg-black/80"
+                  aria-label="Download"
                 >
-                  <Download size={16} />
+                  <Download size={15} />
                 </button>
                 <button
                   onClick={() => setIsZoomed(true)}
-                  className="bg-black/65 text-white border-0 p-1.5 rounded-full cursor-pointer"
+                  className="bg-black/65 backdrop-blur-sm text-white border border-white/10 p-2 rounded-lg cursor-pointer transition-colors hover:bg-black/80"
+                  aria-label="Maximize"
                 >
-                  <Maximize2 size={16} />
+                  <Maximize2 size={15} />
                 </button>
               </div>
             </div>
@@ -213,13 +223,20 @@ const ImageGenerate = () => {
       {/* FULLSCREEN PREVIEW */}
       {isZoomed && (
         <div
-          className="fixed inset-0 bg-black/85 flex items-center justify-center z-[1000]"
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4"
           onClick={() => setIsZoomed(false)}
         >
+          <button
+            className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg cursor-pointer transition-colors"
+            onClick={() => setIsZoomed(false)}
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
           <img
             src={imageUrl}
             alt="Fullscreen preview"
-            className="max-w-[92vw] max-h-[92vh] rounded-[14px]"
+            className="max-w-[92vw] max-h-[92vh] rounded-xl"
           />
         </div>
       )}
