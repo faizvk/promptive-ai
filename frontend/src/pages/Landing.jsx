@@ -89,12 +89,6 @@ const Landing = () => {
             </Link>
           </div>
         </div>
-
-        {/* Bottom fade into next section */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-bg-soft/40"
-        />
       </section>
 
       {/* ================= POWERED BY ================= */}
