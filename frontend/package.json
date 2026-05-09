@@ -1,8 +1,12 @@
 {
-  "name": "frontend",
+  "name": "promptive-ai-frontend",
   "private": true,
   "version": "0.0.0",
+  "description": "React + Vite + Tailwind frontend for Promptive AI.",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
