@@ -186,7 +186,7 @@ const PublicImageGenerate = () => {
               prompt="A futuristic city at sunset"
             />
             <ExampleCard
-              src="./potrait.png"
+              src="./portrait.png"
               alt="Photorealistic portrait, studio lighting"
               prompt="Photorealistic portrait, studio lighting"
             />
