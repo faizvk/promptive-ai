@@ -1,13 +1,15 @@
 {
-  "name": "backend",
+  "name": "promptive-ai-backend",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
+  "description": "Express + MongoDB API for Promptive AI: image generation, content rewriting, history.",
+  "license": "MIT",
+  "author": "Faiz VK",
   "type": "module",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
