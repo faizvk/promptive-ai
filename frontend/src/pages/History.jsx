@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image, FileText, Trash2, X, Copy, Check } from "lucide-react";
 import { fetchHistory, deleteHistoryItem } from "../api/history.api";
 
@@ -48,7 +48,7 @@ const History = () => {
   const [activeItem, setActiveItem] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  const loadHistory = async () => {
+  const loadHistory = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetchHistory({ type });
@@ -58,12 +58,12 @@ const History = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [type]);
 
   useEffect(() => {
     loadHistory();
     setActiveItem(null);
-  }, [type]);
+  }, [loadHistory]);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this?")) return;

@@ -43,11 +43,23 @@ const Overview = () => {
   }
 
   const statsItems = [
-    { icon: Image, label: "Images generated", value: stats.imagesGenerated },
-    { icon: FileText, label: "Rewrites done", value: stats.rewritesDone },
-    { icon: Clock, label: "Total actions", value: stats.totalActions },
     {
-      icon: Activity,
+      icon: <Image size={20} />,
+      label: "Images generated",
+      value: stats.imagesGenerated,
+    },
+    {
+      icon: <FileText size={20} />,
+      label: "Rewrites done",
+      value: stats.rewritesDone,
+    },
+    {
+      icon: <Clock size={20} />,
+      label: "Total actions",
+      value: stats.totalActions,
+    },
+    {
+      icon: <Activity size={20} />,
       label: "Last activity",
       value: stats.lastActivity || "—",
     },
@@ -56,19 +68,19 @@ const Overview = () => {
   const actions = [
     {
       to: "/dashboard/image",
-      icon: Image,
+      icon: <Image size={20} />,
       title: "Generate Image",
       description: "Turn prompts into visuals",
     },
     {
       to: "/dashboard/rewrite",
-      icon: FileText,
+      icon: <FileText size={20} />,
       title: "Rewrite Content",
       description: "Refine tone and clarity",
     },
     {
       to: "/dashboard/history",
-      icon: Clock,
+      icon: <Clock size={20} />,
       title: "View History",
       description: "Browse past generations",
     },
@@ -89,17 +101,15 @@ const Overview = () => {
       </header>
 
       <section className="grid gap-4 md:gap-5 grid-cols-1 [@media(min-width:481px)]:grid-cols-2 lg:grid-cols-4 mb-8 md:mb-12">
-        {statsItems.map(({ icon: Icon, label, value }) => (
-          <div key={label} className={statCard}>
-            <div className={statIcon}>
-              <Icon size={20} />
-            </div>
+        {statsItems.map((stat) => (
+          <div key={stat.label} className={statCard}>
+            <div className={statIcon}>{stat.icon}</div>
             <div className="min-w-0">
               <strong className="text-2xl md:text-[1.5rem] font-extrabold block leading-none mb-1.5 tracking-tight text-text-primary truncate">
-                {value}
+                {stat.value}
               </strong>
               <span className="text-[0.8rem] font-medium text-text-muted">
-                {label}
+                {stat.label}
               </span>
             </div>
           </div>
@@ -114,17 +124,15 @@ const Overview = () => {
         </div>
 
         <div className="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-3">
-          {actions.map(({ to, icon: Icon, title, description }) => (
-            <Link key={to} to={to} className={actionCard}>
-              <div className={actionIcon}>
-                <Icon size={20} />
-              </div>
+          {actions.map((action) => (
+            <Link key={action.to} to={action.to} className={actionCard}>
+              <div className={actionIcon}>{action.icon}</div>
               <div className="flex-1 min-w-0">
                 <div className="font-bold text-text-primary leading-tight">
-                  {title}
+                  {action.title}
                 </div>
                 <p className="text-[0.85rem] text-text-muted mt-0.5">
-                  {description}
+                  {action.description}
                 </p>
               </div>
               <ArrowRight
