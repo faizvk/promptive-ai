@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, FileText, Clock, Zap, ArrowRight } from "lucide-react";
+import { Image, FileText, Clock, Activity, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchDashboardOverview } from "../../api/dashboard.api";
 
@@ -46,7 +46,11 @@ const Overview = () => {
     { icon: Image, label: "Images generated", value: stats.imagesGenerated },
     { icon: FileText, label: "Rewrites done", value: stats.rewritesDone },
     { icon: Clock, label: "Total actions", value: stats.totalActions },
-    { icon: Zap, label: "AI response", value: stats.aiStatus },
+    {
+      icon: Activity,
+      label: "Last activity",
+      value: stats.lastActivity || "—",
+    },
   ];
 
   const actions = [
