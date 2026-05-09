@@ -5,13 +5,9 @@ import {
   ChevronDown,
   FileText,
   Image,
-  BookOpen,
   Menu,
   X,
 } from "lucide-react";
-
-const navItem =
-  "relative w-full group/item lg:w-auto lg:after:content-[''] lg:after:absolute lg:after:top-full lg:after:left-0 lg:after:w-full lg:after:h-3";
 
 const navItemMega =
   "relative w-full group/item lg:w-auto lg:after:content-[''] lg:after:absolute lg:after:top-full lg:after:left-[-40%] lg:after:w-[180%] lg:after:h-4";
@@ -21,14 +17,6 @@ const navLink =
 
 const chevron =
   "transition-transform duration-200 group-[.open]/item:rotate-180 lg:group-[.open]/item:!rotate-0";
-
-const dropdown =
-  "hidden w-full bg-black/20 m-0 px-6 py-4 rounded-none group-[.open]/item:block " +
-  "lg:!flex lg:flex-col lg:gap-1.5 lg:absolute lg:top-full lg:mt-2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-0 lg:min-w-[220px] lg:p-3 lg:bg-[#ffe492e2] lg:rounded-xl lg:shadow-[0_20px_40px_rgba(0,0,0,0.25)] lg:opacity-0 lg:invisible lg:pointer-events-none lg:transition-[opacity,transform] lg:duration-150 lg:z-30 " +
-  "lg:group-hover/item:opacity-100 lg:group-hover/item:visible lg:group-hover/item:pointer-events-auto lg:group-hover/item:translate-y-1.5";
-
-const dropdownLink =
-  "text-sm text-white no-underline px-0 py-3 transition-colors lg:text-text-primary lg:px-2.5 lg:py-2 lg:rounded-lg lg:hover:bg-bg-soft lg:hover:text-brand-primary";
 
 const megaMenu =
   "hidden w-full bg-black/20 m-0 px-6 py-4 rounded-none group-[.open]/item:block " +
@@ -135,70 +123,6 @@ const Navbar = () => {
           </div>
         </li>
 
-        <li className={`${navItemMega} ${activeDropdown === 1 ? "open" : ""}`}>
-          <div className={navLink} onClick={() => handleDropdownClick(1)}>
-            Solutions <ChevronDown size={16} className={chevron} />
-          </div>
-
-          <div className={megaMenu}>
-            <div>
-              <h4 className="text-xs font-bold text-[#6b7280] mb-3 uppercase tracking-[0.08em]">
-                Use Cases
-              </h4>
-              <a className={megaLink} href="#" onClick={closeAll}>
-                <div>
-                  <span className={megaTitle}>Marketing Teams</span>
-                  <p className={megaSub}>Campaigns, ads, visuals</p>
-                </div>
-              </a>
-              <a className={megaLink} href="#" onClick={closeAll}>
-                <div>
-                  <span className={megaTitle}>Creators</span>
-                  <p className={megaSub}>Content & social media</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </li>
-
-        <li className={`${navItemMega} ${activeDropdown === 2 ? "open" : ""}`}>
-          <div className={navLink} onClick={() => handleDropdownClick(2)}>
-            Resources <ChevronDown size={16} className={chevron} />
-          </div>
-
-          <div className={megaMenu}>
-            <div>
-              <h4 className="text-xs font-bold text-[#6b7280] mb-3 uppercase tracking-[0.08em]">
-                Learn
-              </h4>
-              <a className={megaLink} href="#" onClick={closeAll}>
-                <BookOpen size={18} className={megaSvg} />
-                <div>
-                  <span className={megaTitle}>Documentation</span>
-                  <p className={megaSub}>API & platform guides</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </li>
-
-        <li className={`${navItem} ${activeDropdown === 3 ? "open" : ""}`}>
-          <div className={navLink} onClick={() => handleDropdownClick(3)}>
-            Pricing <ChevronDown size={16} className={chevron} />
-          </div>
-
-          <div className={dropdown}>
-            <a href="#" className={dropdownLink} onClick={closeAll}>
-              Free Plan{" "}
-            </a>
-            <a href="#" className={dropdownLink} onClick={closeAll}>
-              Pro Plan
-            </a>
-            <a href="#" className={dropdownLink} onClick={closeAll}>
-              Enterprise
-            </a>
-          </div>
-        </li>
       </ul>
 
       <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mr-0 lg:mr-[70px]">
