@@ -37,33 +37,45 @@ const PublicLayout = () => (
 function App() {
   useFadeInOnScroll();
 
-  const [backendReady, setBackendReady] = useState(false);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const isLocalBackend =
+    !apiBaseUrl ||
+    apiBaseUrl.includes("localhost") ||
+    apiBaseUrl.includes("127.0.0.1");
+
+  // Local backends don't sleep, so skip the wake-up screen entirely in dev.
+  const [backendReady, setBackendReady] = useState(isLocalBackend);
 
   useEffect(() => {
+    if (isLocalBackend) return;
+
     let mounted = true;
+    let timer;
 
     const checkBackend = async () => {
       if (!mounted) return;
 
       try {
-        const res = await fetch("https://promptive-ai.onrender.com/");
+        const res = await fetch(`${apiBaseUrl}/health`);
 
         if (res.ok && mounted) {
           setBackendReady(true);
-        } else {
-          setTimeout(checkBackend, 3000);
+          return;
         }
       } catch {
-        setTimeout(checkBackend, 3000);
+        // network/cold-start error — retry below
       }
+
+      if (mounted) timer = setTimeout(checkBackend, 3000);
     };
 
     checkBackend();
 
     return () => {
       mounted = false;
+      if (timer) clearTimeout(timer);
     };
-  }, []);
+  }, [apiBaseUrl, isLocalBackend]);
 
   return (
     <>
