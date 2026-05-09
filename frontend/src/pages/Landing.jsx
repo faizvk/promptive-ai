@@ -89,22 +89,16 @@ const Landing = () => {
             </Link>
           </div>
         </div>
-
-        {/* Bottom fade into next section */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-bg-soft/40"
-        />
       </section>
 
-      {/* ================= SOCIAL PROOF ================= */}
+      {/* ================= POWERED BY ================= */}
       <section className="bg-bg-soft px-5 py-12 md:px-6 md:py-20 border-y border-black/5">
-        <p className="text-[0.7rem] sm:text-xs font-bold text-brand-primary uppercase tracking-[0.18em] mb-8 md:mb-14 text-center">
-          Trusted by professionals building with AI
+        <p className="text-[0.7rem] sm:text-xs font-bold text-brand-primary uppercase tracking-[0.18em] mb-8 md:mb-12 text-center">
+          Powered by industry-leading AI
         </p>
 
         <div
-          className="max-w-[1000px] mx-auto grid gap-y-10 gap-x-6 md:gap-12 text-center grid-cols-2 md:grid-cols-4"
+          className="max-w-[1000px] mx-auto grid gap-6 md:gap-8 text-center grid-cols-1 sm:grid-cols-3"
           {...fadeIn({
             direction: "up",
             distance: 80,
@@ -112,18 +106,29 @@ const Landing = () => {
           })}
         >
           {[
-            { value: "10k+", label: "AI generations" },
-            { value: "1k+", label: "Active users" },
-            { value: "99.9%", label: "Uptime" },
-            { value: "Fast", label: "Inference" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <strong className="text-3xl md:text-[2.5rem] font-extrabold text-brand-primary block mb-1.5 tracking-tight">
-                {stat.value}
-              </strong>
-              <span className="text-[0.85rem] font-medium text-text-muted">
-                {stat.label}
-              </span>
+            {
+              name: "Google Gemini",
+              role: "Content rewriting and reasoning",
+            },
+            {
+              name: "Hugging Face · FLUX.1",
+              role: "High-quality image generation",
+            },
+            {
+              name: "Cloudinary",
+              role: "Reliable media delivery",
+            },
+          ].map((tech) => (
+            <div
+              key={tech.name}
+              className="bg-white border border-border-soft rounded-xl px-5 py-4"
+            >
+              <div className="text-base font-bold text-text-primary tracking-tight">
+                {tech.name}
+              </div>
+              <div className="text-[0.85rem] text-text-muted mt-1">
+                {tech.role}
+              </div>
             </div>
           ))}
         </div>

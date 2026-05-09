@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image, FileText, Trash2, X, Copy, Check } from "lucide-react";
 import { fetchHistory, deleteHistoryItem } from "../api/history.api";
 
@@ -21,6 +21,14 @@ const copyBtn =
 
 const dangerOutline =
   "bg-white text-text-error border border-bg-error px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer transition-colors hover:bg-bg-error max-md:w-full";
+
+const formatTime = (date) => {
+  if (!date) return "";
+  return new Date(date).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+};
 
 const groupByDate = (items) => {
   const groups = { Today: [], Yesterday: [], Earlier: [] };
@@ -48,7 +56,7 @@ const History = () => {
   const [activeItem, setActiveItem] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  const loadHistory = async () => {
+  const loadHistory = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetchHistory({ type });
@@ -58,12 +66,12 @@ const History = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [type]);
 
   useEffect(() => {
     loadHistory();
     setActiveItem(null);
-  }, [type]);
+  }, [loadHistory]);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this?")) return;
@@ -187,6 +195,11 @@ const History = () => {
                             ? item.prompt
                             : item.rewrittenText || item.originalText}
                         </p>
+                        {item.createdAt && (
+                          <p className="text-[0.7rem] text-text-muted mt-3 font-medium">
+                            {formatTime(item.createdAt)}
+                          </p>
+                        )}
                       </div>
                       <button
                         className={deleteBtn}

@@ -1,37 +1,48 @@
 import { Image } from "../model/image.model.js";
 import { Content } from "../model/content.model.js";
 
+const VALID_TYPES = ["image", "rewrite"];
+const MAX_LIMIT = 50;
+
+const modelFor = (type) => {
+  if (type === "image") return Image;
+  if (type === "rewrite") return Content;
+  return null;
+};
+
 export const getHistory = async (req, res) => {
   try {
-    const { type = "image", page = 1, limit = 10 } = req.query;
+    const type = req.query.type || "image";
 
-    const skip = (page - 1) * limit;
-    const userId = req.user.id;
-
-    let Model;
-
-    if (type === "image") Model = Image;
-    else if (type === "rewrite") Model = Content;
-    else {
+    if (!VALID_TYPES.includes(type)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid history type",
+        message: `Invalid history type. Use one of: ${VALID_TYPES.join(", ")}`,
       });
     }
 
-    const items = await Model.find({ userId })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(Number(limit));
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(
+      MAX_LIMIT,
+      Math.max(1, Number(req.query.limit) || 10)
+    );
+    const skip = (page - 1) * limit;
 
-    const total = await Model.countDocuments({ userId });
+    const Model = modelFor(type);
+    const userId = req.user.id;
+
+    const [items, total] = await Promise.all([
+      Model.find({ userId }).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Model.countDocuments({ userId }),
+    ]);
 
     return res.status(200).json({
       success: true,
       items,
       pagination: {
         total,
-        page: Number(page),
+        page,
+        limit,
         pages: Math.ceil(total / limit),
       },
     });
@@ -49,20 +60,16 @@ export const deleteHistoryItem = async (req, res) => {
     const { id, type } = req.params;
     const userId = req.user.id;
 
-    let Model;
-    if (type === "image") Model = Image;
-    else if (type === "rewrite") Model = Content;
-    else {
+    if (!VALID_TYPES.includes(type)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid history type",
+        message: `Invalid history type. Use one of: ${VALID_TYPES.join(", ")}`,
       });
     }
 
-    const item = await Model.findOneAndDelete({
-      _id: id,
-      userId,
-    });
+    const Model = modelFor(type);
+
+    const item = await Model.findOneAndDelete({ _id: id, userId });
 
     if (!item) {
       return res.status(404).json({

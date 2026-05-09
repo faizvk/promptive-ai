@@ -1,8 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, LogIn, Chrome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { login } from "../api/auth.api";
+import { loginSchema } from "../utils/loginSchema";
 import { fadeIn } from "../animations/FadeIn";
 import {
   formMain,
@@ -19,9 +21,7 @@ import {
   formHeaderMobileP,
   formEl,
   inputGroup,
-  labelRow,
   labelEl,
-  forgotLink,
   inputWrapper,
   inputIcon,
   inputBase,
@@ -47,7 +47,9 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
   const onSubmit = async (data) => {
     try {
@@ -58,8 +60,14 @@ const Login = () => {
 
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      const message =
-        err.response?.data?.message || "Invalid email or password";
+      let message;
+      if (err.response?.data?.message) {
+        message = err.response.data.message;
+      } else if (err.code === "ERR_NETWORK" || !err.response) {
+        message = "Could not reach the server. Please try again.";
+      } else {
+        message = "Sign-in failed. Please try again.";
+      }
       setError("root", { message });
     }
   };
@@ -118,7 +126,12 @@ const Login = () => {
             <div className={errorBanner}>{errors.root.message}</div>
           )}
 
-          <button type="button" className={googleBtn} onClick={handleGoogleLogin}>
+          <button
+            type="button"
+            className={googleBtn}
+            onClick={handleGoogleLogin}
+            disabled={isSubmitting}
+          >
             <Chrome size={18} />
             Continue with Google
           </button>
@@ -132,12 +145,10 @@ const Login = () => {
             <div className={inputWrapper}>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="you@example.com"
                 autoComplete="email"
                 className={`${inputBase} ${errors.email ? inputErrorClass : ""}`}
-                {...register("email", {
-                  required: "Email is required",
-                })}
+                {...register("email")}
               />
               <Mail size={18} className={inputIcon} />
             </div>
@@ -147,21 +158,14 @@ const Login = () => {
           </div>
 
           <div className={inputGroup}>
-            <div className={labelRow}>
-              <label className={labelEl}>Password</label>
-              <Link to="/forgot-password" className={forgotLink}>
-                Forgot?
-              </Link>
-            </div>
+            <label className={labelEl}>Password</label>
             <div className={inputWrapper}>
               <input
                 type="password"
                 autoComplete="current-password"
                 placeholder="••••••••"
                 className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
-                {...register("password", {
-                  required: "Password is required",
-                })}
+                {...register("password")}
               />
               <Lock size={18} className={inputIcon} />
             </div>

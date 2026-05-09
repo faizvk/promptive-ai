@@ -6,6 +6,7 @@ const ImageSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     prompt: {
@@ -22,6 +23,13 @@ const ImageSchema = new mongoose.Schema(
     provider: {
       type: String,
       default: "cloudinary",
+    },
+
+    metadata: {
+      width: Number,
+      height: Number,
+      quality: String,
+      aspectRatio: String,
     },
   },
   { timestamps: true }

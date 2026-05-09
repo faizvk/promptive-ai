@@ -6,7 +6,11 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, password } = req.body;
+    const email = typeof req.body.email === "string"
+      ? req.body.email.trim().toLowerCase()
+      : "";
+
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -27,7 +31,6 @@ router.post("/signup", async (req, res) => {
       name,
       email,
       password,
-      role,
     });
 
     if (!user) {
@@ -53,7 +56,10 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    const email = typeof req.body.email === "string"
+      ? req.body.email.trim().toLowerCase()
+      : "";
 
     if (!email || !password) {
       return res.status(400).json({
@@ -64,24 +70,16 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "Account doesn't exist",
-      });
-    }
-    const isMatch = await user.comparePassword(password);
-
-    if (!isMatch) {
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Invalid email or password",
       });
     }
 
     const token = createToken(user);
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: "Logged in successfully",
       token,
