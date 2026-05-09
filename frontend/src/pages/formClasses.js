@@ -66,7 +66,7 @@ export const footerLink =
   "text-brand-primary font-semibold no-underline hover:underline";
 
 export const googleBtn =
-  "w-full px-4 py-3.5 rounded-xl border border-border-soft bg-white text-text-primary text-sm font-semibold flex items-center justify-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-bg-soft hover:border-brand-primary/30 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] active:translate-y-px [&_svg]:text-[#4285f4]";
+  "w-full px-4 py-3.5 rounded-xl border border-border-soft bg-white text-text-primary text-sm font-semibold flex items-center justify-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-bg-soft hover:border-brand-primary/30 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] active:translate-y-px disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none [&_svg]:text-[#4285f4]";
 
 export const divider =
   "flex items-center text-center my-1 before:content-[''] before:flex-1 before:h-px before:bg-border-soft after:content-[''] after:flex-1 after:h-px after:bg-border-soft";

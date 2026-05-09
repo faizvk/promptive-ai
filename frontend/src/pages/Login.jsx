@@ -120,7 +120,12 @@ const Login = () => {
             <div className={errorBanner}>{errors.root.message}</div>
           )}
 
-          <button type="button" className={googleBtn} onClick={handleGoogleLogin}>
+          <button
+            type="button"
+            className={googleBtn}
+            onClick={handleGoogleLogin}
+            disabled={isSubmitting}
+          >
             <Chrome size={18} />
             Continue with Google
           </button>

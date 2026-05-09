@@ -122,6 +122,7 @@ const SignUp = () => {
             type="button"
             className={googleBtn}
             onClick={handleGoogleSignup}
+            disabled={isSubmitting}
           >
             <Chrome size={18} />
             Continue with Google
