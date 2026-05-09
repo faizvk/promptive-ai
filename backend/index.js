@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { PORT } from "./config/env.js";
+import helmet from "helmet";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
+import { PORT, NODE_ENV, FRONTEND_URL } from "./config/env.js";
 import connectDB from "./config/db.js";
 import authRouter from "./view/auth.router.js";
 import imageRouter from "./view/image.routes.js";
@@ -10,23 +13,27 @@ import dashboardRoutes from "./view/dashboard.router.js";
 import googleAuthRoutes from "./view/googleAuth.routes.js";
 
 const app = express();
-app.use(express.json());
 
+// Security headers
+app.use(helmet());
+
+// Body parsing with explicit size cap
+app.use(express.json({ limit: "1mb" }));
+
+// Request logging
+app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
+
+// CORS
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  process.env.FRONTEND_URL,
-];
+  FRONTEND_URL,
+].filter(Boolean);
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow server-to-server or tools like Postman
     if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
+    if (allowedOrigins.includes(origin)) return callback(null, true);
     return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -36,6 +43,36 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Rate limit auth endpoints (login + signup) to slow brute-force attempts
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many auth attempts. Please try again in a few minutes.",
+  },
+});
+
+// Rate limit AI endpoints to prevent runaway usage
+const aiLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many AI requests. Please slow down and try again shortly.",
+  },
+});
+
+// Health check (cheap, doesn't touch DB)
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", uptime: process.uptime() });
+});
+
+// Root
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -43,16 +80,49 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use(authRouter);
-app.use("/images", imageRouter);
-app.use("/content", contentRouter);
+// Routes
+app.use(authLimiter, authRouter);
+app.use("/images", aiLimiter, imageRouter);
+app.use("/content", aiLimiter, contentRouter);
 app.use("/history", historyRouter);
 app.use("/dashboard", dashboardRoutes);
 app.use("/auth", googleAuthRoutes);
 
+// Centralized error handler
+app.use((err, req, res, _next) => {
+  console.error("Unhandled error:", err);
+  if (res.headersSent) return;
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal server error",
+  });
+});
+
 const startServer = async () => {
   await connectDB();
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  const server = app.listen(PORT, () =>
+    console.log(`🚀 Server running on port ${PORT} (${NODE_ENV})`)
+  );
+
+  const shutdown = (signal) => {
+    console.log(`\n${signal} received. Shutting down gracefully…`);
+    server.close(() => {
+      console.log("HTTP server closed.");
+      process.exit(0);
+    });
+
+    // Force exit after 10s if connections keep socket open
+    setTimeout(() => {
+      console.warn("Forcing shutdown after timeout.");
+      process.exit(1);
+    }, 10_000).unref();
+  };
+
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
 };
 
-startServer();
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});
