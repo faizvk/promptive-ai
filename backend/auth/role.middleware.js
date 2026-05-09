@@ -1,10 +1,13 @@
-const AutherizeRole = (...roles) => {
+const authorizeRole = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).send("not autherized");
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized for this resource",
+      });
     }
     next();
   };
 };
 
-export default AutherizeRole;
+export default authorizeRole;
