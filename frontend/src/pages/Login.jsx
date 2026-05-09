@@ -19,9 +19,7 @@ import {
   formHeaderMobileP,
   formEl,
   inputGroup,
-  labelRow,
   labelEl,
-  forgotLink,
   inputWrapper,
   inputIcon,
   inputBase,
@@ -147,12 +145,7 @@ const Login = () => {
           </div>
 
           <div className={inputGroup}>
-            <div className={labelRow}>
-              <label className={labelEl}>Password</label>
-              <Link to="/forgot-password" className={forgotLink}>
-                Forgot?
-              </Link>
-            </div>
+            <label className={labelEl}>Password</label>
             <div className={inputWrapper}>
               <input
                 type="password"
