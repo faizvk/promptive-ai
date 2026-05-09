@@ -46,6 +46,8 @@ const ImageGenerate = () => {
       prompt: "",
       resolution: "768x768",
       aspectRatio: "1:1",
+      quality: "balanced",
+      negativePrompt: "",
     },
   });
 
@@ -124,14 +126,25 @@ const ImageGenerate = () => {
               )}
             </div>
 
-            {/* RESOLUTION */}
-            <div className="flex flex-col gap-2">
-              <label className={labelEl}>Resolution</label>
-              <select className={fieldBase} {...register("resolution")}>
-                <option value="512x512">512 × 512</option>
-                <option value="768x768">768 × 768</option>
-                <option value="1024x1024">1024 × 1024</option>
-              </select>
+            {/* RESOLUTION + QUALITY */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-2">
+                <label className={labelEl}>Resolution</label>
+                <select className={fieldBase} {...register("resolution")}>
+                  <option value="512x512">512 × 512</option>
+                  <option value="768x768">768 × 768</option>
+                  <option value="1024x1024">1024 × 1024</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className={labelEl}>Quality</label>
+                <select className={fieldBase} {...register("quality")}>
+                  <option value="fast">Fast</option>
+                  <option value="balanced">Balanced</option>
+                  <option value="ultra">Ultra</option>
+                </select>
+              </div>
             </div>
 
             {/* ASPECT RATIO */}
@@ -150,6 +163,22 @@ const ImageGenerate = () => {
                   </label>
                 ))}
               </div>
+            </div>
+
+            {/* NEGATIVE PROMPT */}
+            <div className="flex flex-col gap-2">
+              <label className={labelEl}>Negative prompt (optional)</label>
+              <input
+                type="text"
+                placeholder="What to avoid — e.g. blurry, watermark, text"
+                className={fieldBase}
+                {...register("negativePrompt")}
+              />
+              {errors.negativePrompt && (
+                <span className="text-xs font-medium text-text-error">
+                  {errors.negativePrompt.message}
+                </span>
+              )}
             </div>
 
             <button className={submitBtn} disabled={isSubmitting}>
