@@ -59,8 +59,14 @@ const SignUp = () => {
       await signup(payload);
       navigate("/login");
     } catch (err) {
-      const message =
-        err.response?.data?.message || "Signup failed. Please try again.";
+      let message;
+      if (err.response?.data?.message) {
+        message = err.response.data.message;
+      } else if (err.code === "ERR_NETWORK" || !err.response) {
+        message = "Could not reach the server. Please try again.";
+      } else {
+        message = "Sign-up failed. Please try again.";
+      }
       setError("root", { message });
     }
   };
