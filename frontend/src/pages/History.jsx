@@ -22,6 +22,14 @@ const copyBtn =
 const dangerOutline =
   "bg-white text-text-error border border-bg-error px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer transition-colors hover:bg-bg-error max-md:w-full";
 
+const formatTime = (date) => {
+  if (!date) return "";
+  return new Date(date).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+};
+
 const groupByDate = (items) => {
   const groups = { Today: [], Yesterday: [], Earlier: [] };
   const today = new Date();
@@ -187,6 +195,11 @@ const History = () => {
                             ? item.prompt
                             : item.rewrittenText || item.originalText}
                         </p>
+                        {item.createdAt && (
+                          <p className="text-[0.7rem] text-text-muted mt-3 font-medium">
+                            {formatTime(item.createdAt)}
+                          </p>
+                        )}
                       </div>
                       <button
                         className={deleteBtn}
