@@ -37,6 +37,11 @@ import voiceRouter from "./view/voice.routes.js";
 
 const app = express();
 
+// Render / Vercel / Cloudflare etc. all sit one proxy hop in front of us.
+// Without this, req.ip falls back to the loopback address and
+// express-rate-limit (rightly) refuses to operate on X-Forwarded-For.
+app.set("trust proxy", 1);
+
 // Security headers
 app.use(helmet());
 
