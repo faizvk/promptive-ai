@@ -1,5 +1,10 @@
 import { Image } from "../model/image.model.js";
 import { Content } from "../model/content.model.js";
+import { Chat } from "../model/chat.model.js";
+import { Voice } from "../model/voice.model.js";
+import { Usage } from "../model/usage.model.js";
+import { User } from "../model/user.model.js";
+import { getPlan } from "../config/plans.js";
 
 const formatLastActivity = (date) => {
   if (!date) return "—";
@@ -20,26 +25,64 @@ export const getDashboardOverview = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const [imageCount, rewriteCount, latestImage, latestRewrite] =
-      await Promise.all([
-        Image.countDocuments({ userId }),
-        Content.countDocuments({ userId }),
-        Image.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
-        Content.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
-      ]);
+    const [
+      imageCount,
+      rewriteCount,
+      chatCount,
+      voiceCount,
+      latestImage,
+      latestRewrite,
+      latestChat,
+      latestVoice,
+      usage,
+      user,
+    ] = await Promise.all([
+      Image.countDocuments({ userId }),
+      Content.countDocuments({ userId }),
+      Chat.countDocuments({ userId }),
+      Voice.countDocuments({ userId }),
+      Image.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
+      Content.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
+      Chat.findOne({ userId }).sort({ updatedAt: -1 }).select("updatedAt"),
+      Voice.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
+      Usage.fetchOrEmpty(userId),
+      User.findById(userId).select("subscription"),
+    ]);
 
-    const latestDates = [latestImage?.createdAt, latestRewrite?.createdAt]
+    const latestDates = [
+      latestImage?.createdAt,
+      latestRewrite?.createdAt,
+      latestChat?.updatedAt,
+      latestVoice?.createdAt,
+    ]
       .filter(Boolean)
       .map((d) => new Date(d).getTime());
     const lastActivityAt = latestDates.length ? Math.max(...latestDates) : null;
+
+    const planId = user?.subscription?.plan || "free";
+    const plan = getPlan(planId);
 
     return res.status(200).json({
       success: true,
       stats: {
         imagesGenerated: imageCount,
         rewritesDone: rewriteCount,
-        totalActions: imageCount + rewriteCount,
+        chatsStarted: chatCount,
+        voicesGenerated: voiceCount,
+        totalActions: imageCount + rewriteCount + chatCount + voiceCount,
         lastActivity: formatLastActivity(lastActivityAt),
+      },
+      plan: {
+        id: plan.id,
+        name: plan.name,
+        limits: plan.limits,
+      },
+      usage: {
+        period: usage.period,
+        image: usage.image || 0,
+        rewrite: usage.rewrite || 0,
+        chat: usage.chat || 0,
+        voice: usage.voice || 0,
       },
     });
   } catch (error) {
