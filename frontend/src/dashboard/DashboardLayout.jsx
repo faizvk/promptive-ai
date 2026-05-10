@@ -4,22 +4,24 @@ import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import EmailVerifyBanner from "./EmailVerifyBanner";
 
+const isDesktop = () =>
+  typeof window !== "undefined" && window.innerWidth >= 1024;
+
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(isDesktop());
   const { pathname } = useLocation();
 
-  // Close sidebar on route change (mobile)
+  // Close sidebar on route change (mobile only).
   useEffect(() => {
-    setIsSidebarOpen(false);
+    if (!isDesktop()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsSidebarOpen(false);
+    }
   }, [pathname]);
 
-  // Auto-open on desktop
+  // Re-sync sidebar to viewport width on resize.
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 1024) setIsSidebarOpen(true);
-      else setIsSidebarOpen(false);
-    };
-    onResize();
+    const onResize = () => setIsSidebarOpen(isDesktop());
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
