@@ -13,6 +13,7 @@ import historyRouter from "./view/history.routes.js";
 import dashboardRoutes from "./view/dashboard.router.js";
 import googleAuthRoutes from "./view/googleAuth.routes.js";
 import paymentsRouter from "./view/payments.routes.js";
+import chatRouter from "./view/chat.routes.js";
 
 const app = express();
 
@@ -99,6 +100,7 @@ app.use("/content", aiLimiter, contentRouter);
 app.use("/history", historyRouter);
 app.use("/dashboard", dashboardRoutes);
 app.use("/payments", paymentsRouter);
+app.use("/chat", aiLimiter, chatRouter);
 
 // Centralized error handler
 app.use((err, req, res, _next) => {
