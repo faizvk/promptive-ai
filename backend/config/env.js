@@ -58,6 +58,20 @@ export const SMTP_FROM = process.env.SMTP_FROM || "Promptive AI <no-reply@prompt
 // the verification middleware is a no-op.
 export const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET;
 
+// Additional AI providers — all optional. The chat dispatcher picks whichever
+// is set; voice synthesis prefers ElevenLabs then OpenAI.
+export const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+export const GROQ_API_KEY = process.env.GROQ_API_KEY;
+export const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+export const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
+
+// Razorpay payments — RAZORPAY_KEY_ID + SECRET both required to enable
+// subscriptions. WEBHOOK_SECRET required to receive secure webhooks.
+export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+export const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET;
+
 // Cookies have to use SameSite=None when frontend and backend are on
 // different origins (Vercel + Render in prod). That requires Secure, which
 // requires HTTPS. In local dev we can use Lax over plain HTTP.
