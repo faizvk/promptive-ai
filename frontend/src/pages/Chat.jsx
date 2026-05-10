@@ -20,7 +20,7 @@ const inputBase =
 
 const Chat = () => {
   const [models, setModels] = useState([]);
-  const [planId, setPlanId] = useState("free");
+  const [, setPlanId] = useState("free");
   const [modelId, setModelId] = useState(null);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
