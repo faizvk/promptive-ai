@@ -12,9 +12,14 @@ dashboard.
 
 ### Authentication
 - Email/password sign-up and sign-in
-- Sign in with Google (OAuth 2.0)
-- JWT tokens, attached to requests via an Axios interceptor
-- Public routes, protected routes, automatic redirect on 401
+- Sign in with Google (OAuth 2.0) — Google-verified emails are auto-trusted
+- httpOnly cookies for both access (15 min) and refresh (7 day) tokens
+- Silent refresh: stale access cookie → axios interceptor calls `/auth/refresh` once and retries
+- Per-account lockout (5 failed attempts → 15-minute lock) on top of IP rate limiting
+- Email verification with 24-hour signed link, resendable from a dashboard banner
+- Forgot-password / reset-password flow with 1-hour signed link, password change invalidates existing sessions via `tokenVersion` bump
+- Audit log of every auth event (signup, login success/fail/locked, logout, refresh fail, OAuth)
+- Optional Cloudflare Turnstile gate on signup/login/forgot — no-op when not configured
 
 ### AI capabilities
 - **Image generation** — text-to-image via Hugging Face FLUX.1 with selectable
@@ -124,24 +129,30 @@ See `backend/.env.example` and `frontend/.env.example` for the canonical lists.
 
 **Backend (optional):**
 `PORT` (default `5000`), `NODE_ENV`, `FRONTEND_URL`, `BACKEND_URL`,
-`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`.
+`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+`ACCESS_TOKEN_TTL` (default `15m`), `REFRESH_TOKEN_TTL` (default `7d`),
+`SMTP_HOST`/`SMTP_PORT`/`SMTP_USER`/`SMTP_PASS`/`SMTP_FROM` (emails fall back
+to console logging when unset), `TURNSTILE_SECRET` (Cloudflare bot mitigation).
 
 **Frontend:**
-`VITE_API_BASE_URL` — base URL of the backend (e.g. `http://localhost:5000`).
+`VITE_API_BASE_URL` — base URL of the backend.
+`VITE_TURNSTILE_SITE_KEY` (optional) — pair with backend `TURNSTILE_SECRET`.
 
 ---
 
 ## Routes
 
 ### Public
-| Path                | Page                          |
-| ------------------- | ----------------------------- |
-| `/`                 | Landing                       |
-| `/image-generate`   | Public image marketing        |
-| `/content-rewrite`  | Public rewrite marketing      |
-| `/login`            | Sign in                       |
-| `/signup`           | Sign up                       |
-| `/oauth-success`    | Google OAuth callback handler |
+| Path                | Page                       |
+| ------------------- | -------------------------- |
+| `/`                 | Landing                    |
+| `/image-generate`   | Public image marketing     |
+| `/content-rewrite`  | Public rewrite marketing   |
+| `/login`            | Sign in                    |
+| `/signup`           | Sign up                    |
+| `/forgot-password`  | Request password reset     |
+| `/reset-password`   | Set a new password         |
+| `/verify-email`     | Email verification target (handled by backend redirect) |
 
 ### Protected (require valid JWT)
 | Path                  | Page             |
@@ -157,11 +168,17 @@ See `backend/.env.example` and `frontend/.env.example` for the canonical lists.
 
 All endpoints are mounted at the backend root (no `/api` prefix).
 
-### Auth (rate-limited: 20 req / 15 min)
-- `POST /signup` — `{ name, email, password }`
-- `POST /login` — `{ email, password }` → `{ token }`
-- `GET  /auth/google` — start Google OAuth
-- `GET  /auth/google/callback` — Google OAuth callback
+### Auth (rate-limited: 20 req / 15 min). All set/clear httpOnly cookies.
+- `POST /auth/signup` — `{ name, email, password, turnstileToken? }`
+- `POST /auth/login` — `{ email, password, turnstileToken? }`
+- `POST /auth/logout` — clears cookies + bumps tokenVersion
+- `GET  /auth/me` — current user (requires valid access cookie)
+- `POST /auth/refresh` — re-issues access cookie from refresh cookie
+- `GET  /auth/google` / `GET /auth/google/callback` — Google OAuth flow
+- `POST /auth/verify-email/send` — re-issue verification email (auth required)
+- `GET  /auth/verify-email?token=…` — completes verification, redirects to `/dashboard?verified=1`
+- `POST /auth/forgot-password` — `{ email, turnstileToken? }` — always 200
+- `POST /auth/reset-password` — `{ token, password }`
 
 ### AI (rate-limited: 10 req / min)
 - `POST /images/generate-image` — `{ prompt, resolution, aspectRatio, quality?, negativePrompt?, seed? }`
@@ -184,8 +201,14 @@ All endpoints are mounted at the backend root (no `/api` prefix).
 
 - `helmet()` for HTTP security headers
 - 1 MB JSON body limit
-- Rate limiting on `/signup`, `/login`, and AI endpoints
+- Rate limiting on `/auth/*` (20 req / 15 min) and AI endpoints (10 req / min)
+- Per-account lockout: 5 failed logins → 15-minute lock (`423 Locked`)
 - Generic auth error message (no user enumeration)
+- httpOnly cookies (`Secure`, `SameSite=None` in prod, `Lax` locally)
+- Access (15m) + refresh (7d) tokens with version-based instant revocation
+- AuthEvent audit log for every auth event with IP + user agent
+- Email verification + password reset use SHA-256-hashed tokens (raw token only travels in the email)
+- Optional Cloudflare Turnstile (no-op when `TURNSTILE_SECRET` unset)
 - Required-env validation at boot, fail-fast
 - Graceful `SIGINT` / `SIGTERM` shutdown with timeout fallback
 - Centralized error handler
@@ -215,7 +238,6 @@ All endpoints are mounted at the backend root (no `/api` prefix).
 
 ## Roadmap
 
-- Forgot password flow
 - Subscription / billing (Stripe)
 - Per-plan usage limits
 - Admin dashboard + RBAC
