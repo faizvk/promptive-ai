@@ -1,6 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
 import hf from "../config/huggingface.js";
 import { Image } from "../model/image.model.js";
+import { Usage } from "../model/usage.model.js";
 
 const QUALITY_PRESETS = {
   fast: { steps: 12, guidance: 6.5 },
@@ -111,6 +112,10 @@ export const generateImage = async (req, res) => {
         aspectRatio,
       },
     });
+
+    Usage.increment(req.user.id, "image", 1).catch((e) =>
+      console.error("usage:image increment failed", e.message)
+    );
 
     return res.status(201).json({
       success: true,

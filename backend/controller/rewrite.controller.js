@@ -1,5 +1,6 @@
 import ai from "../config/geminiAI.js";
 import { Content } from "../model/content.model.js";
+import { Usage } from "../model/usage.model.js";
 
 const ALLOWED_TONES = ["professional", "formal", "casual", "creative"];
 
@@ -50,6 +51,10 @@ export const rewriteContent = async (req, res) => {
       rewrittenText,
       tone,
     });
+
+    Usage.increment(req.user.id, "rewrite", 1).catch((e) =>
+      console.error("usage:rewrite increment failed", e.message)
+    );
 
     return res.status(200).json({ success: true, content: record });
   } catch (error) {
