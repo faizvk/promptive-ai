@@ -8,141 +8,120 @@ import {
   Mic,
   Clock,
   CreditCard,
-  PanelLeftClose,
+  X,
 } from "lucide-react";
+import { useAuth } from "../auth/AuthContext";
 
 const navLinkBase =
-  "relative flex items-center gap-3 px-4 py-3 rounded-xl text-white/65 no-underline text-[0.95rem] font-medium transition-all duration-200 hover:bg-white/[0.06] hover:text-white [&_svg]:opacity-70 [&_svg]:transition-opacity";
+  "relative flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary text-sm font-medium transition-colors duration-150 hover:bg-bg-soft hover:text-text-primary";
 
 const navLinkActive =
-  "!text-white !bg-white/[0.08] [&_svg]:!opacity-100 before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:rounded-full before:bg-btn-secondary";
+  "!bg-bg-soft !text-text-primary [&_svg]:!text-brand-primary before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:rounded-full before:bg-brand-primary";
 
-const navSectionLabel =
-  "text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40 px-4 mb-3";
+const sectionLabel =
+  "text-[0.65rem] font-bold uppercase tracking-[0.18em] text-text-muted px-3 mt-5 mb-2";
+
+const PRIMARY_LINKS = [
+  { to: "/dashboard", icon: LayoutDashboard, label: "Overview", end: true },
+  { to: "/dashboard/chat", icon: MessageSquare, label: "AI Chat" },
+  { to: "/dashboard/image", icon: Image, label: "Image" },
+  { to: "/dashboard/rewrite", icon: FileText, label: "Rewrite" },
+  { to: "/dashboard/voice", icon: Mic, label: "Voice" },
+];
+
+const SECONDARY_LINKS = [
+  { to: "/dashboard/history", icon: Clock, label: "History" },
+  { to: "/dashboard/billing", icon: CreditCard, label: "Plan & billing" },
+];
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const { user } = useAuth();
+  const initial =
+    user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";
+
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-[4px] z-[90] transition-[opacity,visibility] duration-300 ${
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[90] transition-[opacity,visibility] duration-200 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       <aside
-        className={`fixed top-0 left-0 w-[280px] h-screen bg-gradient-to-b from-brand-primary via-[#062c5a] to-[#051a33] text-white p-6 flex flex-col z-[100] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] border-r border-white/[0.08] ${
+        className={`fixed top-0 left-0 w-[260px] h-screen bg-white border-r border-border-soft flex flex-col z-[100] transition-transform duration-200 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Subtle grid texture */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:linear-gradient(to_bottom,black_30%,transparent_90%)]"
-        />
-
-        <div className="relative flex items-center justify-between mb-10 px-1">
-          <div className="text-[1.25rem] font-extrabold tracking-[-0.02em]">
+        <div className="flex items-center justify-between px-5 h-[68px] border-b border-border-soft">
+          <NavLink
+            to="/dashboard"
+            className="text-[1.1rem] font-extrabold tracking-tight text-text-primary"
+            onClick={onClose}
+          >
             Promptive
-            <span className="bg-gradient-to-r from-btn-secondary to-[#fff5cf] bg-clip-text text-transparent">
-              AI
-            </span>
-          </div>
-
+            <span className="text-brand-primary">AI</span>
+          </NavLink>
           <button
-            className="bg-white/5 border border-white/10 text-white/70 p-2 rounded-lg cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/10 hover:text-white hover:border-white/20"
             onClick={onClose}
             aria-label="Close sidebar"
+            className="lg:hidden text-text-muted hover:text-text-primary p-1.5 rounded-md hover:bg-bg-soft"
           >
-            <PanelLeftClose size={18} />
+            <X size={18} />
           </button>
         </div>
 
-        <p className={`relative ${navSectionLabel}`}>Workspace</p>
+        <nav className="flex-1 overflow-y-auto px-3 py-3">
+          <p className={sectionLabel}>Workspace</p>
+          {PRIMARY_LINKS.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.end}
+              onClick={onClose}
+              className={({ isActive }) =>
+                `${navLinkBase} ${isActive ? navLinkActive : ""}`
+              }
+            >
+              <link.icon size={17} className="shrink-0 text-text-muted" />
+              <span>{link.label}</span>
+            </NavLink>
+          ))}
 
-        <nav className="relative flex flex-col gap-1.5">
-          <NavLink
-            to="/dashboard"
-            end
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <LayoutDashboard size={18} />
-            <span>Overview</span>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/chat"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <MessageSquare size={18} />
-            <span>AI Chat</span>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/image"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <Image size={18} />
-            <span>Image Generation</span>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/rewrite"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <FileText size={18} />
-            <span>Content Rewrite</span>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/voice"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <Mic size={18} />
-            <span>Voice</span>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/history"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <Clock size={18} />
-            <span>History</span>
-          </NavLink>
+          <p className={sectionLabel}>Account</p>
+          {SECONDARY_LINKS.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              onClick={onClose}
+              className={({ isActive }) =>
+                `${navLinkBase} ${isActive ? navLinkActive : ""}`
+              }
+            >
+              <link.icon size={17} className="shrink-0 text-text-muted" />
+              <span>{link.label}</span>
+            </NavLink>
+          ))}
         </nav>
 
-        <p className={`relative ${navSectionLabel} mt-6`}>Account</p>
-
-        <nav className="relative flex flex-col gap-1.5">
-          <NavLink
-            to="/dashboard/billing"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? navLinkActive : ""}`
-            }
-          >
-            <CreditCard size={18} />
-            <span>Billing &amp; plans</span>
-          </NavLink>
-        </nav>
+        {user && (
+          <div className="border-t border-border-soft p-3">
+            <div className="flex items-center gap-2.5 p-2 rounded-lg">
+              <div className="w-8 h-8 bg-brand-primary text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
+                {initial}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-semibold text-text-primary truncate">
+                  {user.name || "Account"}
+                </div>
+                <div className="text-[0.7rem] text-text-muted truncate">
+                  {user.email}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </aside>
     </>
   );
