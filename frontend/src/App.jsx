@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 const Landing = lazy(() => import("./pages/Landing"));
 const PublicImageGenerate = lazy(() => import("./pages/PublicImageGenerate"));
 const PublicContentRewrite = lazy(() => import("./pages/PublicContentRewrite"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
@@ -18,7 +19,10 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const ImageGenerate = lazy(() => import("./pages/ImageGenerate"));
 const ContentRewrite = lazy(() => import("./pages/ContentRewrite"));
+const Chat = lazy(() => import("./pages/Chat"));
+const Voice = lazy(() => import("./pages/Voice"));
 const History = lazy(() => import("./pages/History"));
+const Billing = lazy(() => import("./pages/Billing"));
 
 const DashboardLayout = lazy(() => import("./dashboard/DashboardLayout"));
 const Overview = lazy(() => import("./dashboard/pages/Overview"));
@@ -50,6 +54,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/image-generate" element={<PublicImageGenerate />} />
           <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+          <Route path="/pricing" element={<Pricing />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/signup" element={<SignUp />} />
@@ -65,7 +70,10 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="image" element={<ImageGenerate />} />
             <Route path="rewrite" element={<ContentRewrite />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="voice" element={<Voice />} />
             <Route path="history" element={<History />} />
+            <Route path="billing" element={<Billing />} />
           </Route>
         </Route>
       </Routes>
