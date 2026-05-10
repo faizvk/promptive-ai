@@ -59,7 +59,11 @@ router.get("/google/callback", async (req, res) => {
         email,
         avatar: picture,
         provider: "google",
+        emailVerified: true,
       });
+    } else if (!user.emailVerified) {
+      user.emailVerified = true;
+      await user.save();
     }
 
     setAuthCookies(res, user);

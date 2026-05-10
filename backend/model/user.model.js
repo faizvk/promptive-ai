@@ -63,6 +63,30 @@ const UserSchema = new mongoose.Schema(
     lockUntil: {
       type: Date,
     },
+
+    // Email verification
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationTokenHash: {
+      type: String,
+      index: true,
+      sparse: true,
+    },
+    emailVerificationExpiresAt: {
+      type: Date,
+    },
+
+    // Password reset
+    passwordResetTokenHash: {
+      type: String,
+      index: true,
+      sparse: true,
+    },
+    passwordResetExpiresAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
