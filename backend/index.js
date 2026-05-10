@@ -12,11 +12,20 @@ import contentRouter from "./view/content.routes.js";
 import historyRouter from "./view/history.routes.js";
 import dashboardRoutes from "./view/dashboard.router.js";
 import googleAuthRoutes from "./view/googleAuth.routes.js";
+import paymentsRouter from "./view/payments.routes.js";
 
 const app = express();
 
 // Security headers
 app.use(helmet());
+
+// The Razorpay webhook needs the raw body for HMAC verification, so it must
+// be mounted BEFORE express.json() with express.raw().
+app.post(
+  "/payments/webhook",
+  express.raw({ type: "application/json", limit: "1mb" }),
+  (req, res, next) => paymentsRouter.handle(req, res, next)
+);
 
 // Body parsing with explicit size cap
 app.use(express.json({ limit: "1mb" }));
@@ -89,6 +98,7 @@ app.use("/images", aiLimiter, imageRouter);
 app.use("/content", aiLimiter, contentRouter);
 app.use("/history", historyRouter);
 app.use("/dashboard", dashboardRoutes);
+app.use("/payments", paymentsRouter);
 
 // Centralized error handler
 app.use((err, req, res, _next) => {
