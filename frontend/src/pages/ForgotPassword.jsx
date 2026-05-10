@@ -9,8 +9,12 @@ import TurnstileWidget, {
   isTurnstileConfigured,
 } from "../components/TurnstileWidget";
 import {
-  formMain,
-  formContainer,
+  authShell,
+  authCard,
+  authHeader,
+  authTitle,
+  authSubtitle,
+  authLogo,
   formEl,
   inputGroup,
   labelEl,
@@ -57,37 +61,28 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className={formMain}>
-      <div className={formContainer}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary hover:text-brand-primary"
-          >
-            <ArrowLeft size={14} /> Back to sign in
+    <div className={authShell}>
+      <div className={authCard}>
+        <div className={authHeader}>
+          <Link to="/" className={authLogo}>
+            Promptive<span className="text-brand-primary">AI</span>
           </Link>
+          <h1 className={authTitle}>Reset your password</h1>
+          <p className={authSubtitle}>
+            Enter your email and we'll send you a link to set a new password.
+          </p>
+        </div>
 
-          <div className="mb-2">
-            <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-2">
-              Account recovery
-            </span>
-            <h1 className="text-2xl font-extrabold tracking-[-0.02em] m-0 mb-2 text-text-primary">
-              Forgot your password?
-            </h1>
-            <p className="text-sm text-text-secondary">
-              Enter your email and we'll send you a link to set a new password.
-            </p>
-          </div>
-
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
           {submitted ? (
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-bg-soft border border-border-soft">
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-bg-soft border border-border-soft">
               <CheckCircle2
-                size={18}
+                size={16}
                 className="text-brand-primary mt-0.5 shrink-0"
               />
               <p className="text-sm text-text-secondary leading-relaxed">
                 If an account exists for that email, a password reset link has
-                been sent. Check your inbox (and spam folder).
+                been sent. Check your inbox and spam folder.
               </p>
             </div>
           ) : (
@@ -97,7 +92,7 @@ const ForgotPassword = () => {
               )}
 
               <div className={inputGroup}>
-                <label className={labelEl}>Email Address</label>
+                <label className={labelEl}>Email</label>
                 <div className={inputWrapper}>
                   <input
                     type="email"
@@ -106,7 +101,7 @@ const ForgotPassword = () => {
                     className={`${inputBase} ${errors.email ? inputErrorClass : ""}`}
                     {...register("email")}
                   />
-                  <Mail size={18} className={inputIcon} />
+                  <Mail size={16} className={inputIcon} />
                 </div>
                 {errors.email?.message && (
                   <span className={errorText}>{errors.email.message}</span>
@@ -124,6 +119,13 @@ const ForgotPassword = () => {
               </button>
             </>
           )}
+
+          <Link
+            to="/login"
+            className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary mt-1"
+          >
+            <ArrowLeft size={13} /> Back to sign in
+          </Link>
 
           <p className={footerText}>
             Remembered it?{" "}

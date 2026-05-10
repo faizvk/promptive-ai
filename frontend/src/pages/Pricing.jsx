@@ -4,7 +4,8 @@ import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { fetchPlans } from "../api/payments.api";
 import { useAuth } from "../auth/AuthContext";
 
-const formatINR = (paise) => `₹${Math.round(paise / 100)}`;
+const formatINR = (paise) =>
+  `₹${Math.round(paise / 100).toLocaleString("en-IN")}`;
 
 const Pricing = () => {
   const { isAuthenticated } = useAuth();
@@ -20,76 +21,80 @@ const Pricing = () => {
 
   return (
     <main className="w-full overflow-x-hidden">
-      <section className="bg-gradient-to-b from-brand-primary via-[#062c5a] to-[#051a33] text-white px-5 py-20 md:px-8 md:py-28 text-center">
-        <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-white/70 mb-4">
-          Pricing
-        </span>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-          Simple, predictable pricing
-        </h1>
-        <p className="text-base md:text-lg text-white/70 max-w-xl mx-auto">
-          Start free. Upgrade when you need more capacity, premium models, or
-          voice synthesis.
-        </p>
+      {/* HERO */}
+      <section className="relative bg-gradient-to-b from-brand-primary via-[#062c5a] to-[#051a33] text-white px-5 py-20 md:px-6 md:py-28 text-center overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+        />
+        <div className="relative max-w-[800px] mx-auto">
+          <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-white/70 mb-4">
+            Pricing
+          </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.025em] mb-3 leading-tight">
+            Simple, predictable pricing.
+          </h1>
+          <p className="text-base md:text-lg text-white/70 max-w-xl mx-auto">
+            Start free. Upgrade when you need more capacity, premium models, or
+            voice synthesis.
+          </p>
+        </div>
       </section>
 
-      <section className="bg-bg-soft border-y border-black/5 px-5 py-16 md:px-8 md:py-24">
+      {/* PLANS */}
+      <section className="bg-bg-soft border-y border-border-soft px-5 py-14 md:px-6 md:py-20">
         <div className="max-w-[1100px] mx-auto">
           {loading ? (
-            <p className="text-center text-text-muted">Loading plans…</p>
+            <p className="text-center text-text-muted text-sm">
+              Loading plans…
+            </p>
           ) : (
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-4 md:gap-5 md:grid-cols-3">
               {plans.map((plan) => {
                 const isFree = plan.price === 0;
                 const highlight = plan.id === "pro";
                 return (
                   <div
                     key={plan.id}
-                    className={`rounded-2xl bg-white border ${
-                      highlight
-                        ? "border-brand-primary/40"
-                        : "border-border-soft"
-                    } p-6 md:p-8 flex flex-col`}
+                    className={`relative rounded-xl bg-white border ${
+                      highlight ? "border-brand-primary/40" : "border-border-soft"
+                    } p-6 flex flex-col`}
                   >
                     {highlight && (
-                      <span className="inline-flex items-center gap-1 self-start text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-primary bg-brand-primary/10 px-2 py-1 rounded-full mb-3">
-                        <Sparkles size={11} />
-                        Most popular
+                      <span className="absolute -top-2.5 right-5 inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-brand-primary bg-white border border-brand-primary/30 px-2 py-0.5 rounded-full">
+                        <Sparkles size={10} /> Popular
                       </span>
                     )}
-                    <h3 className="text-xl font-extrabold text-text-primary">
+                    <h3 className="text-base font-extrabold text-text-primary">
                       {plan.name}
                     </h3>
-                    <p className="text-sm text-text-secondary mt-1 mb-5 leading-relaxed">
+                    <p className="text-xs text-text-muted mt-1 mb-5 leading-relaxed">
                       {plan.description}
                     </p>
-
-                    <div className="flex items-baseline gap-1.5 mb-5">
-                      <span className="text-3xl md:text-[2rem] font-extrabold text-text-primary tracking-tight">
+                    <div className="flex items-baseline gap-1 mb-5">
+                      <span className="text-3xl font-extrabold text-text-primary tracking-tight">
                         {isFree ? "₹0" : formatINR(plan.price)}
                       </span>
                       {!isFree && (
-                        <span className="text-sm text-text-muted">/month</span>
+                        <span className="text-xs text-text-muted">/month</span>
                       )}
                     </div>
-
-                    <ul className="flex flex-col gap-2.5 mb-6 text-[0.92rem] text-text-secondary">
+                    <ul className="flex flex-col gap-2 mb-6 text-[0.9rem] text-text-secondary">
                       {plan.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2">
+                        <li key={f} className="flex items-start gap-1.5">
                           <Check
-                            size={15}
+                            size={13}
                             className="text-brand-primary mt-0.5 shrink-0"
                           />
-                          {f}
+                          <span>{f}</span>
                         </li>
                       ))}
                     </ul>
-
                     <div className="mt-auto">
                       {isFree ? (
                         <Link
                           to={isAuthenticated ? "/dashboard" : "/signup"}
-                          className="block text-center w-full px-5 py-3 rounded-xl border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft transition-colors"
+                          className="block text-center w-full px-4 py-2.5 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft transition-colors"
                         >
                           {isAuthenticated ? "Go to dashboard" : "Get started"}
                         </Link>
@@ -100,10 +105,10 @@ const Pricing = () => {
                               ? `/dashboard/billing?upgrade=${plan.id}`
                               : "/signup"
                           }
-                          className="flex justify-center items-center gap-2 w-full px-5 py-3 rounded-xl bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-colors"
+                          className="flex justify-center items-center gap-1.5 w-full px-4 py-2.5 rounded-lg bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-colors"
                         >
                           Upgrade to {plan.name}
-                          <ArrowRight size={15} />
+                          <ArrowRight size={13} />
                         </Link>
                       )}
                     </div>
@@ -115,14 +120,43 @@ const Pricing = () => {
         </div>
       </section>
 
-      <section className="bg-white px-5 py-16 md:px-8 md:py-20 text-center">
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 text-text-primary">
-          Questions about a plan?
-        </h2>
-        <p className="text-text-secondary max-w-xl mx-auto">
-          Plans renew monthly and cancel any time. You keep access until the
-          end of your current billing period.
-        </p>
+      {/* FAQ */}
+      <section className="bg-white px-5 py-14 md:px-6 md:py-20">
+        <div className="max-w-[760px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-[-0.025em] text-text-primary text-center mb-8">
+            Common questions
+          </h2>
+          <div className="grid gap-3">
+            {[
+              {
+                q: "Can I cancel any time?",
+                a: "Yes. You keep access until the end of your current billing period.",
+              },
+              {
+                q: "What happens if I hit my plan limit?",
+                a: "Your requests are blocked until the start of the next month, or upgrade for more capacity right away.",
+              },
+              {
+                q: "Which AI models can I use?",
+                a: "Free tier gets Gemini, Llama, GPT-4o mini, Claude Haiku. Pro and Business unlock GPT-4o and Claude Sonnet.",
+              },
+              {
+                q: "Is voice synthesis included?",
+                a: "Voice is on Pro (30 min/mo) and Business (5 hours/mo). Free plans don't include voice yet.",
+              },
+            ].map(({ q, a }) => (
+              <div
+                key={q}
+                className="bg-bg-soft border border-border-soft rounded-xl p-5"
+              >
+                <h3 className="text-sm font-bold text-text-primary">{q}</h3>
+                <p className="text-sm text-text-secondary mt-1.5 leading-relaxed">
+                  {a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );

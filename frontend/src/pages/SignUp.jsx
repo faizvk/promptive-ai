@@ -5,23 +5,16 @@ import { signUpSchema } from "../utils/signUpSchema";
 import { User, Mail, Lock, ArrowRight, Chrome } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { fadeIn } from "../animations/FadeIn";
 import TurnstileWidget, {
   isTurnstileConfigured,
 } from "../components/TurnstileWidget";
 import {
-  formMain,
-  formHead,
-  headContent,
-  badge,
-  badgeDot,
-  headH1,
-  headP,
-  formContainer,
-  formHeaderMobile,
-  formHeaderMobileEyebrow,
-  formHeaderMobileH2,
-  formHeaderMobileP,
+  authShell,
+  authCard,
+  authHeader,
+  authTitle,
+  authSubtitle,
+  authLogo,
   formEl,
   inputGroup,
   labelEl,
@@ -51,9 +44,7 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm({
-    resolver: zodResolver(signUpSchema),
-  });
+  } = useForm({ resolver: zodResolver(signUpSchema) });
 
   const onSubmit = async (data) => {
     if (isTurnstileConfigured() && !turnstileToken) {
@@ -67,7 +58,6 @@ const SignUp = () => {
         password: data.password,
         ...(turnstileToken ? { turnstileToken } : {}),
       };
-
       await signup(payload);
       navigate("/dashboard", { replace: true });
     } catch (err) {
@@ -88,50 +78,19 @@ const SignUp = () => {
   };
 
   return (
-    <div className={formMain}>
-      <div className={formHead}>
-        {/* Background decoration */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]"
-        />
-
-        <div
-          className={headContent}
-          {...fadeIn({
-            direction: "left",
-            distance: 80,
-            duration: 0.9,
-          })}
-        >
-          <span className={badge}>
-            <span className={badgeDot} />
-            Platform Access
-          </span>
-          <h1 className={headH1}>Start your journey with us.</h1>
-          <p className={headP}>
-            Experience the most advanced workspace management tool.
+    <div className={authShell}>
+      <div className={authCard}>
+        <div className={authHeader}>
+          <Link to="/" className={authLogo}>
+            Promptive<span className="text-brand-primary">AI</span>
+          </Link>
+          <h1 className={authTitle}>Create your account</h1>
+          <p className={authSubtitle}>
+            Get started for free — no credit card required.
           </p>
         </div>
-      </div>
 
-      <div
-        className={formContainer}
-        {...fadeIn({
-          direction: "up",
-          distance: 80,
-          duration: 0.9,
-        })}
-      >
         <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
-          <div className={formHeaderMobile}>
-            <span className={formHeaderMobileEyebrow}>Get Started</span>
-            <h2 className={formHeaderMobileH2}>Create Account</h2>
-            <p className={formHeaderMobileP}>
-              Enter your details to get started
-            </p>
-          </div>
-
           {errors.root?.message && (
             <div className={errorBanner}>{errors.root.message}</div>
           )}
@@ -142,7 +101,7 @@ const SignUp = () => {
             onClick={handleGoogleSignup}
             disabled={isSubmitting}
           >
-            <Chrome size={18} />
+            <Chrome size={16} />
             Continue with Google
           </button>
 
@@ -151,15 +110,15 @@ const SignUp = () => {
           </div>
 
           <div className={inputGroup}>
-            <label className={labelEl}>Full Name</label>
+            <label className={labelEl}>Full name</label>
             <div className={inputWrapper}>
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Ada Lovelace"
                 className={`${inputBase} ${errors.fullName ? inputErrorClass : ""}`}
                 {...register("fullName")}
               />
-              <User size={18} className={inputIcon} />
+              <User size={16} className={inputIcon} />
             </div>
             {errors.fullName?.message && (
               <span className={errorText}>{errors.fullName.message}</span>
@@ -167,15 +126,15 @@ const SignUp = () => {
           </div>
 
           <div className={inputGroup}>
-            <label className={labelEl}>Email Address</label>
+            <label className={labelEl}>Email</label>
             <div className={inputWrapper}>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="you@example.com"
                 className={`${inputBase} ${errors.email ? inputErrorClass : ""}`}
                 {...register("email")}
               />
-              <Mail size={18} className={inputIcon} />
+              <Mail size={16} className={inputIcon} />
             </div>
             {errors.email?.message && (
               <span className={errorText}>{errors.email.message}</span>
@@ -187,11 +146,11 @@ const SignUp = () => {
             <div className={inputWrapper}>
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder="At least 8 characters"
                 className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
                 {...register("password")}
               />
-              <Lock size={18} className={inputIcon} />
+              <Lock size={16} className={inputIcon} />
             </div>
             {errors.password?.message && (
               <span className={errorText}>{errors.password.message}</span>
@@ -201,14 +160,14 @@ const SignUp = () => {
           <TurnstileWidget onToken={handleToken} />
 
           <button type="submit" className={submitBtn} disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Get Started"}
-            {!isSubmitting && <ArrowRight size={18} />}
+            {isSubmitting ? "Creating account…" : "Create account"}
+            {!isSubmitting && <ArrowRight size={15} />}
           </button>
 
           <p className={footerText}>
             Already have an account?{" "}
             <Link to="/login" className={footerLink}>
-              Log in
+              Sign in
             </Link>
           </p>
         </form>
