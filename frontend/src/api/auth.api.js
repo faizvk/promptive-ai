@@ -20,8 +20,11 @@ export const fetchCurrentUser = async () => {
   return response.data;
 };
 
-export const requestPasswordReset = async (email) => {
-  const response = await api.post("/auth/forgot-password", { email });
+export const requestPasswordReset = async (email, turnstileToken) => {
+  const response = await api.post("/auth/forgot-password", {
+    email,
+    ...(turnstileToken ? { turnstileToken } : {}),
+  });
   return response.data;
 };
 

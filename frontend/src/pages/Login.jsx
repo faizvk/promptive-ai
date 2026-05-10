@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, LogIn, Chrome } from "lucide-react";
@@ -6,6 +6,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { loginSchema } from "../utils/loginSchema";
 import { fadeIn } from "../animations/FadeIn";
+import TurnstileWidget, {
+  isTurnstileConfigured,
+} from "../components/TurnstileWidget";
 import {
   formMain,
   formHead,
@@ -40,6 +43,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
+  const [turnstileToken, setTurnstileToken] = useState(null);
 
   const redirectTo = location.state?.from?.pathname || "/dashboard";
 
@@ -52,11 +56,18 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const handleToken = useCallback((token) => setTurnstileToken(token), []);
+
   const onSubmit = async (data) => {
+    if (isTurnstileConfigured() && !turnstileToken) {
+      setError("root", { message: "Please complete the captcha." });
+      return;
+    }
     try {
       await login({
         email: data.email,
         password: data.password,
+        ...(turnstileToken ? { turnstileToken } : {}),
       });
 
       navigate(redirectTo, { replace: true });
@@ -182,6 +193,8 @@ const Login = () => {
               <span className={errorText}>{errors.password.message}</span>
             )}
           </div>
+
+          <TurnstileWidget onToken={handleToken} />
 
           <button type="submit" className={submitBtn} disabled={isSubmitting}>
             {isSubmitting ? "Signing in..." : "Sign In"}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../utils/signUpSchema";
@@ -6,6 +6,9 @@ import { User, Mail, Lock, ArrowRight, Chrome } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { fadeIn } from "../animations/FadeIn";
+import TurnstileWidget, {
+  isTurnstileConfigured,
+} from "../components/TurnstileWidget";
 import {
   formMain,
   formHead,
@@ -39,6 +42,9 @@ import {
 const SignUp = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
+  const [turnstileToken, setTurnstileToken] = useState(null);
+
+  const handleToken = useCallback((token) => setTurnstileToken(token), []);
 
   const {
     register,
@@ -50,11 +56,16 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data) => {
+    if (isTurnstileConfigured() && !turnstileToken) {
+      setError("root", { message: "Please complete the captcha." });
+      return;
+    }
     try {
       const payload = {
         name: data.fullName,
         email: data.email,
         password: data.password,
+        ...(turnstileToken ? { turnstileToken } : {}),
       };
 
       await signup(payload);
@@ -186,6 +197,8 @@ const SignUp = () => {
               <span className={errorText}>{errors.password.message}</span>
             )}
           </div>
+
+          <TurnstileWidget onToken={handleToken} />
 
           <button type="submit" className={submitBtn} disabled={isSubmitting}>
             {isSubmitting ? "Creating..." : "Get Started"}

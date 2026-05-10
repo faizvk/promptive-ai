@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { requestPasswordReset } from "../api/auth.api";
+import TurnstileWidget, {
+  isTurnstileConfigured,
+} from "../components/TurnstileWidget";
 import {
   formMain,
   formContainer,
@@ -28,6 +31,8 @@ const schema = z.object({
 
 const ForgotPassword = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState(null);
+  const handleToken = useCallback((token) => setTurnstileToken(token), []);
 
   const {
     register,
@@ -37,8 +42,12 @@ const ForgotPassword = () => {
   } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async ({ email }) => {
+    if (isTurnstileConfigured() && !turnstileToken) {
+      setError("root", { message: "Please complete the captcha." });
+      return;
+    }
     try {
-      await requestPasswordReset(email);
+      await requestPasswordReset(email, turnstileToken);
       setSubmitted(true);
     } catch (err) {
       const message =
@@ -103,6 +112,8 @@ const ForgotPassword = () => {
                   <span className={errorText}>{errors.email.message}</span>
                 )}
               </div>
+
+              <TurnstileWidget onToken={handleToken} />
 
               <button
                 type="submit"
