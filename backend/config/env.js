@@ -47,6 +47,17 @@ export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 export const ACCESS_TOKEN_TTL = process.env.ACCESS_TOKEN_TTL || "15m";
 export const REFRESH_TOKEN_TTL = process.env.REFRESH_TOKEN_TTL || "7d";
 
+// SMTP — optional. If unset, emails are logged to the console instead of sent.
+export const SMTP_HOST = process.env.SMTP_HOST;
+export const SMTP_PORT = Number(process.env.SMTP_PORT) || 587;
+export const SMTP_USER = process.env.SMTP_USER;
+export const SMTP_PASS = process.env.SMTP_PASS;
+export const SMTP_FROM = process.env.SMTP_FROM || "Promptive AI <no-reply@promptive.ai>";
+
+// Cloudflare Turnstile (optional bot mitigation). If TURNSTILE_SECRET is unset
+// the verification middleware is a no-op.
+export const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET;
+
 // Cookies have to use SameSite=None when frontend and backend are on
 // different origins (Vercel + Render in prod). That requires Secure, which
 // requires HTTPS. In local dev we can use Lax over plain HTTP.
