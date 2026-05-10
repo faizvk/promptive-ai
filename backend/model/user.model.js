@@ -45,6 +45,14 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+
+    // Bumped on logout / password change to invalidate every refresh + access
+    // token issued before that point. Embedded in JWT claims and checked on
+    // every authenticated request.
+    tokenVersion: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

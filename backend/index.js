@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -19,6 +20,7 @@ app.use(helmet());
 
 // Body parsing with explicit size cap
 app.use(express.json({ limit: "1mb" }));
+app.use(cookieParser());
 
 // Request logging
 app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
@@ -81,12 +83,12 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use(authLimiter, authRouter);
+app.use("/auth", authLimiter, authRouter);
+app.use("/auth", googleAuthRoutes);
 app.use("/images", aiLimiter, imageRouter);
 app.use("/content", aiLimiter, contentRouter);
 app.use("/history", historyRouter);
 app.use("/dashboard", dashboardRoutes);
-app.use("/auth", googleAuthRoutes);
 
 // Centralized error handler
 app.use((err, req, res, _next) => {

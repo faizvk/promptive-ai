@@ -1,7 +1,7 @@
 import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { User } from "../model/user.model.js";
-import { createToken } from "../auth/auth.middleware.js";
+import { setAuthCookies } from "../auth/tokens.js";
 import {
   BACKEND_URL,
   FRONTEND_URL,
@@ -19,7 +19,6 @@ const client = new OAuth2Client(
   callbackUrl
 );
 
-/* STEP 1: Redirect to Google */
 router.get("/google", (req, res) => {
   if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
     return res.redirect(`${FRONTEND_URL}/login?error=oauth_unavailable`);
@@ -33,7 +32,6 @@ router.get("/google", (req, res) => {
   res.redirect(url);
 });
 
-/* STEP 2: Google Callback */
 router.get("/google/callback", async (req, res) => {
   try {
     const { code } = req.query;
@@ -63,9 +61,11 @@ router.get("/google/callback", async (req, res) => {
       });
     }
 
-    const token = createToken(user);
+    setAuthCookies(res, user);
 
-    res.redirect(`${FRONTEND_URL}/oauth-success?token=${token}`);
+    // Cookies are set on the backend response. Browser will send them on
+    // subsequent requests to backend (cross-origin allowed via CORS).
+    res.redirect(`${FRONTEND_URL}/dashboard`);
   } catch (error) {
     console.error("Google OAuth error:", error);
     res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);

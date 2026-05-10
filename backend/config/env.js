@@ -42,3 +42,14 @@ export const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`
 
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+// Token + cookie config
+export const ACCESS_TOKEN_TTL = process.env.ACCESS_TOKEN_TTL || "15m";
+export const REFRESH_TOKEN_TTL = process.env.REFRESH_TOKEN_TTL || "7d";
+
+// Cookies have to use SameSite=None when frontend and backend are on
+// different origins (Vercel + Render in prod). That requires Secure, which
+// requires HTTPS. In local dev we can use Lax over plain HTTP.
+export const COOKIE_SAMESITE =
+  NODE_ENV === "production" ? "none" : "lax";
+export const COOKIE_SECURE = NODE_ENV === "production";
