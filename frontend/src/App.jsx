@@ -13,6 +13,8 @@ const PublicImageGenerate = lazy(() => import("./pages/PublicImageGenerate"));
 const PublicContentRewrite = lazy(() => import("./pages/PublicContentRewrite"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const ImageGenerate = lazy(() => import("./pages/ImageGenerate"));
 const ContentRewrite = lazy(() => import("./pages/ContentRewrite"));
@@ -52,6 +54,8 @@ function App() {
           <Route element={<PublicRoute />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
         </Route>
 

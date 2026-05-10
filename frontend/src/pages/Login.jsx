@@ -159,7 +159,15 @@ const Login = () => {
           </div>
 
           <div className={inputGroup}>
-            <label className={labelEl}>Password</label>
+            <div className="flex justify-between items-center">
+              <label className={labelEl}>Password</label>
+              <Link
+                to="/forgot-password"
+                className="text-xs font-semibold text-brand-primary no-underline hover:underline"
+              >
+                Forgot?
+              </Link>
+            </div>
             <div className={inputWrapper}>
               <input
                 type="password"

@@ -1,0 +1,134 @@
+import React, { useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Lock, CheckCircle2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { submitPasswordReset } from "../api/auth.api";
+import {
+  formMain,
+  formContainer,
+  formEl,
+  inputGroup,
+  labelEl,
+  inputWrapper,
+  inputIcon,
+  inputBase,
+  inputErrorClass,
+  errorText,
+  errorBanner,
+  submitBtn,
+  footerText,
+  footerLink,
+} from "./formClasses";
+
+const schema = z.object({
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(128, "Password is too long"),
+});
+
+const ResetPassword = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const token = searchParams.get("token") || "";
+  const [done, setDone] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm({ resolver: zodResolver(schema) });
+
+  const onSubmit = async ({ password }) => {
+    try {
+      await submitPasswordReset({ token, password });
+      setDone(true);
+      setTimeout(() => navigate("/login", { replace: true }), 1500);
+    } catch (err) {
+      const message =
+        err.response?.data?.message || "Could not reset password";
+      setError("root", { message });
+    }
+  };
+
+  return (
+    <div className={formMain}>
+      <div className={formContainer}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
+          <div className="mb-2">
+            <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-2">
+              Account recovery
+            </span>
+            <h1 className="text-2xl font-extrabold tracking-[-0.02em] m-0 mb-2 text-text-primary">
+              Set a new password
+            </h1>
+            <p className="text-sm text-text-secondary">
+              Enter your new password to finish resetting your account.
+            </p>
+          </div>
+
+          {!token && (
+            <div className={errorBanner}>
+              Reset link is missing a token. Open the link from your email.
+            </div>
+          )}
+
+          {done ? (
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-bg-soft border border-border-soft">
+              <CheckCircle2
+                size={18}
+                className="text-brand-primary mt-0.5 shrink-0"
+              />
+              <p className="text-sm text-text-secondary leading-relaxed">
+                Password updated. Redirecting you to sign in…
+              </p>
+            </div>
+          ) : (
+            <>
+              {errors.root?.message && (
+                <div className={errorBanner}>{errors.root.message}</div>
+              )}
+
+              <div className={inputGroup}>
+                <label className={labelEl}>New password</label>
+                <div className={inputWrapper}>
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder="••••••••"
+                    className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
+                    {...register("password")}
+                  />
+                  <Lock size={18} className={inputIcon} />
+                </div>
+                {errors.password?.message && (
+                  <span className={errorText}>{errors.password.message}</span>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className={submitBtn}
+                disabled={isSubmitting || !token}
+              >
+                {isSubmitting ? "Saving…" : "Update password"}
+              </button>
+            </>
+          )}
+
+          <p className={footerText}>
+            Need a new link?{" "}
+            <Link to="/forgot-password" className={footerLink}>
+              Request reset email
+            </Link>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ResetPassword;
