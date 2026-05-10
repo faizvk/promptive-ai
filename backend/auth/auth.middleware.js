@@ -1,40 +1,58 @@
-import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config/env.js";
+import { User } from "../model/user.model.js";
+import { verifyJwt } from "./tokens.js";
 
-const secret = SECRET_KEY;
+const extractToken = (req) => {
+  // Prefer the httpOnly cookie. Fall back to Authorization header so other
+  // clients (CLIs, integration tests) can still authenticate.
+  if (req.cookies?.access_token) return req.cookies.access_token;
+  const auth = req.headers.authorization;
+  if (auth?.startsWith("Bearer ")) return auth.slice(7);
+  return null;
+};
 
-const createToken = (user) =>
-  jwt.sign(
-    {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-    secret,
-    {
-      expiresIn: "7d",
-      issuer: "promptive-ai",
-      algorithm: "HS256",
-    }
-  );
+export const verifyToken = async (req, res, next) => {
+  const token = extractToken(req);
 
-const verifyToken = (req, res, next) => {
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required",
+    });
+  }
+
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const decoded = verifyJwt(token);
 
-    if (!token) {
+    if (decoded.type && decoded.type !== "access") {
       return res.status(401).json({
         success: false,
-        message: "Authorization token missing",
+        message: "Invalid token type",
       });
     }
 
-    const decoded = jwt.verify(token, secret);
+    // Validate the token version against the live user record so that a
+    // logout / password change immediately invalidates outstanding tokens.
+    const user = await User.findById(decoded.id).select(
+      "tokenVersion role name email"
+    );
 
-    req.user = decoded;
+    if (!user || (user.tokenVersion ?? 0) !== (decoded.tokenVersion ?? 0)) {
+      return res.status(401).json({
+        success: false,
+        message: "Session is no longer valid",
+      });
+    }
+
+    req.user = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      tokenVersion: user.tokenVersion,
+    };
+
     next();
-  } catch (err) {
+  } catch {
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token",
@@ -42,4 +60,6 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-export { createToken, verifyToken };
+// Re-export createToken for any callers still depending on the old API.
+// New code should use setAuthCookies from ./tokens.js.
+export { signAccessToken as createToken } from "./tokens.js";

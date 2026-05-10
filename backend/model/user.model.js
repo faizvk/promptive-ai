@@ -45,9 +45,55 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+
+    // Bumped on logout / password change to invalidate every refresh + access
+    // token issued before that point. Embedded in JWT claims and checked on
+    // every authenticated request.
+    tokenVersion: {
+      type: Number,
+      default: 0,
+    },
+
+    // Failed-login tracking (per-account brute-force defense, separate from
+    // the IP-level rate limiter).
+    loginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lockUntil: {
+      type: Date,
+    },
+
+    // Email verification
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationTokenHash: {
+      type: String,
+      index: true,
+      sparse: true,
+    },
+    emailVerificationExpiresAt: {
+      type: Date,
+    },
+
+    // Password reset
+    passwordResetTokenHash: {
+      type: String,
+      index: true,
+      sparse: true,
+    },
+    passwordResetExpiresAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
+
+UserSchema.virtual("isLocked").get(function () {
+  return Boolean(this.lockUntil && this.lockUntil.getTime() > Date.now());
+});
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

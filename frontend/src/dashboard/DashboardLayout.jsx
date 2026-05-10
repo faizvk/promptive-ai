@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import EmailVerifyBanner from "./EmailVerifyBanner";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,6 +24,7 @@ const DashboardLayout = () => {
         }`}
       >
         <Topbar onMenuClick={toggleSidebar} />
+        <EmailVerifyBanner />
         <div className="flex-1 p-5 max-w-[1600px] w-full mx-auto overflow-y-auto md:p-6 lg:p-10">
           <Outlet />
         </div>

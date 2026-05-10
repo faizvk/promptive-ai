@@ -11,36 +11,57 @@ if (!API_BASE_URL && import.meta.env.MODE !== "test") {
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  // httpOnly auth cookies are sent with every request to the backend.
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
+// Endpoints that should NOT trigger an automatic refresh on 401:
+// - /auth/refresh itself (would loop)
+// - /auth/login + /auth/signup (caller handles credential errors)
+// - /auth/logout (already losing session)
+const NO_REFRESH = [
+  "/auth/refresh",
+  "/auth/login",
+  "/auth/signup",
+  "/auth/logout",
+];
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+const shouldAttemptRefresh = (url) =>
+  url && !NO_REFRESH.some((path) => url.includes(path));
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+let refreshInFlight = null;
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
+  async (error) => {
+    const original = error.config;
 
-      // Avoid redirect loops if we're already on /login or /signup.
-      const path = window.location.pathname;
-      if (path !== "/login" && path !== "/signup" && path !== "/") {
-        window.location.assign("/login");
+    if (
+      error.response?.status === 401 &&
+      original &&
+      !original._retried &&
+      shouldAttemptRefresh(original.url)
+    ) {
+      original._retried = true;
+
+      try {
+        // De-dupe: if a refresh is already in flight, wait for it.
+        if (!refreshInFlight) {
+          refreshInFlight = api.post("/auth/refresh");
+        }
+        await refreshInFlight;
+        refreshInFlight = null;
+        return api(original);
+      } catch (refreshErr) {
+        refreshInFlight = null;
+        // Refresh itself failed — fall through and let the caller see 401.
+        return Promise.reject(refreshErr);
       }
     }
+
     return Promise.reject(error);
   }
 );
