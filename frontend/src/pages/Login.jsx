@@ -5,23 +5,16 @@ import { Mail, Lock, LogIn, Chrome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { loginSchema } from "../utils/loginSchema";
-import { fadeIn } from "../animations/FadeIn";
 import TurnstileWidget, {
   isTurnstileConfigured,
 } from "../components/TurnstileWidget";
 import {
-  formMain,
-  formHead,
-  headContent,
-  badge,
-  badgeDot,
-  headH1,
-  headP,
-  formContainer,
-  formHeaderMobile,
-  formHeaderMobileEyebrow,
-  formHeaderMobileH2,
-  formHeaderMobileP,
+  authShell,
+  authCard,
+  authHeader,
+  authTitle,
+  authSubtitle,
+  authLogo,
   formEl,
   inputGroup,
   labelEl,
@@ -52,9 +45,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm({
-    resolver: zodResolver(loginSchema),
-  });
+  } = useForm({ resolver: zodResolver(loginSchema) });
 
   const handleToken = useCallback((token) => setTurnstileToken(token), []);
 
@@ -69,7 +60,6 @@ const Login = () => {
         password: data.password,
         ...(turnstileToken ? { turnstileToken } : {}),
       });
-
       navigate(redirectTo, { replace: true });
     } catch (err) {
       let message;
@@ -89,51 +79,19 @@ const Login = () => {
   };
 
   return (
-    <div className={formMain}>
-      <div className={formHead}>
-        {/* Background decoration */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]"
-        />
-
-        <div
-          className={headContent}
-          {...fadeIn({
-            direction: "left",
-            distance: 80,
-            duration: 0.9,
-          })}
-        >
-          <span className={badge}>
-            <span className={badgeDot} />
-            Welcome Back
-          </span>
-          <h1 className={headH1}>Nice to see you again.</h1>
-          <p className={headP}>
-            Log in to access your dashboard, manage your AI tools, and continue
-            where you left off.
+    <div className={authShell}>
+      <div className={authCard}>
+        <div className={authHeader}>
+          <Link to="/" className={authLogo}>
+            Promptive<span className="text-brand-primary">AI</span>
+          </Link>
+          <h1 className={authTitle}>Welcome back</h1>
+          <p className={authSubtitle}>
+            Sign in to your workspace to keep building.
           </p>
         </div>
-      </div>
 
-      <div
-        className={formContainer}
-        {...fadeIn({
-          direction: "up",
-          distance: 80,
-          duration: 0.9,
-        })}
-      >
         <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
-          <div className={formHeaderMobile}>
-            <span className={formHeaderMobileEyebrow}>Welcome Back</span>
-            <h2 className={formHeaderMobileH2}>Sign In</h2>
-            <p className={formHeaderMobileP}>
-              Enter your credentials to access your account
-            </p>
-          </div>
-
           {errors.root?.message && (
             <div className={errorBanner}>{errors.root.message}</div>
           )}
@@ -144,7 +102,7 @@ const Login = () => {
             onClick={handleGoogleLogin}
             disabled={isSubmitting}
           >
-            <Chrome size={18} />
+            <Chrome size={16} />
             Continue with Google
           </button>
 
@@ -153,7 +111,7 @@ const Login = () => {
           </div>
 
           <div className={inputGroup}>
-            <label className={labelEl}>Email Address</label>
+            <label className={labelEl}>Email</label>
             <div className={inputWrapper}>
               <input
                 type="email"
@@ -162,7 +120,7 @@ const Login = () => {
                 className={`${inputBase} ${errors.email ? inputErrorClass : ""}`}
                 {...register("email")}
               />
-              <Mail size={18} className={inputIcon} />
+              <Mail size={16} className={inputIcon} />
             </div>
             {errors.email?.message && (
               <span className={errorText}>{errors.email.message}</span>
@@ -187,7 +145,7 @@ const Login = () => {
                 className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
                 {...register("password")}
               />
-              <Lock size={18} className={inputIcon} />
+              <Lock size={16} className={inputIcon} />
             </div>
             {errors.password?.message && (
               <span className={errorText}>{errors.password.message}</span>
@@ -197,12 +155,12 @@ const Login = () => {
           <TurnstileWidget onToken={handleToken} />
 
           <button type="submit" className={submitBtn} disabled={isSubmitting}>
-            {isSubmitting ? "Signing in..." : "Sign In"}
-            {!isSubmitting && <LogIn size={18} />}
+            {isSubmitting ? "Signing in…" : "Sign in"}
+            {!isSubmitting && <LogIn size={15} />}
           </button>
 
           <p className={footerText}>
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <Link to="/signup" className={footerLink}>
               Create one
             </Link>

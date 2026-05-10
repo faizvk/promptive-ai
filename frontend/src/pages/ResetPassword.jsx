@@ -6,8 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { submitPasswordReset } from "../api/auth.api";
 import {
-  formMain,
-  formContainer,
+  authShell,
+  authCard,
+  authHeader,
+  authTitle,
+  authSubtitle,
+  authLogo,
   formEl,
   inputGroup,
   labelEl,
@@ -55,21 +59,19 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className={formMain}>
-      <div className={formContainer}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
-          <div className="mb-2">
-            <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-2">
-              Account recovery
-            </span>
-            <h1 className="text-2xl font-extrabold tracking-[-0.02em] m-0 mb-2 text-text-primary">
-              Set a new password
-            </h1>
-            <p className="text-sm text-text-secondary">
-              Enter your new password to finish resetting your account.
-            </p>
-          </div>
+    <div className={authShell}>
+      <div className={authCard}>
+        <div className={authHeader}>
+          <Link to="/" className={authLogo}>
+            Promptive<span className="text-brand-primary">AI</span>
+          </Link>
+          <h1 className={authTitle}>Set a new password</h1>
+          <p className={authSubtitle}>
+            Choose a new password to finish resetting your account.
+          </p>
+        </div>
 
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={formEl}>
           {!token && (
             <div className={errorBanner}>
               Reset link is missing a token. Open the link from your email.
@@ -77,9 +79,9 @@ const ResetPassword = () => {
           )}
 
           {done ? (
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-bg-soft border border-border-soft">
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-bg-soft border border-border-soft">
               <CheckCircle2
-                size={18}
+                size={16}
                 className="text-brand-primary mt-0.5 shrink-0"
               />
               <p className="text-sm text-text-secondary leading-relaxed">
@@ -98,11 +100,11 @@ const ResetPassword = () => {
                   <input
                     type="password"
                     autoComplete="new-password"
-                    placeholder="••••••••"
+                    placeholder="At least 8 characters"
                     className={`${inputBase} ${errors.password ? inputErrorClass : ""}`}
                     {...register("password")}
                   />
-                  <Lock size={18} className={inputIcon} />
+                  <Lock size={16} className={inputIcon} />
                 </div>
                 {errors.password?.message && (
                   <span className={errorText}>{errors.password.message}</span>
