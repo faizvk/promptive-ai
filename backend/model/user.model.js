@@ -53,9 +53,23 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    // Failed-login tracking (per-account brute-force defense, separate from
+    // the IP-level rate limiter).
+    loginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lockUntil: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
+
+UserSchema.virtual("isLocked").get(function () {
+  return Boolean(this.lockUntil && this.lockUntil.getTime() > Date.now());
+});
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

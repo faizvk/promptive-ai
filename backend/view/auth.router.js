@@ -7,11 +7,18 @@ import {
   signAccessToken,
 } from "../auth/tokens.js";
 import { verifyToken } from "../auth/auth.middleware.js";
+import { logAuthEvent } from "../auth/auditLog.js";
 
 const router = express.Router();
 
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCK_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+
 const normalizeEmail = (raw) =>
   typeof raw === "string" ? raw.trim().toLowerCase() : "";
+
+const isLocked = (user) =>
+  Boolean(user.lockUntil && user.lockUntil.getTime() > Date.now());
 
 router.post("/signup", async (req, res) => {
   try {
@@ -34,13 +41,10 @@ router.post("/signup", async (req, res) => {
       });
     }
 
-    const user = await User.create({
-      name,
-      email,
-      password,
-    });
+    const user = await User.create({ name, email, password });
 
     setAuthCookies(res, user);
+    logAuthEvent(req, "signup", { userId: user._id, email });
 
     res.status(201).json({
       success: true,
@@ -75,14 +79,57 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user) {
+      // Constant-time-ish: still report failure with the same message.
+      logAuthEvent(req, "login_fail", { email });
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
       });
     }
 
+    if (isLocked(user)) {
+      const minutes = Math.max(
+        1,
+        Math.ceil((user.lockUntil.getTime() - Date.now()) / 60_000)
+      );
+      logAuthEvent(req, "login_locked", { userId: user._id, email });
+      return res.status(423).json({
+        success: false,
+        message: `Account temporarily locked due to too many failed attempts. Try again in ${minutes} minute(s).`,
+      });
+    }
+
+    const passwordOk = await user.comparePassword(password);
+
+    if (!passwordOk) {
+      const attempts = (user.loginAttempts || 0) + 1;
+      const update = { $set: { loginAttempts: attempts } };
+
+      if (attempts >= MAX_LOGIN_ATTEMPTS) {
+        update.$set.lockUntil = new Date(Date.now() + LOCK_DURATION_MS);
+        update.$set.loginAttempts = 0;
+      }
+
+      await User.updateOne({ _id: user._id }, update);
+      logAuthEvent(req, "login_fail", { userId: user._id, email });
+
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
+    // Success — reset attempt counter + lockout.
+    if (user.loginAttempts || user.lockUntil) {
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { loginAttempts: 0 }, $unset: { lockUntil: 1 } }
+      );
+    }
+
     setAuthCookies(res, user);
+    logAuthEvent(req, "login_success", { userId: user._id, email });
 
     res.status(200).json({
       success: true,
@@ -104,10 +151,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", verifyToken, async (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: req.user,
-  });
+  res.status(200).json({ success: true, user: req.user });
 });
 
 router.post("/refresh", async (req, res) => {
@@ -127,6 +171,7 @@ router.post("/refresh", async (req, res) => {
       decoded = verifyJwt(refreshToken);
     } catch {
       clearAuthCookies(res);
+      logAuthEvent(req, "refresh_fail", { meta: { reason: "invalid" } });
       return res.status(401).json({
         success: false,
         message: "Invalid or expired refresh token",
@@ -135,6 +180,10 @@ router.post("/refresh", async (req, res) => {
 
     if (decoded.type !== "refresh") {
       clearAuthCookies(res);
+      logAuthEvent(req, "refresh_fail", {
+        userId: decoded.id,
+        meta: { reason: "wrong_type" },
+      });
       return res.status(401).json({
         success: false,
         message: "Invalid token type",
@@ -145,14 +194,16 @@ router.post("/refresh", async (req, res) => {
 
     if (!user || (user.tokenVersion ?? 0) !== (decoded.tokenVersion ?? 0)) {
       clearAuthCookies(res);
+      logAuthEvent(req, "refresh_fail", {
+        userId: decoded.id,
+        meta: { reason: "version_mismatch" },
+      });
       return res.status(401).json({
         success: false,
         message: "Session is no longer valid",
       });
     }
 
-    // Re-issue the access cookie. Refresh cookie left as-is so we don't
-    // extend the absolute session lifetime on every request.
     const accessToken = signAccessToken(user);
     res.cookie("access_token", accessToken, {
       httpOnly: true,
@@ -182,7 +233,6 @@ router.post("/refresh", async (req, res) => {
 
 router.post("/logout", async (req, res) => {
   try {
-    // Bumping tokenVersion invalidates anything still in flight.
     const refreshToken = req.cookies?.refresh_token;
     if (refreshToken) {
       try {
@@ -191,8 +241,9 @@ router.post("/logout", async (req, res) => {
           { _id: decoded.id },
           { $inc: { tokenVersion: 1 } }
         );
+        logAuthEvent(req, "logout", { userId: decoded.id });
       } catch {
-        // Token unparseable / expired — just clear the cookies.
+        // Bad/expired token — still clear the cookies.
       }
     }
   } finally {

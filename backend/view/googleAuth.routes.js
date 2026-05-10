@@ -2,6 +2,7 @@ import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { User } from "../model/user.model.js";
 import { setAuthCookies } from "../auth/tokens.js";
+import { logAuthEvent } from "../auth/auditLog.js";
 import {
   BACKEND_URL,
   FRONTEND_URL,
@@ -62,12 +63,16 @@ router.get("/google/callback", async (req, res) => {
     }
 
     setAuthCookies(res, user);
+    logAuthEvent(req, "oauth_success", { userId: user._id, email });
 
     // Cookies are set on the backend response. Browser will send them on
     // subsequent requests to backend (cross-origin allowed via CORS).
     res.redirect(`${FRONTEND_URL}/dashboard`);
   } catch (error) {
     console.error("Google OAuth error:", error);
+    logAuthEvent(req, "oauth_fail", {
+      meta: { message: error.message },
+    });
     res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
   }
 });
