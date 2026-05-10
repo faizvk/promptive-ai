@@ -9,6 +9,7 @@ import {
 import { verifyToken } from "../auth/auth.middleware.js";
 import { logAuthEvent } from "../auth/auditLog.js";
 import { generateRawToken, hashToken } from "../auth/secureTokens.js";
+import { verifyTurnstile } from "../auth/turnstile.js";
 import { sendMail } from "../config/mailer.js";
 import { FRONTEND_URL } from "../config/env.js";
 
@@ -65,7 +66,7 @@ const sendResetEmail = async (user, rawToken) => {
   });
 };
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", verifyTurnstile, async (req, res) => {
   try {
     const { name, password } = req.body;
     const email = normalizeEmail(req.body.email);
@@ -118,7 +119,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", verifyTurnstile, async (req, res) => {
   try {
     const { password } = req.body;
     const email = normalizeEmail(req.body.email);
@@ -382,7 +383,7 @@ router.get("/verify-email", async (req, res) => {
    Password reset
    ========================= */
 
-router.post("/forgot-password", async (req, res) => {
+router.post("/forgot-password", verifyTurnstile, async (req, res) => {
   // Always reply 200 so we don't leak which emails are registered.
   const email = normalizeEmail(req.body.email);
   const okResponse = {
