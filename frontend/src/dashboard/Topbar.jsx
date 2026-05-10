@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, Bell, ChevronDown, LogOut, User } from "lucide-react";
-import { getCurrentUser, logout } from "../utils/auth";
+import { useAuth } from "../auth/AuthContext";
 
 const iconBtn =
   "bg-bg-soft border border-border-soft text-text-secondary p-2.5 rounded-xl cursor-pointer flex items-center justify-center transition-colors duration-200 hover:bg-white hover:text-text-primary hover:border-text-muted/40";
@@ -11,7 +12,8 @@ const dropdownBtn =
 const Topbar = ({ onMenuClick, title = "Dashboard" }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
-  const user = getCurrentUser();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!open) return;
@@ -24,9 +26,9 @@ const Topbar = ({ onMenuClick, title = "Dashboard" }) => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
   };
 
   const initial = user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../utils/signUpSchema";
 import { User, Mail, Lock, ArrowRight, Chrome } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { signup } from "../api/auth.api";
+import { useAuth } from "../auth/AuthContext";
 import { fadeIn } from "../animations/FadeIn";
 import {
   formMain,
@@ -38,6 +38,7 @@ import {
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const {
     register,
@@ -57,7 +58,7 @@ const SignUp = () => {
       };
 
       await signup(payload);
-      navigate("/login");
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       let message;
       if (err.response?.data?.message) {

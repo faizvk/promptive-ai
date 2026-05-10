@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, LogIn, Chrome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { login } from "../api/auth.api";
+import { useAuth } from "../auth/AuthContext";
 import { loginSchema } from "../utils/loginSchema";
 import { fadeIn } from "../animations/FadeIn";
 import {
@@ -39,6 +39,7 @@ import {
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
 
   const redirectTo = location.state?.from?.pathname || "/dashboard";
 
