@@ -22,14 +22,28 @@ dashboard.
 - Optional Cloudflare Turnstile gate on signup/login/forgot — no-op when not configured
 
 ### AI capabilities
+- **AI chat** — multi-model dispatcher across Google Gemini, OpenAI (GPT-4o,
+  GPT-4o mini), Anthropic (Claude 3.5 Sonnet & Haiku), and Groq (Llama 3.3
+  70B). Models are filtered to those whose API keys are configured and to the
+  user's plan tier; conversations are saved per user.
 - **Image generation** — text-to-image via Hugging Face FLUX.1 with selectable
-  resolution and aspect ratio. Generated images are uploaded to Cloudinary.
+  resolution, aspect ratio, quality preset, and negative prompt. Generated
+  images are uploaded to Cloudinary.
 - **Content rewrite** — Google Gemini rewrites your text in `professional`,
   `formal`, `casual`, or `creative` tone while preserving meaning.
+- **Voice synthesis (TTS)** — text-to-speech via ElevenLabs (Rachel, Bella,
+  Josh, Arnold, Domi) and OpenAI TTS. MP3 output uploaded to Cloudinary;
+  quota tracked in minutes.
+
+### Subscriptions & billing
+- Three tiers (Free, Pro, Business) with monthly per-feature caps
+- Razorpay subscription checkout, signature verification, webhook-driven activation
+- Cancel-at-period-end with frontend confirmation
+- In-app `Billing & plans` page; pricing page also linked from public navbar
 
 ### Dashboard
-- Overview with real per-user counts and last-activity timestamp
-- Image generation, content rewrite, and history pages
+- Overview with this-month usage progress bars, plan badge, and 4 quick actions
+- Chat, Image, Rewrite, Voice, History, Billing pages
 - Sidebar + topbar with mobile drawer
 
 ### History
@@ -132,11 +146,16 @@ See `backend/.env.example` and `frontend/.env.example` for the canonical lists.
 `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
 `ACCESS_TOKEN_TTL` (default `15m`), `REFRESH_TOKEN_TTL` (default `7d`),
 `SMTP_HOST`/`SMTP_PORT`/`SMTP_USER`/`SMTP_PASS`/`SMTP_FROM` (emails fall back
-to console logging when unset), `TURNSTILE_SECRET` (Cloudflare bot mitigation).
+to console logging when unset), `TURNSTILE_SECRET` (Cloudflare bot mitigation),
+`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GROQ_API_KEY`, `ELEVENLABS_API_KEY`,
+`REPLICATE_API_TOKEN` (extra AI providers — features auto-detect availability),
+`RAZORPAY_KEY_ID`/`RAZORPAY_KEY_SECRET`/`RAZORPAY_WEBHOOK_SECRET` plus
+`RAZORPAY_PLAN_ID_PRO`/`RAZORPAY_PLAN_ID_BUSINESS` (subscription billing).
 
 **Frontend:**
 `VITE_API_BASE_URL` — base URL of the backend.
 `VITE_TURNSTILE_SITE_KEY` (optional) — pair with backend `TURNSTILE_SECRET`.
+`VITE_RAZORPAY_KEY_ID` — public Razorpay key for the Checkout widget.
 
 ---
 
@@ -148,6 +167,7 @@ to console logging when unset), `TURNSTILE_SECRET` (Cloudflare bot mitigation).
 | `/`                 | Landing                    |
 | `/image-generate`   | Public image marketing     |
 | `/content-rewrite`  | Public rewrite marketing   |
+| `/pricing`          | Plans &amp; pricing        |
 | `/login`            | Sign in                    |
 | `/signup`           | Sign up                    |
 | `/forgot-password`  | Request password reset     |
@@ -155,12 +175,15 @@ to console logging when unset), `TURNSTILE_SECRET` (Cloudflare bot mitigation).
 | `/verify-email`     | Email verification target (handled by backend redirect) |
 
 ### Protected (require valid JWT)
-| Path                  | Page             |
-| --------------------- | ---------------- |
-| `/dashboard`          | Overview         |
-| `/dashboard/image`    | Image generation |
-| `/dashboard/rewrite`  | Content rewrite  |
-| `/dashboard/history`  | History          |
+| Path                  | Page                       |
+| --------------------- | -------------------------- |
+| `/dashboard`          | Overview + usage           |
+| `/dashboard/chat`     | Multi-model AI chat        |
+| `/dashboard/image`    | Image generation           |
+| `/dashboard/rewrite`  | Content rewrite            |
+| `/dashboard/voice`    | Voice synthesis            |
+| `/dashboard/history`  | History                    |
+| `/dashboard/billing`  | Plans + Razorpay checkout  |
 
 ---
 
@@ -180,9 +203,22 @@ All endpoints are mounted at the backend root (no `/api` prefix).
 - `POST /auth/forgot-password` — `{ email, turnstileToken? }` — always 200
 - `POST /auth/reset-password` — `{ token, password }`
 
-### AI (rate-limited: 10 req / min)
+### AI (rate-limited: 10 req / min, plan-gated)
 - `POST /images/generate-image` — `{ prompt, resolution, aspectRatio, quality?, negativePrompt?, seed? }`
 - `POST /content/rewrite` — `{ text, tone }`
+- `POST /chat/messages` — `{ chatId?, modelId, message }`
+- `GET  /chat/models` — models filtered by configured providers + user plan
+- `GET  /chat`, `GET /chat/:id`, `DELETE /chat/:id`
+- `POST /voice/generate` — `{ text, voiceId }`
+- `GET  /voice/voices`
+
+### Payments (Razorpay)
+- `GET  /payments/plans` — public plan catalogue + razorpay key id
+- `GET  /payments/me` — current subscription (auth)
+- `POST /payments/subscribe` — `{ planId }`, creates a Razorpay subscription (auth)
+- `POST /payments/verify` — verify Checkout signature post-payment (auth)
+- `POST /payments/cancel` — cancel at end of cycle (auth)
+- `POST /payments/webhook` — Razorpay webhook (raw body, HMAC-verified)
 
 ### History (auth required)
 - `GET    /history?type=image|rewrite&page=&limit=`
@@ -236,10 +272,24 @@ All endpoints are mounted at the backend root (no `/api` prefix).
 
 ---
 
+## Plans
+
+Three tiers, monthly billing in INR (configured for Razorpay test mode):
+
+| Plan      | Price      | Chat | Image | Rewrite | Voice (min) |
+| --------- | ---------- | ---: | ----: | ------: | ----------: |
+| Free      | ₹0         |   50 |     5 |      20 |           0 |
+| Pro       | ₹499/mo    | 1000 |   100 |     500 |          30 |
+| Business  | ₹1499/mo   |10000 |  1000 |    5000 |         300 |
+
+Plan tier also gates which chat models a user can pick (premium models like
+GPT-4o and Claude 3.5 Sonnet require Pro or higher). Per-feature usage resets
+at the start of each calendar month and is tracked in the `Usage` collection.
+
 ## Roadmap
 
-- Subscription / billing (Stripe)
-- Per-plan usage limits
+- Streaming chat responses (SSE)
+- Workspaces / team seats
 - Admin dashboard + RBAC
 - Export history (ZIP / PDF)
 - Public API for third-party developers

@@ -123,6 +123,15 @@ const Navbar = () => {
           </div>
         </li>
 
+        <li className="lg:relative">
+          <Link
+            to="/pricing"
+            className={`${navLink} lg:!justify-start`}
+            onClick={closeAll}
+          >
+            Pricing
+          </Link>
+        </li>
       </ul>
 
       <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mr-0 lg:mr-[70px]">

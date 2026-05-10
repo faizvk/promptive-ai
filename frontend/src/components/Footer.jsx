@@ -57,6 +57,9 @@ const Footer = () => {
           <Link to="/content-rewrite" className={colLink}>
             Content Rewrite
           </Link>
+          <Link to="/pricing" className={colLink}>
+            Pricing
+          </Link>
           <Link to="/dashboard" className={colLink}>
             Dashboard
           </Link>

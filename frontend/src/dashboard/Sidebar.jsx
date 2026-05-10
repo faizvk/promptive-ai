@@ -4,7 +4,10 @@ import {
   LayoutDashboard,
   Image,
   FileText,
+  MessageSquare,
+  Mic,
   Clock,
+  CreditCard,
   PanelLeftClose,
 } from "lucide-react";
 
@@ -71,6 +74,17 @@ const Sidebar = ({ isOpen, onClose }) => {
           </NavLink>
 
           <NavLink
+            to="/dashboard/chat"
+            onClick={onClose}
+            className={({ isActive }) =>
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
+            }
+          >
+            <MessageSquare size={18} />
+            <span>AI Chat</span>
+          </NavLink>
+
+          <NavLink
             to="/dashboard/image"
             onClick={onClose}
             className={({ isActive }) =>
@@ -93,6 +107,17 @@ const Sidebar = ({ isOpen, onClose }) => {
           </NavLink>
 
           <NavLink
+            to="/dashboard/voice"
+            onClick={onClose}
+            className={({ isActive }) =>
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
+            }
+          >
+            <Mic size={18} />
+            <span>Voice</span>
+          </NavLink>
+
+          <NavLink
             to="/dashboard/history"
             onClick={onClose}
             className={({ isActive }) =>
@@ -101,6 +126,21 @@ const Sidebar = ({ isOpen, onClose }) => {
           >
             <Clock size={18} />
             <span>History</span>
+          </NavLink>
+        </nav>
+
+        <p className={`relative ${navSectionLabel} mt-6`}>Account</p>
+
+        <nav className="relative flex flex-col gap-1.5">
+          <NavLink
+            to="/dashboard/billing"
+            onClick={onClose}
+            className={({ isActive }) =>
+              `${navLinkBase} ${isActive ? navLinkActive : ""}`
+            }
+          >
+            <CreditCard size={18} />
+            <span>Billing &amp; plans</span>
           </NavLink>
         </nav>
       </aside>

@@ -87,6 +87,19 @@ const UserSchema = new mongoose.Schema(
     passwordResetExpiresAt: {
       type: Date,
     },
+
+    subscription: {
+      plan: { type: String, enum: ["free", "pro", "business"], default: "free" },
+      status: {
+        type: String,
+        enum: ["none", "active", "past_due", "cancelled", "halted"],
+        default: "none",
+      },
+      currentPeriodEnd: { type: Date },
+      razorpaySubscriptionId: { type: String, index: true, sparse: true },
+      razorpayCustomerId: { type: String, sparse: true },
+      cancelAtPeriodEnd: { type: Boolean, default: false },
+    },
   },
   { timestamps: true }
 );
