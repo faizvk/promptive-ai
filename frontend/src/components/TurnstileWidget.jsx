@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useRef } from "react";
 
 const SCRIPT_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js";
