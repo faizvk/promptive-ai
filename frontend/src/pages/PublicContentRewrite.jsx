@@ -23,7 +23,7 @@ const sectionH2 =
   "text-2xl sm:text-3xl md:text-[2.5rem] font-extrabold tracking-[-0.02em] text-text-primary leading-tight";
 
 const sectionLead =
-  "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-2xl mx-auto";
+  "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-3xl mx-auto text-pretty";
 
 const stepCard =
   "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-[transform,border-color] duration-200 hover:-translate-y-0.5 text-left hover:border-btn-primary/40";

@@ -38,7 +38,7 @@ const Pricing = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.025em] mb-3 leading-tight">
             Simple, predictable pricing.
           </h1>
-          <p className="text-base md:text-lg text-white/70 max-w-xl mx-auto">
+          <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto text-pretty">
             Start free. Upgrade when you need more capacity, premium models, or
             voice synthesis.
           </p>

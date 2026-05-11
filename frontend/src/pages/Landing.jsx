@@ -26,7 +26,7 @@ const sectionTitle =
   "text-[1.6rem] sm:text-3xl md:text-[2.25rem] font-extrabold tracking-[-0.025em] text-text-primary leading-tight";
 
 const sectionLead =
-  "mt-3 text-sm sm:text-base text-text-secondary leading-relaxed max-w-xl mx-auto";
+  "mt-3 text-sm sm:text-base text-text-secondary leading-relaxed max-w-3xl mx-auto text-pretty";
 
 const FEATURES = [
   {
