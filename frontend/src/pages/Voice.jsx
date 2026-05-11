@@ -112,7 +112,12 @@ const Voice = () => {
             </div>
 
             <div>
-              <label className={labelEl}>Text</label>
+              <div className="flex items-baseline justify-between">
+                <label className={labelEl}>Text</label>
+                <span className="text-[0.7rem] text-text-muted tabular-nums mb-2 tabular-nums">
+                  {text.length} / 2,000
+                </span>
+              </div>
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -121,9 +126,32 @@ const Voice = () => {
                 placeholder="Type or paste up to 2,000 characters of text…"
                 className={`${fieldBase} resize-y min-h-[160px] bg-bg-soft`}
               />
-              <p className="text-[0.7rem] text-text-muted text-right mt-1">
-                {text.length} / 2000
-              </p>
+              {text.length === 0 && (
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setText(
+                        "Welcome to Promptive AI. Generate stunning voiceovers in seconds."
+                      )
+                    }
+                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                  >
+                    Welcome message
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setText(
+                        "In today's episode, we're talking about how teams ship faster with AI tools."
+                      )
+                    }
+                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                  >
+                    Podcast intro
+                  </button>
+                </div>
+              )}
             </div>
 
             <button
