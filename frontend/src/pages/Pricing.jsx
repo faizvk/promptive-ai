@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { fetchPlans } from "../api/payments.api";
 import { useAuth } from "../auth/AuthContext";
+import { fadeIn } from "../animations/FadeIn";
 
 const formatINR = (paise) =>
   `₹${Math.round(paise / 100).toLocaleString("en-IN")}`;
@@ -27,7 +28,10 @@ const Pricing = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
         />
-        <div className="relative max-w-[800px] mx-auto">
+        <div
+          className="relative max-w-[800px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.7 })}
+        >
           <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-white/70 mb-4">
             Pricing
           </span>
@@ -43,7 +47,10 @@ const Pricing = () => {
 
       {/* PLANS */}
       <section className="bg-bg-soft border-y border-border-soft px-5 py-14 md:px-6 md:py-20">
-        <div className="max-w-[1100px] mx-auto">
+        <div
+          className="max-w-[1100px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           {loading ? (
             <p className="text-center text-text-muted text-sm">
               Loading plans…
@@ -122,7 +129,10 @@ const Pricing = () => {
 
       {/* FAQ */}
       <section className="bg-white px-5 py-14 md:px-6 md:py-20">
-        <div className="max-w-[760px] mx-auto">
+        <div
+          className="max-w-[760px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-[-0.025em] text-text-primary text-center mb-8">
             Common questions
           </h2>
