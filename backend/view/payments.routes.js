@@ -9,6 +9,7 @@ import {
   verifySubscriptionPaymentSignature,
   verifyWebhookSignature,
   PUBLIC_KEY_ID,
+  getOrCreatePlanId,
 } from "../payments/razorpay.js";
 
 const router = express.Router();
@@ -82,11 +83,17 @@ router.post("/subscribe", verifyToken, requireRazorpay, async (req, res) => {
       });
     }
 
-    const razorpayPlanId = process.env[plan.razorpayPlanIdEnv];
-    if (!razorpayPlanId) {
+    let razorpayPlanId;
+    try {
+      razorpayPlanId = await getOrCreatePlanId(plan.id);
+    } catch (err) {
+      console.error("Failed to resolve Razorpay plan id:", err);
       return res.status(503).json({
         success: false,
-        message: `Razorpay plan id is not configured (set ${plan.razorpayPlanIdEnv} on the backend).`,
+        message:
+          err?.error?.description ||
+          err.message ||
+          "Failed to set up subscription plan",
       });
     }
 
