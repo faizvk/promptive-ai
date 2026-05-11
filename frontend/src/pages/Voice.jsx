@@ -175,6 +175,13 @@ const Voice = () => {
                     Upgrade plan
                   </Link>
                 ) : null}
+                {(error.toLowerCase().includes("elevenlabs") ||
+                  error.toLowerCase().includes("unusual activity")) && (
+                  <p className="mt-2 text-xs">
+                    Tip: ElevenLabs free tier blocks cloud-hosted requests. Pick
+                    an OpenAI voice from the dropdown to continue.
+                  </p>
+                )}
               </div>
             )}
           </form>

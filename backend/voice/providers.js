@@ -49,10 +49,13 @@ const OPENAI_VOICES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"].map(
 export const isVoiceConfigured = () =>
   Boolean(ELEVENLABS_API_KEY || OPENAI_API_KEY);
 
+// Order matters here: the frontend auto-selects voices[0]. OpenAI is more
+// reliable for cloud-deployed accounts since ElevenLabs free tier flags
+// datacenter IPs as "unusual activity" and disables the key.
 export const listVoices = () => {
   const all = [];
-  if (ELEVENLABS_API_KEY) all.push(...ELEVENLABS_VOICES);
   if (OPENAI_API_KEY) all.push(...OPENAI_VOICES);
+  if (ELEVENLABS_API_KEY) all.push(...ELEVENLABS_VOICES);
   return all;
 };
 
