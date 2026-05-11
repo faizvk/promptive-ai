@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   FileText,
@@ -104,35 +104,32 @@ const Overview = () => {
   const plan = data?.plan;
   const firstName = user?.name ? user.name.split(" ")[0] : "there";
 
-  const metrics = useMemo(
-    () => [
-      {
-        to: "/dashboard/chat",
-        icon: <MessageSquare size={15} />,
-        label: "Chats",
-        value: stats.chatsStarted ?? 0,
-      },
-      {
-        to: "/dashboard/image",
-        icon: <Image size={15} />,
-        label: "Images",
-        value: stats.imagesGenerated ?? 0,
-      },
-      {
-        to: "/dashboard/rewrite",
-        icon: <FileText size={15} />,
-        label: "Rewrites",
-        value: stats.rewritesDone ?? 0,
-      },
-      {
-        to: "/dashboard/voice",
-        icon: <Mic size={15} />,
-        label: "Voice clips",
-        value: stats.voicesGenerated ?? 0,
-      },
-    ],
-    [stats]
-  );
+  const metrics = [
+    {
+      to: "/dashboard/chat",
+      icon: <MessageSquare size={15} />,
+      label: "Chats",
+      value: stats.chatsStarted ?? 0,
+    },
+    {
+      to: "/dashboard/image",
+      icon: <Image size={15} />,
+      label: "Images",
+      value: stats.imagesGenerated ?? 0,
+    },
+    {
+      to: "/dashboard/rewrite",
+      icon: <FileText size={15} />,
+      label: "Rewrites",
+      value: stats.rewritesDone ?? 0,
+    },
+    {
+      to: "/dashboard/voice",
+      icon: <Mic size={15} />,
+      label: "Voice clips",
+      value: stats.voicesGenerated ?? 0,
+    },
+  ];
 
   const usageItems = plan
     ? [
