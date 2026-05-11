@@ -11,6 +11,8 @@ import Footer from "./components/Footer";
 const Landing = lazy(() => import("./pages/Landing"));
 const PublicImageGenerate = lazy(() => import("./pages/PublicImageGenerate"));
 const PublicContentRewrite = lazy(() => import("./pages/PublicContentRewrite"));
+const PublicChat = lazy(() => import("./pages/PublicChat"));
+const PublicVoice = lazy(() => import("./pages/PublicVoice"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
@@ -54,6 +56,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/image-generate" element={<PublicImageGenerate />} />
           <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+          <Route path="/chat" element={<PublicChat />} />
+          <Route path="/voice" element={<PublicVoice />} />
           <Route path="/pricing" element={<Pricing />} />
 
           <Route element={<PublicRoute />}>

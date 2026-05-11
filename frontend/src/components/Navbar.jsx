@@ -115,23 +115,23 @@ const Navbar = () => {
               </div>
             </Link>
 
-            <Link to="/signup" className={megaLink} onClick={closeAll}>
+            <Link to="/chat" className={megaLink} onClick={closeAll}>
               <span className={megaIconWrap}>
                 <MessageSquare size={16} />
               </span>
               <div>
                 <span className={megaTitle}>AI Chat</span>
-                <p className={megaSub}>Multi-model — sign up to try</p>
+                <p className={megaSub}>GPT, Claude, Gemini, Llama</p>
               </div>
             </Link>
 
-            <Link to="/signup" className={megaLink} onClick={closeAll}>
+            <Link to="/voice" className={megaLink} onClick={closeAll}>
               <span className={megaIconWrap}>
                 <Mic size={16} />
               </span>
               <div>
                 <span className={megaTitle}>Voice Synthesis</span>
-                <p className={megaSub}>Studio voices — sign up to try</p>
+                <p className={megaSub}>Studio-grade voices, MP3 output</p>
               </div>
             </Link>
           </div>
