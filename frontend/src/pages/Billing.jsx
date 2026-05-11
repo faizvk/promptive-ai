@@ -284,7 +284,7 @@ const Billing = () => {
                     ) : isFree ? (
                       <Link
                         to="/dashboard"
-                        className="block text-center w-full px-3 py-2 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft"
+                        className="block text-center w-full px-3 py-2 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft hover:border-text-muted/40 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                       >
                         Free plan
                       </Link>
