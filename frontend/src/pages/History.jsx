@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Image,
   FileText,
@@ -7,6 +7,8 @@ import {
   Copy,
   Check,
   Download,
+  Search,
+  SearchX,
 } from "lucide-react";
 import { fetchHistory, deleteHistoryItem } from "../api/history.api";
 
@@ -44,12 +46,18 @@ const groupByDate = (items) => {
   return groups;
 };
 
+const itemText = (item, type) =>
+  type === "image"
+    ? item.prompt || ""
+    : item.rewrittenText || item.originalText || "";
+
 const History = () => {
   const [type, setType] = useState("image");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeItem, setActiveItem] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [search, setSearch] = useState("");
 
   const loadHistory = useCallback(async () => {
     setLoading(true);
@@ -66,7 +74,14 @@ const History = () => {
   useEffect(() => {
     loadHistory();
     setActiveItem(null);
+    setSearch("");
   }, [loadHistory]);
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return items;
+    const q = search.toLowerCase();
+    return items.filter((it) => itemText(it, type).toLowerCase().includes(q));
+  }, [items, search, type]);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this item? This cannot be undone.")) return;
@@ -101,7 +116,9 @@ const History = () => {
     }
   };
 
-  const grouped = groupByDate(items);
+  const grouped = groupByDate(filtered);
+  const isFiltering = search.trim().length > 0;
+  const total = items.length;
 
   return (
     <div className="flex flex-col gap-5">
@@ -127,15 +144,53 @@ const History = () => {
         </div>
       </header>
 
+      {/* Search bar */}
+      <div className="relative">
+        <Search
+          size={15}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none"
+        />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={`Search ${type === "image" ? "image prompts" : "rewrites"}…`}
+          className="w-full pl-10 pr-9 py-2.5 rounded-lg border border-border-soft bg-white text-sm outline-none transition-colors focus:border-btn-primary placeholder:text-text-muted"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            aria-label="Clear search"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary p-1 rounded"
+          >
+            <X size={14} />
+          </button>
+        )}
+        {isFiltering && (
+          <p className="text-[0.7rem] text-text-muted mt-1.5">
+            {filtered.length} of {total} match "{search}"
+          </p>
+        )}
+      </div>
+
       {loading ? (
         <div className="text-text-muted text-sm py-12 text-center">Loading…</div>
-      ) : items.length === 0 ? (
+      ) : total === 0 ? (
         <div className="bg-white rounded-xl border border-dashed border-border-soft text-center py-16 px-6">
           <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-bg-soft text-text-muted flex items-center justify-center">
             {type === "image" ? <Image size={20} /> : <FileText size={20} />}
           </div>
           <p className="text-text-secondary text-sm">
             No {type === "image" ? "images" : "rewrites"} yet.
+          </p>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="bg-white rounded-xl border border-dashed border-border-soft text-center py-12 px-6">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-bg-soft text-text-muted flex items-center justify-center">
+            <SearchX size={20} />
+          </div>
+          <p className="text-text-secondary text-sm">
+            No items match "{search}".
           </p>
         </div>
       ) : (
@@ -176,9 +231,7 @@ const History = () => {
                     )}
                     <div className="p-3 flex-1">
                       <p className="text-[0.85rem] text-text-secondary leading-relaxed line-clamp-3">
-                        {type === "image"
-                          ? item.prompt
-                          : item.rewrittenText || item.originalText}
+                        {itemText(item, type)}
                       </p>
                       {item.createdAt && (
                         <p className="text-[0.65rem] text-text-muted mt-2">
