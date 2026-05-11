@@ -165,7 +165,10 @@ const Landing = () => {
       {/* FEATURES */}
       <section className="bg-bg-soft px-5 py-16 md:px-6 md:py-24 border-b border-border-soft">
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-10 md:mb-14">
+          <div
+            className="text-center mb-10 md:mb-14"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.7 })}
+          >
             <span className={eyebrow}>What's inside</span>
             <h2 className={sectionTitle}>
               Four core tools, one focused workspace.
@@ -176,7 +179,10 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+          >
             {FEATURES.map((f) => (
               <div
                 key={f.title}
@@ -200,12 +206,18 @@ const Landing = () => {
       {/* HOW IT WORKS */}
       <section className="bg-white px-5 py-16 md:px-6 md:py-24">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-center mb-10 md:mb-14">
+          <div
+            className="text-center mb-10 md:mb-14"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.7 })}
+          >
             <span className={eyebrow}>How it works</span>
             <h2 className={sectionTitle}>From idea to output in three steps.</h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3 max-w-[900px] mx-auto">
+          <div
+            className="grid gap-4 md:grid-cols-3 max-w-[900px] mx-auto"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+          >
             {STEPS.map((s, i) => (
               <div
                 key={s.title}
@@ -229,14 +241,20 @@ const Landing = () => {
       {/* TRUST */}
       <section className="bg-bg-soft px-5 py-16 md:px-6 md:py-24 border-y border-border-soft">
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-10 md:mb-14">
+          <div
+            className="text-center mb-10 md:mb-14"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.7 })}
+          >
             <span className={eyebrow}>Why Promptive</span>
             <h2 className={sectionTitle}>
               Built for serious work, not demos.
             </h2>
           </div>
 
-          <div className="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-3">
+          <div
+            className="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-3"
+            {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+          >
             {TRUST_POINTS.map((t) => (
               <div
                 key={t.title}
@@ -259,7 +277,10 @@ const Landing = () => {
 
       {/* PRICING TEASER */}
       <section className="bg-white px-5 py-16 md:px-6 md:py-24">
-        <div className="max-w-[800px] mx-auto text-center">
+        <div
+          className="max-w-[800px] mx-auto text-center"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           <span className={eyebrow}>Pricing</span>
           <h2 className={sectionTitle}>Simple plans that grow with you.</h2>
           <p className={sectionLead}>
@@ -294,7 +315,10 @@ const Landing = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
         />
-        <div className="relative max-w-[700px] mx-auto">
+        <div
+          className="relative max-w-[700px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           <h2 className="text-[1.85rem] sm:text-3xl md:text-[2.25rem] font-extrabold tracking-tight mb-3 leading-tight">
             Ready to build with AI?
           </h2>
