@@ -92,7 +92,13 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       original &&
       !original._retried &&
-      shouldAttemptRefresh(original.url)
+      shouldAttemptRefresh(original.url) &&
+      // No point trying refresh if we have nothing to refresh with.
+      // (When cookies work, the cookie may still be present even if
+      // localStorage is empty — but in that case the initial 401 would
+      // already be from a stale cookie, and we should let the caller
+      // handle it instead of hammering /auth/refresh.)
+      tokenStore.getRefresh()
     ) {
       original._retried = true;
       try {
