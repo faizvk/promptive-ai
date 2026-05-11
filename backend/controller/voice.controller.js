@@ -73,21 +73,51 @@ export const generateVoice = async (req, res) => {
       });
     }
 
-    const { buffer, provider } = await synthesizeSpeech({ voiceId, text });
+    // 1. Synthesize the audio with the chosen provider.
+    let buffer;
+    let provider;
+    try {
+      const result = await synthesizeSpeech({ voiceId, text });
+      buffer = result.buffer;
+      provider = result.provider;
+    } catch (err) {
+      console.error("TTS provider error:", err);
+      const msg = err?.message || "TTS provider error";
+      // Surface 401/403/429 from the upstream provider with the right status.
+      let status = 502;
+      if (/401|403/.test(msg)) status = 502;
+      if (/429/.test(msg)) status = 429;
+      return res.status(status).json({
+        success: false,
+        message: `Voice provider failed: ${msg}`,
+      });
+    }
 
-    // Upload to Cloudinary as video resource (cloudinary's audio endpoint).
-    const uploadResult = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: "promptive-ai/voice",
-          resource_type: "video", // audio uploads use the video pipeline
-          format: "mp3",
-        },
-        (err, result) => (err ? reject(err) : resolve(result))
-      );
-      stream.end(buffer);
-    });
+    // 2. Upload to Cloudinary. We use resource_type:"auto" so Cloudinary
+    //    detects the audio mp3 correctly regardless of how the account
+    //    is configured (some accounts reject explicit resource_type:"video"
+    //    for audio uploads).
+    let uploadResult;
+    try {
+      uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: "promptive-ai/voice",
+            resource_type: "auto",
+          },
+          (err, result) => (err ? reject(err) : resolve(result))
+        );
+        stream.end(buffer);
+      });
+    } catch (err) {
+      console.error("Cloudinary upload error:", err);
+      return res.status(502).json({
+        success: false,
+        message: `Audio upload failed: ${err?.message || "unknown error"}`,
+      });
+    }
 
+    // 3. Persist + return.
     const record = await Voice.create({
       userId: req.user.id,
       text,
@@ -118,7 +148,7 @@ export const generateVoice = async (req, res) => {
     console.error("Voice generation error:", err);
     res.status(500).json({
       success: false,
-      message: "Voice generation failed",
+      message: err?.message || "Voice generation failed",
     });
   }
 };
