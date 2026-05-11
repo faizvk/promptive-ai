@@ -26,7 +26,7 @@ const megaMenu =
   "lg:group-hover/item:opacity-100 lg:group-hover/item:visible lg:group-hover/item:pointer-events-auto lg:group-hover/item:translate-y-1";
 
 const megaLink =
-  "flex items-start gap-2.5 p-3 rounded-lg no-underline transition-colors duration-150 hover:bg-white/5 lg:hover:bg-bg-soft";
+  "group/link flex items-start gap-2.5 p-3 rounded-lg no-underline transition-colors duration-150 hover:bg-white/5 lg:hover:bg-bg-soft";
 
 const megaTitle =
   "font-semibold text-[0.92rem] text-white lg:text-text-primary block";
@@ -35,7 +35,7 @@ const megaSub =
   "text-[0.78rem] text-white/70 lg:text-text-muted mt-0.5 leading-snug";
 
 const megaIconWrap =
-  "shrink-0 w-9 h-9 rounded-lg bg-white/10 lg:bg-brand-primary/10 text-white lg:text-brand-primary flex items-center justify-center mt-0.5";
+  "shrink-0 w-9 h-9 rounded-lg bg-white/10 lg:bg-brand-primary/10 text-white lg:text-brand-primary flex items-center justify-center mt-0.5 transition-colors duration-150 group-hover/link:bg-brand-primary group-hover/link:text-white";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -158,11 +158,14 @@ const Navbar = () => {
         </Link>
         <Link
           to="/signup"
-          className="flex px-3.5 sm:px-4 py-2 rounded-lg bg-white text-brand-primary text-xs sm:text-sm font-semibold items-center gap-1.5 no-underline hover:bg-bg-soft transition-colors whitespace-nowrap"
+          className="group flex px-3.5 sm:px-4 py-2 rounded-lg bg-white text-brand-primary text-xs sm:text-sm font-semibold items-center gap-1.5 no-underline hover:bg-bg-soft transition-[transform,background-color] duration-200 hover:-translate-y-0.5 whitespace-nowrap"
           onClick={closeAll}
         >
           Get started
-          <ArrowRight size={13} />
+          <ArrowRight
+            size={13}
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
         </Link>
       </div>
     </nav>
