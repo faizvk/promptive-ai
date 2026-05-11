@@ -6,7 +6,7 @@ const colHeading =
   "text-[0.65rem] font-bold uppercase mb-3 text-white/50 tracking-[0.18em]";
 
 const colLink =
-  "block text-[0.875rem] text-white/70 no-underline mb-2 transition-colors hover:text-white";
+  "inline-block text-[0.875rem] text-white/70 no-underline mb-2 transition-[color,transform] duration-200 hover:text-white hover:translate-x-0.5";
 
 const Footer = () => {
   return (
@@ -32,7 +32,7 @@ const Footer = () => {
             aria-label="GitHub repository"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/75 hover:bg-white/12 hover:text-white transition-colors mt-5"
+            className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/75 hover:bg-white/12 hover:text-white transition-[transform,background-color,color] duration-200 hover:-translate-y-0.5 mt-5"
           >
             <Github size={15} />
           </a>

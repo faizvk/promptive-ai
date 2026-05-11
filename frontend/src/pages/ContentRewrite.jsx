@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useMemo, useState } from "react";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileText, RefreshCcw, Copy, Sparkles, Check } from "lucide-react";
 import { rewriteSchema } from "../utils/rewriteSchema";
@@ -45,6 +45,7 @@ const ContentRewrite = () => {
     setError,
     control,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm({
     resolver: zodResolver(rewriteSchema),
     defaultValues: {
@@ -52,6 +53,15 @@ const ContentRewrite = () => {
       tone: "professional",
     },
   });
+
+  const liveText = useWatch({ control, name: "text" }) || "";
+  const { chars, words } = useMemo(() => {
+    const trimmed = liveText.trim();
+    return {
+      chars: liveText.length,
+      words: trimmed ? trimmed.split(/\s+/).length : 0,
+    };
+  }, [liveText]);
 
   const onSubmit = async (data) => {
     setOutput("");
@@ -87,7 +97,12 @@ const ContentRewrite = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div>
-            <label className={labelEl}>Content</label>
+            <div className="flex items-baseline justify-between">
+              <label className={labelEl}>Content</label>
+              <span className="text-[0.7rem] text-text-muted tabular-nums mb-2">
+                {words} words · {chars} chars
+              </span>
+            </div>
             <textarea
               rows={8}
               placeholder="Paste your content here…"
@@ -98,6 +113,34 @@ const ContentRewrite = () => {
               <span className="text-xs font-medium text-text-error mt-1 block">
                 {errors.text.message}
               </span>
+            )}
+            {chars === 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setValue(
+                      "text",
+                      "We provide tools that help teams make content faster and better."
+                    )
+                  }
+                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
+                >
+                  Try a marketing line
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setValue(
+                      "text",
+                      "Hey, just wanted to check in and see if you had a sec to look at the doc I sent over yesterday. Lmk!"
+                    )
+                  }
+                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
+                >
+                  Try a casual email
+                </button>
+              </div>
             )}
           </div>
 
@@ -120,7 +163,7 @@ const ContentRewrite = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-60"
+            className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60"
           >
             {isSubmitting ? "Rewriting…" : "Rewrite content"}
             {!isSubmitting && <Sparkles size={15} />}

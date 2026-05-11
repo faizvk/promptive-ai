@@ -5,6 +5,11 @@ import {
   Trash2,
   Lock,
   ArrowUp,
+  Copy,
+  Check,
+  RefreshCcw,
+  User,
+  Bot,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -16,6 +21,29 @@ import {
 } from "../api/chat.api";
 import Select from "../components/Select";
 
+const SUGGESTIONS = [
+  {
+    title: "Plan a launch announcement",
+    prompt:
+      "Help me draft a launch announcement for a new productivity feature. Keep it punchy.",
+  },
+  {
+    title: "Summarize a long article",
+    prompt:
+      "I'll paste an article. Summarize it in 5 bullets and give me 3 follow-up questions.",
+  },
+  {
+    title: "Write SQL for a query",
+    prompt:
+      "I have a `users` table with name, email, plan, created_at. Write SQL for new sign-ups this month grouped by plan.",
+  },
+  {
+    title: "Sharpen this paragraph",
+    prompt:
+      "Rewrite this paragraph to be more confident and concise without changing the meaning: ",
+  },
+];
+
 const Chat = () => {
   const [models, setModels] = useState([]);
   const [modelId, setModelId] = useState(null);
@@ -24,6 +52,7 @@ const Chat = () => {
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
+  const [copiedIdx, setCopiedIdx] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -83,19 +112,25 @@ const Chat = () => {
     if (currentChat?._id === id || currentChat?.id === id) setCurrentChat(null);
   };
 
-  const handleSend = async (e) => {
-    e?.preventDefault();
-    if (!input.trim() || !modelId || sending) return;
+  const handleCopyMessage = (idx, content) => {
+    navigator.clipboard.writeText(content);
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 1200);
+  };
+
+  const sendText = async (messageText, opts = {}) => {
+    if (!messageText.trim() || !modelId || sending) return;
     setSending(true);
     setError(null);
 
-    const optimisticUser = { role: "user", content: input };
-    setCurrentChat((c) => ({
-      ...(c || { messages: [], title: "New chat" }),
-      messages: [...((c && c.messages) || []), optimisticUser],
-    }));
-    const messageText = input;
-    setInput("");
+    if (!opts.regenerate) {
+      const optimisticUser = { role: "user", content: messageText };
+      setCurrentChat((c) => ({
+        ...(c || { messages: [], title: "New chat" }),
+        messages: [...((c && c.messages) || []), optimisticUser],
+      }));
+      setInput("");
+    }
 
     try {
       const res = await sendChatMessage({
@@ -114,10 +149,27 @@ const Chat = () => {
     }
   };
 
+  const handleSend = (e) => {
+    e?.preventDefault();
+    if (!input.trim()) return;
+    sendText(input);
+  };
+
+  const handleRegenerate = () => {
+    // Find the last user message and resend it. The new assistant turn will
+    // append to the conversation.
+    const msgs = currentChat?.messages || [];
+    for (let i = msgs.length - 1; i >= 0; i--) {
+      if (msgs[i].role === "user") {
+        sendText(msgs[i].content, { regenerate: true });
+        return;
+      }
+    }
+  };
+
   const noModels = models.length === 0;
   const messages = currentChat?.messages || [];
 
-  // Build options for the custom Select
   const modelOptions = useMemo(() => {
     return models.map((m) => ({
       value: m.id,
@@ -128,9 +180,11 @@ const Chat = () => {
     }));
   }, [models]);
 
+  const currentModelMeta = models.find((m) => m.id === modelId);
+
   return (
     <div className="grid gap-5 grid-cols-1 lg:grid-cols-[260px_1fr] h-[calc(100vh-160px)] min-h-[520px]">
-      {/* Conversation list */}
+      {/* Conversations */}
       <aside className="bg-white border border-border-soft rounded-xl flex flex-col overflow-hidden">
         <div className="p-3 border-b border-border-soft">
           <button
@@ -183,10 +237,17 @@ const Chat = () => {
 
       {/* Main */}
       <section className="bg-white border border-border-soft rounded-xl flex flex-col overflow-hidden">
-        <header className="px-4 md:px-5 h-14 border-b border-border-soft flex items-center justify-between gap-3">
-          <span className="text-sm font-semibold text-text-primary truncate">
-            {currentChat?.title || "New chat"}
-          </span>
+        <header className="px-4 md:px-5 h-14 border-b border-border-soft flex items-center justify-between gap-3 shrink-0">
+          <div className="min-w-0 flex items-center gap-2">
+            <span className="text-sm font-semibold text-text-primary truncate">
+              {currentChat?.title || "New chat"}
+            </span>
+            {currentModelMeta && (
+              <span className="hidden sm:inline-flex items-center text-[0.65rem] font-bold uppercase tracking-[0.12em] text-text-muted bg-bg-soft border border-border-soft px-2 py-0.5 rounded-full">
+                {currentModelMeta.provider}
+              </span>
+            )}
+          </div>
           <Select
             value={modelId || ""}
             onChange={setModelId}
@@ -209,22 +270,43 @@ const Chat = () => {
           )}
 
           {!noModels && messages.length === 0 && !error && (
-            <div className="text-center text-text-muted py-12 max-w-md mx-auto">
-              <div className="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mx-auto mb-4">
-                <Sparkles size={20} />
+            <div className="max-w-2xl mx-auto py-8 md:py-12">
+              <div className="text-center mb-8">
+                <div className="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mx-auto mb-4">
+                  <Sparkles size={20} />
+                </div>
+                <h2 className="text-lg md:text-xl font-extrabold text-text-primary mb-1 tracking-tight">
+                  Start a conversation
+                </h2>
+                <p className="text-sm text-text-muted">
+                  Pick a model and send your first message. Or try one of these:
+                </p>
               </div>
-              <h2 className="text-base font-bold text-text-primary mb-1.5">
-                Start a conversation
-              </h2>
-              <p className="text-sm">
-                Pick a model and send your first message. Your conversations are
-                saved automatically.
-              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {SUGGESTIONS.map((s) => (
+                  <button
+                    key={s.title}
+                    onClick={() => {
+                      setInput(s.prompt);
+                      inputRef.current?.focus();
+                    }}
+                    className="text-left p-3 rounded-lg border border-border-soft bg-bg-soft hover:bg-white hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
+                  >
+                    <p className="text-sm font-semibold text-text-primary truncate">
+                      {s.title}
+                    </p>
+                    <p className="text-xs text-text-muted mt-0.5 line-clamp-2">
+                      {s.prompt}
+                    </p>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
           {error && (
-            <div className="bg-bg-error border border-border-error text-text-error rounded-lg p-3 text-sm mb-4">
+            <div className="bg-bg-error border border-border-error text-text-error rounded-lg p-3 text-sm mb-4 max-w-3xl mx-auto">
               {error}
               {error.includes("plan") || error.includes("limit") ? (
                 <Link
@@ -237,37 +319,76 @@ const Chat = () => {
             </div>
           )}
 
-          <div className="flex flex-col gap-4 max-w-3xl mx-auto">
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
-              >
+          <div className="flex flex-col gap-5 max-w-3xl mx-auto">
+            {messages.map((m, idx) => {
+              const isUser = m.role === "user";
+              return (
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-[0.95rem] whitespace-pre-wrap leading-relaxed ${
-                    m.role === "user"
-                      ? "bg-brand-primary text-white"
-                      : "bg-bg-soft text-text-primary border border-border-soft"
-                  }`}
+                  key={idx}
+                  className={`group flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}
                 >
-                  {m.content}
-                  {m.role === "assistant" && m.model && (
-                    <p
-                      className={`text-[0.65rem] mt-2 ${
-                        m.role === "user" ? "text-white/70" : "text-text-muted"
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                      isUser
+                        ? "bg-brand-primary text-white"
+                        : "bg-bg-soft text-text-secondary border border-border-soft"
+                    }`}
+                  >
+                    {isUser ? <User size={13} /> : <Bot size={13} />}
+                  </div>
+                  <div className={`max-w-[85%] ${isUser ? "items-end" : "items-start"} flex flex-col`}>
+                    <div
+                      className={`rounded-2xl px-4 py-3 text-[0.95rem] whitespace-pre-wrap leading-relaxed ${
+                        isUser
+                          ? "bg-brand-primary text-white rounded-tr-md"
+                          : "bg-bg-soft text-text-primary border border-border-soft rounded-tl-md"
                       }`}
                     >
-                      {m.model}
-                    </p>
-                  )}
+                      {m.content}
+                    </div>
+                    {!isUser && (
+                      <div className="flex items-center gap-1 mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleCopyMessage(idx, m.content)}
+                          className="text-[0.7rem] text-text-muted hover:text-text-secondary inline-flex items-center gap-1 px-1.5 py-0.5 rounded"
+                          aria-label="Copy"
+                        >
+                          {copiedIdx === idx ? (
+                            <Check size={11} />
+                          ) : (
+                            <Copy size={11} />
+                          )}
+                          {copiedIdx === idx ? "Copied" : "Copy"}
+                        </button>
+                        {idx === messages.length - 1 && (
+                          <button
+                            onClick={handleRegenerate}
+                            disabled={sending}
+                            className="text-[0.7rem] text-text-muted hover:text-text-secondary inline-flex items-center gap-1 px-1.5 py-0.5 rounded disabled:opacity-60"
+                          >
+                            <RefreshCcw size={11} /> Regenerate
+                          </button>
+                        )}
+                        {m.model && (
+                          <span className="text-[0.65rem] text-text-muted ml-1">
+                            {m.model}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {sending && (
-              <div className="flex justify-start">
-                <div className="bg-bg-soft border border-border-soft rounded-2xl px-4 py-3 text-sm text-text-muted flex items-center gap-2">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-text-muted animate-pulse" />
-                  Thinking…
+              <div className="flex gap-3">
+                <div className="w-7 h-7 rounded-full bg-bg-soft text-text-secondary border border-border-soft flex items-center justify-center shrink-0">
+                  <Bot size={13} />
+                </div>
+                <div className="bg-bg-soft border border-border-soft rounded-2xl rounded-tl-md px-4 py-3 text-sm text-text-muted flex items-center gap-1.5">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-text-muted animate-pulse [animation-delay:0ms]" />
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-text-muted animate-pulse [animation-delay:150ms]" />
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-text-muted animate-pulse [animation-delay:300ms]" />
                 </div>
               </div>
             )}
@@ -277,7 +398,7 @@ const Chat = () => {
 
         <form
           onSubmit={handleSend}
-          className="border-t border-border-soft px-4 md:px-6 py-3"
+          className="border-t border-border-soft px-4 md:px-6 py-3 shrink-0"
         >
           <div className="max-w-3xl mx-auto flex gap-2 items-end">
             <textarea

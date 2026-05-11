@@ -74,7 +74,10 @@ const SignUp = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "https://promptive-ai.onrender.com/auth/google";
+    const baseUrl =
+      import.meta.env.VITE_API_BASE_URL ||
+      "https://promptive-ai.onrender.com";
+    window.location.href = `${baseUrl}/auth/google`;
   };
 
   return (

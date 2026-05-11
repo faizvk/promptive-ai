@@ -26,7 +26,7 @@ const sectionLead =
   "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-2xl mx-auto";
 
 const stepCard =
-  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-colors duration-200 text-left hover:border-btn-primary/40";
+  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-[transform,border-color] duration-200 hover:-translate-y-0.5 text-left hover:border-btn-primary/40";
 
 const stepIcon =
   "w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white";
@@ -273,7 +273,7 @@ const PublicContentRewrite = () => {
           </div>
 
           <div className="grid gap-5 md:gap-6 md:grid-cols-3">
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Content creators
               </h4>
@@ -281,7 +281,7 @@ const PublicContentRewrite = () => {
                 Refine captions, blogs, and scripts effortlessly.
               </p>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Marketing teams
               </h4>
@@ -289,7 +289,7 @@ const PublicContentRewrite = () => {
                 Adapt messaging across channels and audiences.
               </p>
             </div>
-            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-colors duration-200 hover:border-brand-primary/30">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-border-soft text-left transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30">
               <h4 className="text-lg font-bold mb-2 text-text-primary">
                 Professionals
               </h4>

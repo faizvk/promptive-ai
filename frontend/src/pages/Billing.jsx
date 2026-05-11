@@ -240,7 +240,9 @@ const Billing = () => {
                       : highlight
                       ? "border-brand-primary/40"
                       : "border-border-soft"
-                  } p-5 flex flex-col`}
+                  } p-5 flex flex-col transition-[transform,border-color] duration-200 ${
+                    isCurrent ? "" : "hover:-translate-y-1 hover:border-brand-primary/40"
+                  }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-base font-extrabold text-text-primary">
@@ -282,7 +284,7 @@ const Billing = () => {
                     ) : isFree ? (
                       <Link
                         to="/dashboard"
-                        className="block text-center w-full px-3 py-2 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft"
+                        className="block text-center w-full px-3 py-2 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft hover:border-text-muted/40 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                       >
                         Free plan
                       </Link>

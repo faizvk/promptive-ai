@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { tokenStore } from "./api";
 
 export const signup = async (data) => {
   const response = await api.post("/auth/signup", data);
@@ -11,7 +11,13 @@ export const login = async (data) => {
 };
 
 export const logout = async () => {
-  const response = await api.post("/auth/logout");
+  // Send the refresh token in the body so the backend can invalidate it even
+  // when third-party cookies are blocked.
+  const refreshToken = tokenStore.getRefresh();
+  const response = await api.post(
+    "/auth/logout",
+    refreshToken ? { refreshToken } : {}
+  );
   return response.data;
 };
 

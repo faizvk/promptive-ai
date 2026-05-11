@@ -5,6 +5,7 @@ import {
   clearAuthCookies,
   verifyJwt,
   signAccessToken,
+  signRefreshToken,
 } from "../auth/tokens.js";
 import { verifyToken } from "../auth/auth.middleware.js";
 import { logAuthEvent } from "../auth/auditLog.js";
@@ -97,6 +98,8 @@ router.post("/signup", verifyTurnstile, async (req, res) => {
     }
 
     setAuthCookies(res, user);
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
     logAuthEvent(req, "signup", { userId: user._id, email });
 
     res.status(201).json({
@@ -109,6 +112,8 @@ router.post("/signup", verifyTurnstile, async (req, res) => {
         role: user.role,
         emailVerified: user.emailVerified,
       },
+      accessToken,
+      refreshToken,
     });
   } catch (err) {
     console.error("Signup error:", err);
@@ -181,6 +186,8 @@ router.post("/login", verifyTurnstile, async (req, res) => {
     }
 
     setAuthCookies(res, user);
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
     logAuthEvent(req, "login_success", { userId: user._id, email });
 
     res.status(200).json({
@@ -193,6 +200,8 @@ router.post("/login", verifyTurnstile, async (req, res) => {
         role: user.role,
         emailVerified: user.emailVerified,
       },
+      accessToken,
+      refreshToken,
     });
   } catch (err) {
     console.error("Login error:", err);
@@ -224,9 +233,22 @@ router.get("/me", verifyToken, async (req, res) => {
   });
 });
 
+// Accept refresh token from cookie, body, or Authorization: Bearer header so
+// that clients in cross-site contexts (where third-party cookies are blocked)
+// can still refresh via header-based flow.
+const extractRefreshToken = (req) => {
+  if (req.cookies?.refresh_token) return req.cookies.refresh_token;
+  if (typeof req.body?.refreshToken === "string" && req.body.refreshToken) {
+    return req.body.refreshToken;
+  }
+  const auth = req.headers.authorization;
+  if (auth?.startsWith("Bearer ")) return auth.slice(7);
+  return null;
+};
+
 router.post("/refresh", async (req, res) => {
   try {
-    const refreshToken = req.cookies?.refresh_token;
+    const refreshToken = extractRefreshToken(req);
     if (!refreshToken) {
       clearAuthCookies(res);
       return res
@@ -271,13 +293,11 @@ router.post("/refresh", async (req, res) => {
       });
     }
 
-    const accessToken = signAccessToken(user);
-    res.cookie("access_token", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-    });
+    // Issue both. Cookie path stays the same; body returns tokens so
+    // header-based clients also work.
+    setAuthCookies(res, user);
+    const newAccessToken = signAccessToken(user);
+    const newRefreshToken = signRefreshToken(user);
 
     return res.status(200).json({
       success: true,
@@ -288,6 +308,8 @@ router.post("/refresh", async (req, res) => {
         role: user.role,
         emailVerified: user.emailVerified,
       },
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     });
   } catch (err) {
     console.error("Refresh error:", err);
@@ -300,7 +322,7 @@ router.post("/refresh", async (req, res) => {
 
 router.post("/logout", async (req, res) => {
   try {
-    const refreshToken = req.cookies?.refresh_token;
+    const refreshToken = extractRefreshToken(req);
     if (refreshToken) {
       try {
         const decoded = verifyJwt(refreshToken);

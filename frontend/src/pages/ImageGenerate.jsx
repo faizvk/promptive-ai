@@ -33,6 +33,13 @@ const RESOLUTION_OPTIONS = [
   { value: "1024x1024", label: "1024 × 1024" },
 ];
 
+const PROMPT_INSPIRATIONS = [
+  "A futuristic city at sunset, neon highlights, cinematic lighting",
+  "Minimal product shot of a ceramic mug on white background, soft shadow",
+  "Photorealistic portrait of an astronaut, studio lighting, shallow depth of field",
+  "Hand-drawn watercolor illustration of a quiet mountain village in autumn",
+];
+
 const QUALITY_OPTIONS = [
   { value: "fast", label: "Fast", description: "Quickest, fewer steps" },
   { value: "balanced", label: "Balanced", description: "Default quality" },
@@ -51,6 +58,7 @@ const ImageGenerate = () => {
     setError,
     control,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm({
     resolver: zodResolver(imageSchema),
     defaultValues: {
@@ -184,7 +192,7 @@ const ImageGenerate = () => {
 
           <button
             disabled={isSubmitting}
-            className="group w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="group w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Generating…" : "Generate image"}
             {!isSubmitting && <Sparkles size={15} />}
@@ -208,18 +216,30 @@ const ImageGenerate = () => {
         )}
 
         {!imageUrl && !isSubmitting && (
-          <div className="w-full max-w-[480px] aspect-[16/9] flex flex-col items-center justify-center gap-2.5 text-text-muted text-center">
-            <div className="w-12 h-12 rounded-xl bg-bg-soft flex items-center justify-center">
+          <div className="w-full max-w-[520px] flex flex-col items-center text-center py-6">
+            <div className="w-12 h-12 rounded-xl bg-bg-soft text-text-muted flex items-center justify-center mb-3">
               <ImageIcon size={22} />
             </div>
-            <p className="text-sm">Your image will appear here</p>
-            <p className="text-xs max-w-xs">
-              Write a prompt on the left, pick the format, and hit{" "}
-              <span className="font-semibold text-text-secondary">
-                Generate image
-              </span>
-              .
+            <h3 className="text-sm font-bold text-text-primary mb-1">
+              Generate your first image
+            </h3>
+            <p className="text-xs text-text-muted mb-5 max-w-xs">
+              Write a prompt on the left or try one of these to start:
             </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
+              {PROMPT_INSPIRATIONS.map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() =>
+                    reset((prev) => ({ ...prev, prompt: p }))
+                  }
+                  className="text-left p-2.5 rounded-lg border border-border-soft bg-white hover:border-brand-primary/30 hover:bg-bg-soft text-[0.78rem] leading-snug text-text-secondary transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 

@@ -11,11 +11,14 @@ import Footer from "./components/Footer";
 const Landing = lazy(() => import("./pages/Landing"));
 const PublicImageGenerate = lazy(() => import("./pages/PublicImageGenerate"));
 const PublicContentRewrite = lazy(() => import("./pages/PublicContentRewrite"));
+const PublicChat = lazy(() => import("./pages/PublicChat"));
+const PublicVoice = lazy(() => import("./pages/PublicVoice"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const OAuthSuccess = lazy(() => import("./pages/OAuthSuccess"));
 
 const ImageGenerate = lazy(() => import("./pages/ImageGenerate"));
 const ContentRewrite = lazy(() => import("./pages/ContentRewrite"));
@@ -54,7 +57,10 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/image-generate" element={<PublicImageGenerate />} />
           <Route path="/content-rewrite" element={<PublicContentRewrite />} />
+          <Route path="/chat" element={<PublicChat />} />
+          <Route path="/voice" element={<PublicVoice />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/oauth-success" element={<OAuthSuccess />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/signup" element={<SignUp />} />

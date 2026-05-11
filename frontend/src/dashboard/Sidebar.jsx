@@ -13,7 +13,7 @@ import {
 import { useAuth } from "../auth/AuthContext";
 
 const navLinkBase =
-  "relative flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary text-sm font-medium transition-colors duration-150 hover:bg-bg-soft hover:text-text-primary";
+  "group relative flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary text-sm font-medium transition-colors duration-150 hover:bg-bg-soft hover:text-text-primary [&_svg]:transition-colors [&_svg]:duration-150 hover:[&_svg]:text-brand-primary";
 
 const navLinkActive =
   "!bg-bg-soft !text-text-primary [&_svg]:!text-brand-primary before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:rounded-full before:bg-brand-primary";

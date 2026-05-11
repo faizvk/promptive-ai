@@ -9,19 +9,45 @@ if (!API_BASE_URL && import.meta.env.MODE !== "test") {
   );
 }
 
+const ACCESS_KEY = "promptive.accessToken";
+const REFRESH_KEY = "promptive.refreshToken";
+
+export const tokenStore = {
+  getAccess: () => localStorage.getItem(ACCESS_KEY),
+  getRefresh: () => localStorage.getItem(REFRESH_KEY),
+  set: ({ accessToken, refreshToken }) => {
+    if (accessToken) localStorage.setItem(ACCESS_KEY, accessToken);
+    if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken);
+  },
+  clear: () => {
+    localStorage.removeItem(ACCESS_KEY);
+    localStorage.removeItem(REFRESH_KEY);
+  },
+};
+
 const api = axios.create({
   baseURL: API_BASE_URL,
-  // httpOnly auth cookies are sent with every request to the backend.
+  // Cookies still flow when the browser allows them (helps same-eTLD+1 setups).
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Endpoints that should NOT trigger an automatic refresh on 401:
-// - /auth/refresh itself (would loop)
-// - /auth/login + /auth/signup (caller handles credential errors)
-// - /auth/logout (already losing session)
+// Always attach the access token as a Bearer header if we have one — this is
+// the active auth path when cross-site cookies are blocked (Vercel↔Render).
+api.interceptors.request.use(
+  (config) => {
+    const token = tokenStore.getAccess();
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 const NO_REFRESH = [
   "/auth/refresh",
   "/auth/login",
@@ -34,11 +60,34 @@ const shouldAttemptRefresh = (url) =>
 
 let refreshInFlight = null;
 
+const performRefresh = async () => {
+  const refreshToken = tokenStore.getRefresh();
+  // Send the refresh token both ways so the backend can pick either path.
+  const body = refreshToken ? { refreshToken } : {};
+  const headers = refreshToken
+    ? { Authorization: `Bearer ${refreshToken}` }
+    : {};
+  const { data } = await axios.post(
+    `${API_BASE_URL}/auth/refresh`,
+    body,
+    {
+      headers,
+      withCredentials: true,
+    }
+  );
+  if (data?.accessToken) {
+    tokenStore.set({
+      accessToken: data.accessToken,
+      refreshToken: data.refreshToken,
+    });
+  }
+  return data;
+};
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const original = error.config;
-
     if (
       error.response?.status === 401 &&
       original &&
@@ -46,22 +95,25 @@ api.interceptors.response.use(
       shouldAttemptRefresh(original.url)
     ) {
       original._retried = true;
-
       try {
-        // De-dupe: if a refresh is already in flight, wait for it.
         if (!refreshInFlight) {
-          refreshInFlight = api.post("/auth/refresh");
+          refreshInFlight = performRefresh();
         }
         await refreshInFlight;
         refreshInFlight = null;
+        // Re-apply the new access token on the retry.
+        const newToken = tokenStore.getAccess();
+        if (newToken) {
+          original.headers = original.headers || {};
+          original.headers.Authorization = `Bearer ${newToken}`;
+        }
         return api(original);
       } catch (refreshErr) {
         refreshInFlight = null;
-        // Refresh itself failed — fall through and let the caller see 401.
+        tokenStore.clear();
         return Promise.reject(refreshErr);
       }
     }
-
     return Promise.reject(error);
   }
 );

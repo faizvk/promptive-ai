@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { fetchPlans } from "../api/payments.api";
 import { useAuth } from "../auth/AuthContext";
+import { fadeIn } from "../animations/FadeIn";
 
 const formatINR = (paise) =>
   `₹${Math.round(paise / 100).toLocaleString("en-IN")}`;
@@ -27,7 +28,10 @@ const Pricing = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
         />
-        <div className="relative max-w-[800px] mx-auto">
+        <div
+          className="relative max-w-[800px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.7 })}
+        >
           <span className="inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-white/70 mb-4">
             Pricing
           </span>
@@ -43,7 +47,10 @@ const Pricing = () => {
 
       {/* PLANS */}
       <section className="bg-bg-soft border-y border-border-soft px-5 py-14 md:px-6 md:py-20">
-        <div className="max-w-[1100px] mx-auto">
+        <div
+          className="max-w-[1100px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           {loading ? (
             <p className="text-center text-text-muted text-sm">
               Loading plans…
@@ -58,7 +65,7 @@ const Pricing = () => {
                     key={plan.id}
                     className={`relative rounded-xl bg-white border ${
                       highlight ? "border-brand-primary/40" : "border-border-soft"
-                    } p-6 flex flex-col`}
+                    } p-6 flex flex-col transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-brand-primary/40`}
                   >
                     {highlight && (
                       <span className="absolute -top-2.5 right-5 inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-brand-primary bg-white border border-brand-primary/30 px-2 py-0.5 rounded-full">
@@ -94,7 +101,7 @@ const Pricing = () => {
                       {isFree ? (
                         <Link
                           to={isAuthenticated ? "/dashboard" : "/signup"}
-                          className="block text-center w-full px-4 py-2.5 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft transition-colors"
+                          className="block text-center w-full px-4 py-2.5 rounded-lg border border-border-soft text-sm font-semibold text-text-primary hover:bg-bg-soft hover:border-text-muted/40 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                         >
                           {isAuthenticated ? "Go to dashboard" : "Get started"}
                         </Link>
@@ -105,10 +112,10 @@ const Pricing = () => {
                               ? `/dashboard/billing?upgrade=${plan.id}`
                               : "/signup"
                           }
-                          className="flex justify-center items-center gap-1.5 w-full px-4 py-2.5 rounded-lg bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-colors"
+                          className="group flex justify-center items-center gap-1.5 w-full px-4 py-2.5 rounded-lg bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-[transform,background-color] duration-200 hover:-translate-y-0.5"
                         >
                           Upgrade to {plan.name}
-                          <ArrowRight size={13} />
+                          <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                         </Link>
                       )}
                     </div>
@@ -122,7 +129,10 @@ const Pricing = () => {
 
       {/* FAQ */}
       <section className="bg-white px-5 py-14 md:px-6 md:py-20">
-        <div className="max-w-[760px] mx-auto">
+        <div
+          className="max-w-[760px] mx-auto"
+          {...fadeIn({ direction: "up", distance: 60, duration: 0.8 })}
+        >
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-[-0.025em] text-text-primary text-center mb-8">
             Common questions
           </h2>
