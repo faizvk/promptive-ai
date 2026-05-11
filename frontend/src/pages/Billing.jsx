@@ -240,7 +240,9 @@ const Billing = () => {
                       : highlight
                       ? "border-brand-primary/40"
                       : "border-border-soft"
-                  } p-5 flex flex-col`}
+                  } p-5 flex flex-col transition-[transform,border-color] duration-200 ${
+                    isCurrent ? "" : "hover:-translate-y-1 hover:border-brand-primary/40"
+                  }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-base font-extrabold text-text-primary">

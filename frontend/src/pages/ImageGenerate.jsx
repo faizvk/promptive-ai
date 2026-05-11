@@ -234,7 +234,7 @@ const ImageGenerate = () => {
                   onClick={() =>
                     reset((prev) => ({ ...prev, prompt: p }))
                   }
-                  className="text-left p-2.5 rounded-lg border border-border-soft bg-white hover:border-brand-primary/30 hover:bg-bg-soft text-[0.78rem] leading-snug text-text-secondary transition-colors"
+                  className="text-left p-2.5 rounded-lg border border-border-soft bg-white hover:border-brand-primary/30 hover:bg-bg-soft text-[0.78rem] leading-snug text-text-secondary transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                 >
                   {p}
                 </button>

@@ -211,7 +211,7 @@ const Overview = () => {
           <Link
             key={m.label}
             to={m.to}
-            className="group bg-white border border-border-soft rounded-xl p-4 md:p-5 transition-colors hover:border-brand-primary/30 no-underline"
+            className="group bg-white border border-border-soft rounded-xl p-4 md:p-5 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30 no-underline"
           >
             <div className="flex items-center gap-2 text-text-muted mb-3">
               {m.icon}
@@ -254,7 +254,7 @@ const Overview = () => {
             </div>
             <Link
               to="/dashboard/billing"
-              className="inline-flex items-center gap-1.5 bg-white text-brand-primary hover:bg-bg-soft px-4 py-2 rounded-lg text-sm font-semibold transition-colors no-underline"
+              className="inline-flex items-center gap-1.5 bg-white text-brand-primary hover:bg-bg-soft px-4 py-2 rounded-lg text-sm font-semibold transition-[transform,background-color] duration-200 hover:-translate-y-0.5 no-underline"
             >
               See plans <ArrowRight size={14} />
             </Link>
@@ -334,7 +334,7 @@ const Overview = () => {
               <Link
                 key={a.to}
                 to={a.to}
-                className="group flex flex-col gap-2.5 p-3.5 rounded-lg border border-border-soft hover:border-brand-primary/30 hover:bg-bg-soft transition-colors no-underline"
+                className="group flex flex-col gap-2.5 p-3.5 rounded-lg border border-border-soft hover:border-brand-primary/30 hover:bg-bg-soft transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 no-underline"
               >
                 <div className="w-9 h-9 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center transition-colors group-hover:bg-brand-primary group-hover:text-white">
                   {a.icon}

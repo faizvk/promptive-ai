@@ -204,7 +204,7 @@ const History = () => {
                 {sectionItems.map((item) => (
                   <div
                     key={item._id}
-                    className="group relative bg-white border border-border-soft rounded-xl overflow-hidden flex flex-col cursor-pointer transition-colors hover:border-brand-primary/30"
+                    className="group relative bg-white border border-border-soft rounded-xl overflow-hidden flex flex-col cursor-pointer transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30"
                     onClick={() => type === "rewrite" && setActiveItem(item)}
                   >
                     {type === "image" && (

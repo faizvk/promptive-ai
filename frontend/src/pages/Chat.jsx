@@ -291,7 +291,7 @@ const Chat = () => {
                       setInput(s.prompt);
                       inputRef.current?.focus();
                     }}
-                    className="text-left p-3 rounded-lg border border-border-soft bg-bg-soft hover:bg-white hover:border-brand-primary/30 transition-colors"
+                    className="text-left p-3 rounded-lg border border-border-soft bg-bg-soft hover:bg-white hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                   >
                     <p className="text-sm font-semibold text-text-primary truncate">
                       {s.title}
