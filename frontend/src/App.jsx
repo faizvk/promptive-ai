@@ -18,6 +18,7 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const OAuthSuccess = lazy(() => import("./pages/OAuthSuccess"));
 
 const ImageGenerate = lazy(() => import("./pages/ImageGenerate"));
 const ContentRewrite = lazy(() => import("./pages/ContentRewrite"));
@@ -59,6 +60,7 @@ function App() {
           <Route path="/chat" element={<PublicChat />} />
           <Route path="/voice" element={<PublicVoice />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/oauth-success" element={<OAuthSuccess />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/signup" element={<SignUp />} />
