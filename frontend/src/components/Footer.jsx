@@ -6,7 +6,7 @@ const colHeading =
   "text-[0.65rem] font-bold uppercase mb-3 text-white/50 tracking-[0.18em]";
 
 const colLink =
-  "block text-[0.875rem] text-white/70 no-underline mb-2 transition-colors hover:text-white";
+  "inline-block text-[0.875rem] text-white/70 no-underline mb-2 transition-[color,transform] duration-200 hover:text-white hover:translate-x-0.5";
 
 const Footer = () => {
   return (
