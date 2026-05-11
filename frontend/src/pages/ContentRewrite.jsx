@@ -124,7 +124,7 @@ const ContentRewrite = () => {
                       "We provide tools that help teams make content faster and better."
                     )
                   }
-                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                 >
                   Try a marketing line
                 </button>
@@ -136,7 +136,7 @@ const ContentRewrite = () => {
                       "Hey, just wanted to check in and see if you had a sec to look at the doc I sent over yesterday. Lmk!"
                     )
                   }
-                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                  className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                 >
                   Try a casual email
                 </button>
@@ -163,7 +163,7 @@ const ContentRewrite = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-60"
+            className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60"
           >
             {isSubmitting ? "Rewriting…" : "Rewrite content"}
             {!isSubmitting && <Sparkles size={15} />}

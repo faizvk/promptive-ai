@@ -192,7 +192,7 @@ const ImageGenerate = () => {
 
           <button
             disabled={isSubmitting}
-            className="group w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="group w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Generating…" : "Generate image"}
             {!isSubmitting && <Sparkles size={15} />}

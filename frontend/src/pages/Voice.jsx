@@ -135,7 +135,7 @@ const Voice = () => {
                         "Welcome to Promptive AI. Generate stunning voiceovers in seconds."
                       )
                     }
-                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                   >
                     Welcome message
                   </button>
@@ -146,7 +146,7 @@ const Voice = () => {
                         "In today's episode, we're talking about how teams ship faster with AI tools."
                       )
                     }
-                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-colors"
+                    className="text-[0.72rem] px-2.5 py-1 rounded-md border border-border-soft bg-white text-text-secondary hover:bg-bg-soft hover:border-brand-primary/30 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5"
                   >
                     Podcast intro
                   </button>
@@ -157,7 +157,7 @@ const Voice = () => {
             <button
               type="submit"
               disabled={loading || !text.trim() || !voiceId}
-              className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full p-3 rounded-lg border-0 bg-brand-primary enabled:hover:bg-[#032c5a] text-white font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? "Generating…" : "Generate audio"}
               {!loading && <Sparkles size={15} />}
