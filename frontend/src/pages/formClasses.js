@@ -38,7 +38,7 @@ export const errorBanner =
   "px-3.5 py-2.5 rounded-lg bg-bg-error border border-border-error text-text-error text-sm";
 
 export const submitBtn =
-  "mt-1 bg-brand-primary enabled:hover:bg-[#032c5a] text-white p-3 border-0 rounded-lg text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40 focus-visible:ring-offset-2";
+  "mt-1 bg-brand-primary enabled:hover:bg-[#032c5a] text-white p-3 border-0 rounded-lg text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-[transform,background-color] duration-200 enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40 focus-visible:ring-offset-2";
 
 export const footerText =
   "text-center text-sm text-text-secondary mt-2";
@@ -47,7 +47,7 @@ export const footerLink =
   "text-brand-primary font-semibold no-underline hover:underline";
 
 export const googleBtn =
-  "w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-text-primary text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors duration-200 hover:bg-bg-soft hover:border-text-muted/40 disabled:opacity-60 disabled:cursor-not-allowed [&_svg]:text-[#4285f4]";
+  "w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-text-primary text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-[transform,background-color,border-color] duration-200 enabled:hover:bg-bg-soft enabled:hover:border-text-muted/40 enabled:hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed [&_svg]:text-[#4285f4]";
 
 export const divider =
   "flex items-center text-center my-1 before:content-[''] before:flex-1 before:h-px before:bg-border-soft after:content-[''] after:flex-1 after:h-px after:bg-border-soft";

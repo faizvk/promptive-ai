@@ -65,7 +65,7 @@ const Pricing = () => {
                     key={plan.id}
                     className={`relative rounded-xl bg-white border ${
                       highlight ? "border-brand-primary/40" : "border-border-soft"
-                    } p-6 flex flex-col`}
+                    } p-6 flex flex-col transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-brand-primary/40`}
                   >
                     {highlight && (
                       <span className="absolute -top-2.5 right-5 inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-brand-primary bg-white border border-brand-primary/30 px-2 py-0.5 rounded-full">
@@ -112,10 +112,10 @@ const Pricing = () => {
                               ? `/dashboard/billing?upgrade=${plan.id}`
                               : "/signup"
                           }
-                          className="flex justify-center items-center gap-1.5 w-full px-4 py-2.5 rounded-lg bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-colors"
+                          className="group flex justify-center items-center gap-1.5 w-full px-4 py-2.5 rounded-lg bg-brand-primary hover:bg-[#032c5a] text-white text-sm font-semibold transition-[transform,background-color] duration-200 hover:-translate-y-0.5"
                         >
                           Upgrade to {plan.name}
-                          <ArrowRight size={13} />
+                          <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                         </Link>
                       )}
                     </div>
