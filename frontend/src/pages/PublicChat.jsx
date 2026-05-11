@@ -13,10 +13,10 @@ import {
 import { fadeIn } from "../animations/FadeIn";
 
 const primaryBtn =
-  "group bg-brand-primary hover:bg-[#032c5a] text-white px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40 focus-visible:ring-offset-2";
+  "group bg-brand-primary hover:bg-[#032c5a] text-white px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40 focus-visible:ring-offset-2";
 
 const secondaryBtn =
-  "border border-white/25 bg-white/5 backdrop-blur-sm text-white px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition-colors no-underline";
+  "border border-white/25 bg-white/5 backdrop-blur-sm text-white px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5 no-underline";
 
 const eyebrow =
   "inline-block text-[0.7rem] font-bold tracking-[0.18em] uppercase text-brand-primary/70 mb-3";
@@ -28,7 +28,7 @@ const sectionLead =
   "mt-3 text-sm sm:text-base text-text-secondary leading-relaxed max-w-xl mx-auto";
 
 const stepCard =
-  "group bg-bg-surface border border-border-soft rounded-xl p-6 transition-colors hover:border-brand-primary/30";
+  "group bg-bg-surface border border-border-soft rounded-xl p-6 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30";
 
 const stepIcon =
   "w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-4 transition-colors group-hover:bg-brand-primary group-hover:text-white";
@@ -233,7 +233,7 @@ const PublicChat = () => {
             {MODELS.map((m) => (
               <div
                 key={m.name}
-                className="bg-white border border-border-soft rounded-xl p-5"
+                className="bg-white border border-border-soft rounded-xl p-5 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30"
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-bold text-text-primary tracking-tight">
@@ -331,7 +331,7 @@ const PublicChat = () => {
             {USE_CASES.map((u) => (
               <div
                 key={u.title}
-                className="bg-white border border-border-soft rounded-xl p-5"
+                className="bg-white border border-border-soft rounded-xl p-5 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-brand-primary/30"
               >
                 <div className="w-10 h-10 rounded-lg bg-bg-soft text-brand-primary flex items-center justify-center mb-4">
                   <u.icon size={18} />

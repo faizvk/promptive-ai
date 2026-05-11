@@ -19,13 +19,13 @@ const sectionLead =
   "mt-3 sm:mt-4 text-sm sm:text-base md:text-[1.05rem] text-text-secondary leading-relaxed max-w-2xl mx-auto";
 
 const stepCard =
-  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-colors duration-200 text-left hover:border-btn-primary/40";
+  "group relative p-6 sm:p-8 rounded-2xl bg-bg-surface border border-border-soft transition-[transform,border-color] duration-200 hover:-translate-y-0.5 text-left hover:border-btn-primary/40";
 
 const stepIcon =
   "w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white";
 
 const ExampleCard = ({ src, alt, prompt }) => (
-  <div className="group relative rounded-2xl overflow-hidden bg-white border border-border-soft transition-colors duration-200 hover:border-btn-primary/40">
+  <div className="group relative rounded-2xl overflow-hidden bg-white border border-border-soft transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-btn-primary/40">
     <div className="aspect-[4/5] overflow-hidden bg-bg-soft">
       <img
         src={src}
