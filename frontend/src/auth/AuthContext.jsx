@@ -13,6 +13,7 @@ import {
   logout as apiLogout,
   signup as apiSignup,
 } from "../api/auth.api";
+import { tokenStore } from "../api/api";
 
 const AuthContext = createContext(null);
 
@@ -27,20 +28,26 @@ export const AuthProvider = ({ children }) => {
       setStatus("authenticated");
       return me;
     } catch {
+      tokenStore.clear();
       setUser(null);
       setStatus("unauthenticated");
       return null;
     }
   }, []);
 
-  // Bootstrap: ask the backend who we are. The axios interceptor will
-  // transparently call /auth/refresh once if the access cookie is stale.
+  // Bootstrap on mount.
   useEffect(() => {
     refresh();
   }, [refresh]);
 
   const login = useCallback(async (credentials) => {
     const res = await apiLogin(credentials);
+    if (res?.accessToken) {
+      tokenStore.set({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      });
+    }
     if (res?.user) {
       setUser(res.user);
       setStatus("authenticated");
@@ -50,6 +57,12 @@ export const AuthProvider = ({ children }) => {
 
   const signup = useCallback(async (payload) => {
     const res = await apiSignup(payload);
+    if (res?.accessToken) {
+      tokenStore.set({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      });
+    }
     if (res?.user) {
       setUser(res.user);
       setStatus("authenticated");
@@ -61,6 +74,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await apiLogout();
     } finally {
+      tokenStore.clear();
       setUser(null);
       setStatus("unauthenticated");
     }
