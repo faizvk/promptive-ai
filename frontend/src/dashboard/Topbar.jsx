@@ -42,16 +42,16 @@ const Topbar = ({ onMenuClick }) => {
   const title = PAGE_TITLES[pathname] || "Dashboard";
 
   return (
-    <header className="h-[64px] flex items-center justify-between px-4 md:px-6 bg-white border-b border-border-soft sticky top-0 z-40">
-      <div className="flex items-center gap-3">
+    <header className="h-[64px] flex items-center justify-between gap-3 px-4 md:px-6 bg-white border-b border-border-soft sticky top-0 z-40">
+      <div className="flex items-center gap-3 min-w-0 flex-1">
         <button
-          className="lg:hidden text-text-muted hover:text-text-primary p-2 -ml-2 rounded-lg hover:bg-bg-soft"
+          className="lg:hidden text-text-muted hover:text-text-primary p-2 -ml-2 rounded-lg hover:bg-bg-soft shrink-0"
           onClick={onMenuClick}
           aria-label="Open sidebar"
         >
           <Menu size={20} />
         </button>
-        <h1 className="text-[1rem] md:text-[1.05rem] font-bold text-text-primary tracking-[-0.01em] m-0">
+        <h1 className="text-[1rem] md:text-[1.05rem] font-bold text-text-primary tracking-[-0.01em] m-0 truncate">
           {title}
         </h1>
       </div>

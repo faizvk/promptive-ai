@@ -240,21 +240,21 @@ const Overview = () => {
             className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_at_top_right,black_20%,transparent_70%)]"
           />
           <div className="relative flex items-center justify-between gap-4 flex-wrap">
-            <div>
+            <div className="min-w-0 flex-1">
               <span className="inline-flex items-center gap-2 px-2.5 py-1 bg-white/10 border border-white/15 rounded-full text-[0.65rem] font-bold tracking-[0.14em] uppercase backdrop-blur-sm mb-3">
                 <Sparkles size={11} className="text-btn-secondary" /> Upgrade
               </span>
-              <h3 className="text-lg md:text-xl font-extrabold tracking-tight mb-1">
+              <h3 className="text-lg md:text-xl font-extrabold tracking-tight mb-1 text-pretty">
                 Unlock GPT-4o, Claude Sonnet, and voice synthesis.
               </h3>
-              <p className="text-sm text-white/70 max-w-md">
+              <p className="text-sm text-white/70 text-pretty">
                 Pro starts at ₹499/month with 100 images, 1,000 chats and 30
                 voice minutes.
               </p>
             </div>
             <Link
               to="/dashboard/billing"
-              className="inline-flex items-center gap-1.5 bg-white text-brand-primary hover:bg-bg-soft px-4 py-2 rounded-lg text-sm font-semibold transition-[transform,background-color] duration-200 hover:-translate-y-0.5 no-underline"
+              className="inline-flex items-center gap-1.5 bg-white text-brand-primary hover:bg-bg-soft px-4 py-2 rounded-lg text-sm font-semibold transition-[transform,background-color] duration-200 hover:-translate-y-0.5 no-underline shrink-0 whitespace-nowrap"
             >
               See plans <ArrowRight size={14} />
             </Link>
