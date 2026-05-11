@@ -81,7 +81,7 @@ const Voice = () => {
   };
 
   return (
-    <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
+    <div className="grid gap-4 md:gap-5 grid-cols-1 lg:grid-cols-2">
       {/* INPUT */}
       <section className="bg-white border border-border-soft rounded-xl p-5 md:p-6">
         <header className="mb-5">

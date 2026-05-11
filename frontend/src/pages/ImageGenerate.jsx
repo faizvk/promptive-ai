@@ -98,7 +98,7 @@ const ImageGenerate = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[440px_1fr] gap-5">
+    <div className="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] xl:grid-cols-[440px_minmax(0,1fr)] gap-4 md:gap-5">
       {/* LEFT — controls */}
       <aside className="bg-white border border-border-soft rounded-xl p-5">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">

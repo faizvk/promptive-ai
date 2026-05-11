@@ -83,7 +83,7 @@ const ContentRewrite = () => {
   };
 
   return (
-    <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
+    <div className="grid gap-4 md:gap-5 grid-cols-1 lg:grid-cols-2">
       {/* INPUT */}
       <section className="bg-white border border-border-soft rounded-xl p-5 md:p-6">
         <header className="mb-5">
@@ -217,7 +217,7 @@ const ContentRewrite = () => {
 
         {output && (
           <div className="flex flex-col gap-4 flex-1">
-            <div className="bg-bg-soft border border-border-soft rounded-lg p-4 text-[0.95rem] leading-[1.7] text-text-primary whitespace-pre-wrap max-h-[440px] overflow-y-auto">
+            <div className="bg-bg-soft border border-border-soft rounded-lg p-4 text-[0.95rem] leading-[1.7] text-text-primary whitespace-pre-line break-words max-h-[440px] overflow-y-auto">
               {output}
             </div>
             <button

@@ -183,9 +183,9 @@ const Chat = () => {
   const currentModelMeta = models.find((m) => m.id === modelId);
 
   return (
-    <div className="grid gap-5 grid-cols-1 lg:grid-cols-[260px_1fr] h-[calc(100vh-160px)] min-h-[520px]">
+    <div className="grid gap-3 md:gap-5 grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:h-[calc(100vh-160px)] min-h-[520px]">
       {/* Conversations */}
-      <aside className="bg-white border border-border-soft rounded-xl flex flex-col overflow-hidden">
+      <aside className="bg-white border border-border-soft rounded-xl flex flex-col overflow-hidden max-lg:max-h-[260px]">
         <div className="p-3 border-b border-border-soft">
           <button
             onClick={startNewChat}
@@ -336,9 +336,9 @@ const Chat = () => {
                   >
                     {isUser ? <User size={13} /> : <Bot size={13} />}
                   </div>
-                  <div className={`max-w-[85%] ${isUser ? "items-end" : "items-start"} flex flex-col`}>
+                  <div className={`flex-1 min-w-0 flex flex-col ${isUser ? "items-end" : "items-start"}`}>
                     <div
-                      className={`rounded-2xl px-4 py-3 text-[0.95rem] whitespace-pre-wrap leading-relaxed ${
+                      className={`rounded-2xl px-4 py-3 text-[0.95rem] max-w-full sm:max-w-[85%] whitespace-pre-line break-words leading-relaxed ${
                         isUser
                           ? "bg-brand-primary text-white rounded-tr-md"
                           : "bg-bg-soft text-text-primary border border-border-soft rounded-tl-md"
