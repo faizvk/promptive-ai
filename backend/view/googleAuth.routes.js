@@ -1,7 +1,11 @@
 import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { User } from "../model/user.model.js";
-import { setAuthCookies } from "../auth/tokens.js";
+import {
+  setAuthCookies,
+  signAccessToken,
+  signRefreshToken,
+} from "../auth/tokens.js";
 import { logAuthEvent } from "../auth/auditLog.js";
 import {
   BACKEND_URL,
@@ -67,11 +71,18 @@ router.get("/google/callback", async (req, res) => {
     }
 
     setAuthCookies(res, user);
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
     logAuthEvent(req, "oauth_success", { userId: user._id, email });
 
-    // Cookies are set on the backend response. Browser will send them on
-    // subsequent requests to backend (cross-origin allowed via CORS).
-    res.redirect(`${FRONTEND_URL}/dashboard`);
+    // Pass tokens in the URL fragment so they're handed to the frontend
+    // without ever hitting the server logs (fragments don't get sent on
+    // requests). The frontend reads them on /oauth-success and stores them.
+    const params = new URLSearchParams({
+      a: accessToken,
+      r: refreshToken,
+    });
+    res.redirect(`${FRONTEND_URL}/oauth-success#${params.toString()}`);
   } catch (error) {
     console.error("Google OAuth error:", error);
     logAuthEvent(req, "oauth_fail", {
