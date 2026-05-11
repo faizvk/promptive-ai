@@ -211,12 +211,12 @@ const PublicVoice = () => {
                 <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
                   <Volume2 size={16} />
                 </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-bold text-text-primary tracking-tight">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-sm font-bold text-text-primary tracking-tight truncate">
                       {v.name}
                     </h3>
-                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-text-muted bg-bg-soft border border-border-soft px-1.5 py-0.5 rounded-full">
+                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-text-muted bg-bg-soft border border-border-soft px-1.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
                       {v.provider}
                     </span>
                   </div>

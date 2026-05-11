@@ -59,9 +59,9 @@ const EmailVerifyBanner = () => {
   if (!user || user.emailVerified || dismissed) return null;
 
   return (
-    <div className="bg-[#fffbe8] border-b border-[#f5e69a] px-4 md:px-8 py-3 flex items-center gap-3 text-sm text-[#5a4a00]">
+    <div className="bg-[#fffbe8] border-b border-[#f5e69a] px-4 md:px-8 py-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#5a4a00]">
       <Mail size={16} className="shrink-0" />
-      <span className="flex-1 min-w-0">
+      <span className="flex-1 min-w-[160px]">
         {sent
           ? "Verification email sent. Check your inbox."
           : "Please verify your email to keep your account secure."}
@@ -76,12 +76,12 @@ const EmailVerifyBanner = () => {
           {sending ? "Sending…" : "Resend email"}
         </button>
       )}
-      {error && <span className="text-xs text-text-error">{error}</span>}
+      {error && <span className="text-xs text-text-error w-full sm:w-auto">{error}</span>}
       <button
         type="button"
         aria-label="Dismiss"
         onClick={handleDismiss}
-        className="text-[#5a4a00]/60 hover:text-[#5a4a00]"
+        className="text-[#5a4a00]/60 hover:text-[#5a4a00] shrink-0"
       >
         <X size={15} />
       </button>

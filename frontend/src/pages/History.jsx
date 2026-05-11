@@ -283,7 +283,7 @@ const History = () => {
                 <X size={16} />
               </button>
             </header>
-            <div className="px-5 py-5 max-h-[60vh] overflow-y-auto text-[0.95rem] leading-[1.7] text-text-primary bg-bg-soft border-b border-border-soft whitespace-pre-wrap">
+            <div className="px-5 py-5 max-h-[60vh] overflow-y-auto text-[0.95rem] leading-[1.7] text-text-primary bg-bg-soft border-b border-border-soft whitespace-pre-line break-words">
               {activeItem.rewrittenText || activeItem.originalText}
             </div>
             <footer className="px-5 py-4 bg-white flex justify-end gap-2 max-md:flex-col-reverse">
