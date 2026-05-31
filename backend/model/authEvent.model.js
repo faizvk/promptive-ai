@@ -9,6 +9,7 @@ const EVENT_TYPES = [
   "refresh_fail",
   "oauth_success",
   "oauth_fail",
+  "subscription_verified",
 ];
 
 const AuthEventSchema = new mongoose.Schema(
