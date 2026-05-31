@@ -87,7 +87,7 @@ const History = () => {
     if (!confirm("Delete this item? This cannot be undone.")) return;
     await deleteHistoryItem({ type, id });
     setActiveItem(null);
-    loadHistory();
+    setItems((prev) => prev.filter((it) => it._id !== id));
   };
 
   const handleCopy = (text) => {
