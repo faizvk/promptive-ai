@@ -33,19 +33,15 @@ export const listChats = async (req, res) => {
     const chats = await Chat.find({ userId: req.user.id })
       .sort({ updatedAt: -1 })
       .limit(50)
-      .select("title model updatedAt messages");
+      .select({ title: 1, model: 1, updatedAt: 1, messages: { $slice: -1 } })
+      .lean();
 
-    // Summarise messages: just last role + preview to avoid shipping the
-    // whole conversation in the list view.
     const summary = chats.map((c) => ({
       id: c._id,
       title: c.title,
       model: c.model,
       updatedAt: c.updatedAt,
-      lastMessagePreview:
-        c.messages.length > 0
-          ? c.messages[c.messages.length - 1].content.slice(0, 100)
-          : "",
+      lastMessagePreview: c.messages?.[0]?.content?.slice(0, 100) || "",
     }));
 
     res.json({ success: true, chats: summary });
