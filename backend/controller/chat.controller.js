@@ -1,5 +1,6 @@
 import { Chat } from "../model/chat.model.js";
 import { Usage } from "../model/usage.model.js";
+import { User } from "../model/user.model.js";
 import {
   callModel,
   getModel,
@@ -16,7 +17,19 @@ const titleFromPrompt = (text) => {
 };
 
 export const listModels = async (req, res) => {
-  const planId = req.plan?.id || "free";
+  // /models is mounted without enforcePlanLimit (so quota-exhausted users can
+  // still see what they're paying for). Look up the plan directly.
+  let planId = req.plan?.id;
+  if (!planId) {
+    const user = await User.findById(req.user.id).select("subscription").lean();
+    const sub = user?.subscription;
+    const active =
+      sub?.plan === "free" ||
+      (sub?.status === "active" &&
+        (!sub.currentPeriodEnd ||
+          new Date(sub.currentPeriodEnd).getTime() >= Date.now()));
+    planId = active ? sub?.plan || "free" : "free";
+  }
   const models = listAvailableModels().map((m) => ({
     ...m,
     available: isModelAvailableForPlan(m.id, planId),
