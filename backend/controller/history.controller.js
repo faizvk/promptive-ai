@@ -32,7 +32,11 @@ export const getHistory = async (req, res) => {
     const userId = req.user.id;
 
     const [items, total] = await Promise.all([
-      Model.find({ userId }).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Model.find({ userId })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
       Model.countDocuments({ userId }),
     ]);
 
