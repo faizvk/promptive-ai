@@ -61,6 +61,8 @@ export const listVoices = () => {
 
 const findVoice = (id) => listVoices().find((v) => v.id === id);
 
+const TTS_TIMEOUT_MS = 60_000;
+
 const elevenlabsTTS = async ({ voiceId, text }) => {
   const res = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}`,
@@ -79,6 +81,7 @@ const elevenlabsTTS = async ({ voiceId, text }) => {
           similarity_boost: 0.75,
         },
       }),
+      signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
     }
   );
   if (!res.ok) {
@@ -102,6 +105,7 @@ const openaiTTS = async ({ voiceId, text }) => {
       input: text,
       response_format: "mp3",
     }),
+    signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
