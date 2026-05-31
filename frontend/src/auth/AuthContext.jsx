@@ -35,8 +35,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Bootstrap on mount.
+  // Bootstrap on mount. Skip the /auth/me round-trip when there's clearly no
+  // session — the api interceptor would just 401 and the refresh interceptor
+  // would short-circuit anyway. This avoids the flash of a network error and
+  // keeps the initial paint quick for unauthenticated visitors.
   useEffect(() => {
+    if (!tokenStore.getAccess() && !tokenStore.getRefresh()) {
+      setStatus("unauthenticated");
+      return;
+    }
     refresh();
   }, [refresh]);
 
