@@ -25,4 +25,6 @@ const contentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+contentSchema.index({ userId: 1, createdAt: -1 });
+
 export const Content = mongoose.model("Content", contentSchema);
