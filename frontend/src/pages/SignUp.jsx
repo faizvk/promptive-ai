@@ -74,9 +74,11 @@ const SignUp = () => {
   };
 
   const handleGoogleSignup = () => {
-    const baseUrl =
-      import.meta.env.VITE_API_BASE_URL ||
-      "https://promptive-ai.onrender.com";
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+    if (!baseUrl) {
+      setError("root", { message: "Sign-up service is not configured." });
+      return;
+    }
     window.location.href = `${baseUrl}/auth/google`;
   };
 
