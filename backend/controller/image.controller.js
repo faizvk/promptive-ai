@@ -80,7 +80,9 @@ export const generateImage = async (req, res) => {
         negative_prompt:
           negativePrompt ||
           "blurry, low quality, distorted, watermark, text, logo",
-        ...(seed ? { seed: Number(seed) } : {}),
+        ...(seed !== undefined && seed !== null && seed !== "" && Number.isFinite(Number(seed))
+          ? { seed: Number(seed) }
+          : {}),
       },
     });
 
