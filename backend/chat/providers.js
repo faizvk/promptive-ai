@@ -91,6 +91,8 @@ const splitSystem = (messages) => {
   return { systemText, messages: rest };
 };
 
+const CHAT_TIMEOUT_MS = 60_000;
+
 const callOpenAI = async ({ modelId, messages }) => {
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -103,6 +105,7 @@ const callOpenAI = async ({ modelId, messages }) => {
       messages,
       temperature: 0.7,
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -127,6 +130,7 @@ const callGroq = async ({ modelId, messages }) => {
       messages,
       temperature: 0.7,
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -154,6 +158,7 @@ const callAnthropic = async ({ modelId, messages }) => {
       ...(systemText ? { system: systemText } : {}),
       messages: chat.map((m) => ({ role: m.role, content: m.content })),
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
