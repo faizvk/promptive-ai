@@ -76,7 +76,8 @@ const TIER_RANK = { free: 0, pro: 1, business: 2 };
 export const isModelAvailableForPlan = (modelId, planId) => {
   const m = MODELS[modelId];
   if (!m) return false;
-  return TIER_RANK[planId] >= TIER_RANK[m.tier];
+  const userRank = TIER_RANK[planId] ?? 0;
+  return userRank >= TIER_RANK[m.tier];
 };
 
 /* =========================
