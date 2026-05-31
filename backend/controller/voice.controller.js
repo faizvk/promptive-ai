@@ -85,7 +85,7 @@ export const generateVoice = async (req, res) => {
       const msg = err?.message || "TTS provider error";
       // Surface 401/403/429 from the upstream provider with the right status.
       let status = 502;
-      if (/401|403/.test(msg)) status = 502;
+      if (/401|403/.test(msg)) status = 401;
       if (/429/.test(msg)) status = 429;
       return res.status(status).json({
         success: false,
