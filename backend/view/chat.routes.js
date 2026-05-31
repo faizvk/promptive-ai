@@ -11,7 +11,7 @@ import { enforcePlanLimit } from "../auth/planLimit.js";
 
 const router = express.Router();
 
-router.get("/models", verifyToken, enforcePlanLimit("chat"), listModels);
+router.get("/models", verifyToken, listModels);
 router.get("/", verifyToken, listChats);
 router.get("/:id", verifyToken, getChat);
 router.delete("/:id", verifyToken, deleteChat);

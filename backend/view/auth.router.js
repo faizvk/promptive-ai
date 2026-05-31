@@ -4,8 +4,6 @@ import {
   setAuthCookies,
   clearAuthCookies,
   verifyJwt,
-  signAccessToken,
-  signRefreshToken,
 } from "../auth/tokens.js";
 import { verifyToken } from "../auth/auth.middleware.js";
 import { logAuthEvent } from "../auth/auditLog.js";
@@ -97,9 +95,7 @@ router.post("/signup", verifyTurnstile, async (req, res) => {
       console.error("Failed to send verification email:", mailErr.message);
     }
 
-    setAuthCookies(res, user);
-    const accessToken = signAccessToken(user);
-    const refreshToken = signRefreshToken(user);
+    const { accessToken, refreshToken } = setAuthCookies(res, user);
     logAuthEvent(req, "signup", { userId: user._id, email });
 
     res.status(201).json({
@@ -185,9 +181,7 @@ router.post("/login", verifyTurnstile, async (req, res) => {
       );
     }
 
-    setAuthCookies(res, user);
-    const accessToken = signAccessToken(user);
-    const refreshToken = signRefreshToken(user);
+    const { accessToken, refreshToken } = setAuthCookies(res, user);
     logAuthEvent(req, "login_success", { userId: user._id, email });
 
     res.status(200).json({
@@ -295,9 +289,8 @@ router.post("/refresh", async (req, res) => {
 
     // Issue both. Cookie path stays the same; body returns tokens so
     // header-based clients also work.
-    setAuthCookies(res, user);
-    const newAccessToken = signAccessToken(user);
-    const newRefreshToken = signRefreshToken(user);
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      setAuthCookies(res, user);
 
     return res.status(200).json({
       success: true,

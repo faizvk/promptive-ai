@@ -43,7 +43,15 @@ export const verifySubscriptionPaymentSignature = ({
     .createHmac("sha256", RAZORPAY_KEY_SECRET)
     .update(`${razorpay_payment_id}|${razorpay_subscription_id}`)
     .digest("hex");
-  return expected === razorpay_signature;
+  // Constant-time compare to avoid leaking byte-by-byte equality timing.
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(expected, "hex"),
+      Buffer.from(razorpay_signature, "hex")
+    );
+  } catch {
+    return false;
+  }
 };
 
 export const verifyWebhookSignature = (rawBody, signature) => {

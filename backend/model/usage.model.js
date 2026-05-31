@@ -32,13 +32,18 @@ UsageSchema.statics.currentPeriod = function () {
 
 UsageSchema.statics.fetchOrEmpty = async function (userId) {
   const period = this.currentPeriod();
-  const doc = await this.findOne({ userId, period });
+  const doc = await this.findOne({ userId, period }).lean();
   return (
     doc || { period, image: 0, rewrite: 0, chat: 0, voice: 0 }
   );
 };
 
+const TRACKED_FEATURES = new Set(["image", "rewrite", "chat", "voice"]);
+
 UsageSchema.statics.increment = async function (userId, feature, amount = 1) {
+  if (!TRACKED_FEATURES.has(feature)) {
+    throw new Error(`Unknown usage feature: ${feature}`);
+  }
   const period = this.currentPeriod();
   return this.findOneAndUpdate(
     { userId, period },

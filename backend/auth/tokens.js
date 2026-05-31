@@ -71,6 +71,8 @@ export const setAuthCookies = (res, user) => {
     ...cookieBase,
     maxAge: ttlToMs(REFRESH_TOKEN_TTL),
   });
+
+  return { accessToken, refreshToken };
 };
 
 export const clearAuthCookies = (res) => {

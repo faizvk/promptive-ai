@@ -1,11 +1,7 @@
 import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { User } from "../model/user.model.js";
-import {
-  setAuthCookies,
-  signAccessToken,
-  signRefreshToken,
-} from "../auth/tokens.js";
+import { setAuthCookies } from "../auth/tokens.js";
 import { logAuthEvent } from "../auth/auditLog.js";
 import {
   BACKEND_URL,
@@ -70,9 +66,7 @@ router.get("/google/callback", async (req, res) => {
       await user.save();
     }
 
-    setAuthCookies(res, user);
-    const accessToken = signAccessToken(user);
-    const refreshToken = signRefreshToken(user);
+    const { accessToken, refreshToken } = setAuthCookies(res, user);
     logAuthEvent(req, "oauth_success", { userId: user._id, email });
 
     // Pass tokens in the URL fragment so they're handed to the frontend

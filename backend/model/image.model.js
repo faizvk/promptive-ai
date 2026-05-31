@@ -35,4 +35,6 @@ const ImageSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+ImageSchema.index({ userId: 1, createdAt: -1 });
+
 export const Image = mongoose.model("Image", ImageSchema);

@@ -193,9 +193,9 @@ router.post("/verify", verifyToken, requireRazorpay, async (req, res) => {
       }
     );
 
-    logAuthEvent(req, "signup", {
+    logAuthEvent(req, "subscription_verified", {
       userId: req.user.id,
-      meta: { event: "subscription_verified", plan: subscription.notes?.planId },
+      meta: { plan: subscription.notes?.planId },
     });
 
     res.json({ success: true, status });

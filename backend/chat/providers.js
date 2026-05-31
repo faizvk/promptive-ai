@@ -76,7 +76,8 @@ const TIER_RANK = { free: 0, pro: 1, business: 2 };
 export const isModelAvailableForPlan = (modelId, planId) => {
   const m = MODELS[modelId];
   if (!m) return false;
-  return TIER_RANK[planId] >= TIER_RANK[m.tier];
+  const userRank = TIER_RANK[planId] ?? 0;
+  return userRank >= TIER_RANK[m.tier];
 };
 
 /* =========================
@@ -90,6 +91,8 @@ const splitSystem = (messages) => {
   return { systemText, messages: rest };
 };
 
+const CHAT_TIMEOUT_MS = 60_000;
+
 const callOpenAI = async ({ modelId, messages }) => {
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -102,6 +105,7 @@ const callOpenAI = async ({ modelId, messages }) => {
       messages,
       temperature: 0.7,
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -126,6 +130,7 @@ const callGroq = async ({ modelId, messages }) => {
       messages,
       temperature: 0.7,
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -153,6 +158,7 @@ const callAnthropic = async ({ modelId, messages }) => {
       ...(systemText ? { system: systemText } : {}),
       messages: chat.map((m) => ({ role: m.role, content: m.content })),
     }),
+    signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
   });
   if (!res.ok) {
     const err = await res.text();

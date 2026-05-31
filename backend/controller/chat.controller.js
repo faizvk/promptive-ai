@@ -1,5 +1,6 @@
 import { Chat } from "../model/chat.model.js";
 import { Usage } from "../model/usage.model.js";
+import { User } from "../model/user.model.js";
 import {
   callModel,
   getModel,
@@ -16,7 +17,19 @@ const titleFromPrompt = (text) => {
 };
 
 export const listModels = async (req, res) => {
-  const planId = req.plan?.id || "free";
+  // /models is mounted without enforcePlanLimit (so quota-exhausted users can
+  // still see what they're paying for). Look up the plan directly.
+  let planId = req.plan?.id;
+  if (!planId) {
+    const user = await User.findById(req.user.id).select("subscription").lean();
+    const sub = user?.subscription;
+    const active =
+      sub?.plan === "free" ||
+      (sub?.status === "active" &&
+        (!sub.currentPeriodEnd ||
+          new Date(sub.currentPeriodEnd).getTime() >= Date.now()));
+    planId = active ? sub?.plan || "free" : "free";
+  }
   const models = listAvailableModels().map((m) => ({
     ...m,
     available: isModelAvailableForPlan(m.id, planId),
@@ -33,19 +46,15 @@ export const listChats = async (req, res) => {
     const chats = await Chat.find({ userId: req.user.id })
       .sort({ updatedAt: -1 })
       .limit(50)
-      .select("title model updatedAt messages");
+      .select({ title: 1, model: 1, updatedAt: 1, messages: { $slice: -1 } })
+      .lean();
 
-    // Summarise messages: just last role + preview to avoid shipping the
-    // whole conversation in the list view.
     const summary = chats.map((c) => ({
       id: c._id,
       title: c.title,
       model: c.model,
       updatedAt: c.updatedAt,
-      lastMessagePreview:
-        c.messages.length > 0
-          ? c.messages[c.messages.length - 1].content.slice(0, 100)
-          : "",
+      lastMessagePreview: c.messages?.[0]?.content?.slice(0, 100) || "",
     }));
 
     res.json({ success: true, chats: summary });

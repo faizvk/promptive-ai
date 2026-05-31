@@ -34,6 +34,7 @@ export const verifyTurnstile = async (req, res, next) => {
     const verifyRes = await fetch(VERIFY_URL, {
       method: "POST",
       body: params,
+      signal: AbortSignal.timeout(10_000),
     });
     const data = await verifyRes.json();
 
