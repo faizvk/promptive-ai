@@ -41,12 +41,12 @@ export const getDashboardOverview = async (req, res) => {
       Content.countDocuments({ userId }),
       Chat.countDocuments({ userId }),
       Voice.countDocuments({ userId }),
-      Image.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
-      Content.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
-      Chat.findOne({ userId }).sort({ updatedAt: -1 }).select("updatedAt"),
-      Voice.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt"),
+      Image.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt").lean(),
+      Content.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt").lean(),
+      Chat.findOne({ userId }).sort({ updatedAt: -1 }).select("updatedAt").lean(),
+      Voice.findOne({ userId }).sort({ createdAt: -1 }).select("createdAt").lean(),
       Usage.fetchOrEmpty(userId),
-      User.findById(userId).select("subscription"),
+      User.findById(userId).select("subscription").lean(),
     ]);
 
     const latestDates = [
